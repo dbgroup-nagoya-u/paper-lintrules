@@ -1,6 +1,7 @@
 #!/bin/bash
+# This script gets the latest files on |USER|/|REPOSITORY|.
+
 # set -xeu # for debug
-TAR_DIR="tmp_for_textlint"
 USER="dbgroup-nagoya-u"
 REPOSITORY="test-public-textlint-settings"
 
@@ -21,22 +22,19 @@ then
     exit
 fi
 
-# Download from the latest tags
-curl --silent https://api.github.com/repos/${USER}/${REPOSITORY}/tags > res.json
-tag_latest=$(jq '.[] | .name' res.json | sort -rV | head -n1 | sed 's/"//g')
-latest_file="${tag_latest}.tar.gz"
-rm res.json
+# Download from the latest commit on master branch.
+latest_file_url="https://github.com/${USER}/${REPOSITORY}/archive/master.zip"
+wget ${latest_file_url}
+latest_file="master.zip"
 
-repository_url="https://github.com/${USER}/${REPOSITORY}"
-wget ${repository_url}/archive/${latest_file}
-
-# Untar files in |TAR_DIR|
-mkdir ${TAR_DIR} && tar -zxvf ${latest_file} -C ${TAR_DIR} --strip-components 1
+# Unzip files in |unzip_dir|.
+unzip_dir="${REPOSITORY}-master"
+unzip ${latest_file}
 rm ${latest_file}
 
+# Sync files.
 (
-  # Sync files
-  pushd ${TAR_DIR}
+  pushd ${unzip_dir}
   dirarray=($(find . -mindepth 1 -type d))
 
   popd
@@ -44,13 +42,13 @@ rm ${latest_file}
     mkdir -p ${dirname}
   done
 
-  pushd ${TAR_DIR}
+  pushd ${unzip_dir}
   # TODO: Clarify exclude file and directory. It'd be broken when *.md files are needed.
   for file in $(find . -type d \( -path './.git' -o -path './dir' \) -prune -false -o -type f -not -name '**.md' -not -name 'paper.txt' -not -name 'update.bash'); do
     mv ${file} ../${file}
   done
 )
-rm -rf ${TAR_DIR}
+rm -rf ${unzip_dir}
 
 # TODO: Error handling
 ESC=$(printf '\033')
