@@ -2,7 +2,7 @@ name: Comment for textlint
 
 on:
   pull_request:
-#    types: [opened]
+    types: [opened]
 
 jobs:
   comment:
