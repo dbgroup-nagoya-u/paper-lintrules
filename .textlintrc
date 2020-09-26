@@ -31,7 +31,7 @@
         },
         "prh": {
             "rulePaths": [
-                "./rules/WEB+DB_PRESS.yml"
+                "./textlint-rules/WEB+DB_PRESS.yml"
             ]
         }
     }
