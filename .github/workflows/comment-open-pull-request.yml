@@ -11,8 +11,9 @@ jobs:
     steps:
       - name: Run GitHub API
         run: |
+          MESSAGE=$(cat comment.txt)
           curl -X POST \
                -H "Content-Type: application/json" \
                -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-               -d "{ \"body\": \"$(cat comment.txt)\" }" \
+               -d "{ \"body\": \"${{ MESSAGE }}" \
                https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments
