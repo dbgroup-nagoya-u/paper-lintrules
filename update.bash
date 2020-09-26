@@ -1,14 +1,36 @@
 #!/bin/bash
 # set -xeu # for debug
 TAR_DIR="tmp_for_textlint"
-TAR_FILE="v0.1.tar.gz"
-REPOSITORY_URL="https://github.com/dbgroup-nagoya-u/test-public-textlint-settings"
+USER="dbgroup-nagoya-u"
+REPOSITORY="test-public-textlint-settings"
 
-# TODO: TAR_FILEをここで指定せず、GitHubのAPIを使って最新版を持ってくるようにする
-# TODO: GitHub Actionsを使ってリポジトリを更新するたびにタグが付くと嬉しい
-wget ${REPOSITORY_URL}/archive/${TAR_FILE}
+REPOSITORY_URL="https://github.com/${USER}/${REPOSITORY}"
 
-mkdir ${TAR_DIR} && tar -zxvf ${TAR_FILE} -C ${TAR_DIR} --strip-components 1
+# Package check
+ESC=$(printf '\033')
+RED="${ESC}[31m"
+if ! command -v wget &> /dev/null
+then
+    echo "wget could not be found."
+    printf "Type ${RED}%s${ESC}[m\n" 'sudo apt install wget'
+    exit
+fi
+if ! command -v jq &> /dev/null
+then
+    echo "jq could not be found."
+    printf "Type ${RED}%s${ESC}[m\n" 'sudo apt install jq'
+    exit
+fi
+
+# Download from the latest tags
+curl --silent https://api.github.com/repos/${USER}/${REPOSITORY}/tags > res.json
+tag_latest=$(jq '.[] | .name' res.json | sort -rV | head -n1 | sed 's/"//g')
+latest_file="${tag_latest}.tar.gz"
+rm res.json
+wget ${REPOSITORY_URL}/archive/${latest_file}
+
+mkdir ${TAR_DIR} && tar -zxvf ${latest_file} -C ${TAR_DIR} --strip-components 1
+rm ${latest_file}
 
 (
   pushd ${TAR_DIR}
@@ -24,7 +46,6 @@ mkdir ${TAR_DIR} && tar -zxvf ${TAR_FILE} -C ${TAR_DIR} --strip-components 1
     mv ${file} ../${file}
   done
 )
-rm ${TAR_FILE}
 rm -rf ${TAR_DIR}
 
 ESC=$(printf '\033')
