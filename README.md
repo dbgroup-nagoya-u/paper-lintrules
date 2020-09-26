@@ -1,5 +1,5 @@
 # test desu.
-GitHub ActionsがAction in Actionをサポートするまで設定をダウンロードで代用するためのレポジトリのサンプル
+GitHub ActionsがAction in Actionをサポートするまで設定をダウンロードで代用するためのリポジトリのサンプル
 
 名前はtextlintにこだわらずに、paper-lintrulesとかが良さそう
 
