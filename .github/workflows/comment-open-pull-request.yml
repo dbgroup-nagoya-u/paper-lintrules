@@ -12,6 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run GitHub API
         run: |
+          cat comment.txt
           MESSAGE="AAA"
           curl -X POST \
                -H "Content-Type: application/json" \
