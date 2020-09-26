@@ -1,0 +1,38 @@
+{
+    "plugins": {
+        "@textlint/text": {
+            "extensions": [".tex"]
+        },
+        "@textlint/markdown": true
+    },
+    "filters": {
+        "allowlist": {
+            "allow": [
+                "/\\$.*?\\$/",
+                "/\\$\\$.*?\\$\\$/m",
+                "/\\{.*?\\}/"
+            ]
+        }
+    },
+    "rules": {
+        "preset-ja-technical-writing": {
+            "ja-no-mixed-period": false,
+            "sentence-length": {
+                "max": 100,
+                exclusionPatterns: [
+                    "/\\$.*?\\$/",
+                    "/\\{.*?\\}/",
+                    "/（.*?）/"
+                ]
+            }
+        },
+        "preset-jtf-style": {
+            "1.2.2.ピリオド(.)とカンマ(,)": false
+        },
+        "prh": {
+            "rulePaths": [
+                "./rules/WEB+DB_PRESS.yml"
+            ]
+        }
+    }
+}

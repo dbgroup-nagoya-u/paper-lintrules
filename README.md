@@ -1,0 +1,2 @@
+# test-githubaction-submodule
+lintが入っていると想定して動かす。test-githubactionの内部でsubmoduleとして管理されるリポジトリ。
