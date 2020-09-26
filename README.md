@@ -1,2 +1,3 @@
-# test-githubaction-submodule
-lintが入っていると想定して動かす。test-githubactionの内部でsubmoduleとして管理されるリポジトリ。
+# test desu.
+
+名前はtextlintにこだわらずに、paper-lintrulesとかが良さそう

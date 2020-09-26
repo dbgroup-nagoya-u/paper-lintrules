@@ -31,8 +31,8 @@ jobs:
           echo "tree up to depth 2"
           echo "$(find . -maxdepth 2 -ls)"
       - name: Run textling-rule-preset-ja-{technical-writing, jtf-style, prh} with reviewdog
-        # env:
-        #   REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.txt' -o -iname '*.tex' -o -iname '*.md');
           do
