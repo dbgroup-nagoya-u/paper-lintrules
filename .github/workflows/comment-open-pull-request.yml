@@ -14,5 +14,5 @@ jobs:
           curl -X POST \
                -H "Content-Type: application/json" \
                -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-               -d "{ \"body\": \"このPull requestではtextlintが走ります:rocket:指摘が必要ない場合は`./github/workflows/textlint.yml`を削除してください:wave:\nおかしな指摘や指摘されていないが今後プログラムで指摘可能なルールを発見した場合は今後のために[こちら](https://github.com/dbgroup-nagoya-u/test-public-textlint-settings/issues/new?assignees=&labels=&template=bug-report.md&title=)から指摘をお願いします:smiley:\nまた、適宜`update.bash`を使用してtextlintの設定を更新してください:bow:\" }" \
+               -d "{ \"body\": \"このPull requestではtextlintが走ります:rocket:\n指摘が必要ない場合は\`./github/workflows/textlint.yml\`を削除してください:wave:\nおかしな指摘や指摘されていないが今後プログラムで指摘可能なルールを発見した場合は今後のために[こちら](https://github.com/dbgroup-nagoya-u/test-public-textlint-settings/issues/new?assignees=&labels=&template=bug-report.md&title=)から指摘をお願いします:smiley:\nまた、適宜\`update.bash\`を使用してtextlintの設定を更新してください:bow:\" }" \
                https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments
