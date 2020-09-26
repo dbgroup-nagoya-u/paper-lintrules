@@ -1,4 +1,4 @@
-name: Comment for textlint
+name: Pull Request Comment
 
 on:
   pull_request:
@@ -9,6 +9,7 @@ jobs:
     name: Comment when open pull request
     runs-on: ubuntu-18.04
     steps:
+      - uses: actions/checkout@v2
       - name: Run GitHub API
         run: |
           MESSAGE=$(cat comment.txt)
