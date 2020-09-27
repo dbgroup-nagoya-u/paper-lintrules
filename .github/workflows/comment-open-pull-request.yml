@@ -13,9 +13,12 @@ jobs:
       - name: Run GitHub API
         run: |
           cat comment.txt
-          MESSAGE="AAA"
+          m=AAA
+          m="${m//'%'/'%25'}"
+          m="${m//$'\n'/'%0A'}"
+          m="${m//$'\r'/'%0D'}"
           curl -X POST \
                -H "Content-Type: application/json" \
                -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-               -d @comment.txt \
+               -d "{ \"body\": \"$(cat ${m})\" }" \
                https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments
