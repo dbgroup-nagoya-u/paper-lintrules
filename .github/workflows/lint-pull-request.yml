@@ -3,12 +3,10 @@ on: [pull_request]
 
 jobs:
   Text-lint:
-    name: runner / textlint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup nodejs
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v1
         with:
           node-version: '12'
       - name: Install textlint-tools with npm
@@ -20,16 +18,7 @@ jobs:
           textlint-rule-preset-ja-technical-writing \
           textlint-rule-preset-jtf-style \
           textlint-rule-prh
-      - name: Setup reviewdog
-        uses: reviewdog/action-setup@v1
-      - name: Path check
-        run: |
-          echo "current path := $(pwd)"
-          echo "ls content := $(ls)"
-      - name: File check
-        run: |
-          echo "tree up to depth 2"
-          echo "$(find . -maxdepth 2 -ls)"
+      - uses: reviewdog/action-setup@v1
       - name: Run textling-rule-preset-ja-{technical-writing, jtf-style, prh} with reviewdog
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -37,5 +26,5 @@ jobs:
           for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.txt' -o -iname '*.tex' -o -iname '*.md');
           do
             echo "filename := ${file}"
-            $(npm bin)/textlint -f checkstyle ${file} --config ./textlint-rules/.textlintrc | reviewdog -f=checkstyle -name="textlint" -reporter=github-pr-review
+            $(npm bin)/textlint -f checkstyle ${file} --config ./textlint-rules/textlint.json | reviewdog -f=checkstyle -name="textlint" -reporter=github-pr-review
           done

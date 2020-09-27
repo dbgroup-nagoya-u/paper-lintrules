@@ -18,7 +18,7 @@
             "ja-no-mixed-period": false,
             "sentence-length": {
                 "max": 100,
-                exclusionPatterns: [
+                "exclusionPatterns": [
                     "/\\$.*?\\$/",
                     "/\\{.*?\\}/",
                     "/（.*?）/"
