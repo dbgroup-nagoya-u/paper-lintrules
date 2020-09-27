@@ -1,2 +1,2 @@
 このPull Requestではtextlintが走ります:rocket:
-以降のcommitに対してはtextlintによる指摘が行われなくなります。
+指摘が必要ない場合は`./github/workflows/textlint.yml`を削除してください。以降のcommitに対してはtextlintによる指摘が行われなくなります。
