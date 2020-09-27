@@ -18,6 +18,7 @@
     "rules": {
         "preset-ja-technical-writing": {
             "ja-no-mixed-period": false,
+            "ja-unnatural-alphabet": false,
             "sentence-length": {
                 "max": 100,
                 "exclusionPatterns": [
@@ -28,12 +29,14 @@
             }
         },
         "preset-jtf-style": {
-            "1.2.2.ピリオド(.)とカンマ(,)": false
+            "1.2.2.ピリオド(.)とカンマ(,)": false,
+            "3.1.1.全角文字と半角文字の間": false
         },
         "prh": {
             "rulePaths": [
                 "./WEB+DB_PRESS.yml",
-                "./techbooster.yml"
+                "./techbooster.yml",
+                "./typo.yml"
             ]
         }
     }
