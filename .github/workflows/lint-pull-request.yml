@@ -12,7 +12,6 @@ jobs:
       - name: Install textlint-tools with npm
         run: |
           npm install textlint \
-          textlint-plugin-markdown \
           textlint-plugin-text \
           textlint-filter-rule-allowlist \
           textlint-rule-preset-ja-technical-writing \
