@@ -24,6 +24,7 @@ jobs:
         run: |
           for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.txt' -o -iname '*.tex');
           do
+            echo "filename := ${file}"
             $(npm bin)/textlint --config ./lintrules/textlint/textlint.json -f checkstyle ${file} | reviewdog -f=checkstyle -name="textlint" -reporter=github-pr-review
           done
 

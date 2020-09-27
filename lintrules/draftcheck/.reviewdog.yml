@@ -4,6 +4,7 @@ runner:
     cmd: |
         for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.tex');
         do
+          echo "filename := ${file}"
           draftcheck ${file}
         done
     errorformat:
