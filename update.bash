@@ -5,21 +5,18 @@
 USER="dbgroup-nagoya-u"
 REPOSITORY="test-public-textlint-settings"
 
-
 # Check if commands exist.
 ESC=$(printf '\033')
 RED="${ESC}[31m"
-if ! command -v wget &> /dev/null
-then
-    echo "wget could not be found."
-    printf "Type ${RED}%s${ESC}[m\n" 'sudo apt install wget'
-    exit
+if ! command -v wget &>/dev/null; then
+  echo "wget could not be found."
+  printf "Type ${RED}%s${ESC}[m\n" 'sudo apt install wget'
+  exit 1
 fi
-if ! command -v jq &> /dev/null
-then
-    echo "jq could not be found."
-    printf "Type ${RED}%s${ESC}[m\n" 'sudo apt install jq'
-    exit
+if ! command -v jq &>/dev/null; then
+  echo "jq could not be found."
+  printf "Type ${RED}%s${ESC}[m\n" 'sudo apt install jq'
+  exit 1
 fi
 
 # Download from the latest commit on master branch.
@@ -43,8 +40,7 @@ rm ${latest_file}
   done
 
   pushd ${unzip_dir}
-  # TODO: Clarify exclude file and directory. It'd be broken when *.md files are needed.
-  for file in $(find . -type d \( -path './.git' -o -path './dir' \) -prune -false -o -type f -not -name '**.md' -not -name 'paper.txt' -not -name 'update.bash'); do
+  for file in $(find . -type d \( -path './.github/ISSUE_TEMPLATE' -o -path './dir' \) -prune -false -o -type f -not -name 'README.md' -not -name 'paper.txt' -not -name 'update.bash'); do
     mv ${file} ../${file}
   done
 )
