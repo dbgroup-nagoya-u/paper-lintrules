@@ -1,3 +1,4 @@
+# This file was forked from https://github.com/prh/rules/blob/24011749ecc8d0fc903ded6e8a0b47eb49c82fbd/media/techbooster.yml
 # Rules for TechBooster
 meta:
   reviewer:
@@ -278,4 +279,3 @@ rules:
   - expected: コード補完
     pattern:  コード保管
     prh: コード補完の間違いと思われます。
-
