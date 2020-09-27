@@ -1,16 +1,15 @@
-name: Pull Request Comment
+name: Comment for Opened Pull Request
 
 on:
   pull_request:
-    types: [opened]
+#    types: [opened]
 
 jobs:
   comment:
-    name: Comment when open pull request
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run GitHub API
+      - name: Submit a POST Request to the GitHub API
         run: |
           comment=$(cat bot_comment.md)
           comment="${comment//$'\n'/'\n'}"
