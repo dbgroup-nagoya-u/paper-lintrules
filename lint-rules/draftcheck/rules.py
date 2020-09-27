@@ -2,7 +2,7 @@
 
 #####################################################################
 # This file was forked from https://github.com/ebnn/draftcheck.
-# That project would be MIT LICENSE since some URL show LICENSE.
+# That project would be MIT LICENSE since some URL show its LICENSE.
 # See https://libraries.io/pypi/draftcheck
 # See also https://pypi.org/project/draftcheck/
 #####################################################################
@@ -103,7 +103,7 @@ def check_space_before_footnote(text, matches):
 
 @rule(r'\.\\cite{')
 def check_cite_after_period(text, matches):
-    """Place citations before periods with a non-breaking space!!!.
+    """Place citations before periods with a non-breaking space.
 
     Move the \\cite command inside the sentence, before the period.
 
