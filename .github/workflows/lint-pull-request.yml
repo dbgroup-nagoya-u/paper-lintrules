@@ -1,29 +1,57 @@
-name: Linter
+name: TextLint
 on: [pull_request]
 
 jobs:
-  Text-lint:
+  textlint:
+    name: runner / textlint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: '12'
-      - name: Install textlint-tools with npm
+      - name: Setup reviewdog
+        uses: reviewdog/action-setup@v1
+      - name: Install textlint and packages
         run: |
-          npm install textlint \
-          textlint-plugin-text \
-          textlint-filter-rule-allowlist \
+          npm install textlint@latest \
           textlint-rule-preset-ja-technical-writing \
           textlint-rule-preset-jtf-style \
-          textlint-rule-prh
-      - uses: reviewdog/action-setup@v1
-      - name: Run textling-rule-preset-ja-{technical-writing, jtf-style, prh} with reviewdog
+          textlint-rule-prh \
+          textlint-filter-rule-allowlist \
+          @textlint/textlint-plugin-text
+      - name: Run textlint with reviewdog
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.txt' -o -iname '*.tex');
+          for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.txt' -o -iname '*.tex' );
           do
-            echo "filename := ${file}"
-            $(npm bin)/textlint -f checkstyle ${file} --config ./textlint-rules/textlint.json | reviewdog -f=checkstyle -name="textlint" -reporter=github-pr-review
+            $(npm bin)/textlint --config ./textlint-rules/textlint.json -f checkstyle ${file} | reviewdog -f=checkstyle -name="hoge" -reporter=github-pr-review -level=error
           done
+          
+  Latex-linter:
+    name: runner / latexlint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install draftcheck
+        run: |
+          git clone https://github.com/dvolgyes/draftcheck
+          cd draftcheck
+          # Apply a patch that modifies line number.
+          sed -i -e 's/print_warning(fname, lineno, line.strip(), span, rule, args)/print_warning(fname, lineno+1, line.strip(), span, rule, args)/' draftcheck/script.py
+          python setup.py install
+      - name: Setup reviewdog
+        uses: reviewdog/action-setup@v1
+      - name: Run draftcheck with reviewdog
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          reviewdog -conf=.reviewdog.yml -reporter=github-pr-review
