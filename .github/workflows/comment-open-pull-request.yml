@@ -15,7 +15,7 @@ jobs:
           cat comment.txt
           m=$(cat comment.txt)
           m="${m//'%'/'%25'}"
-          m="${m//$'\n'/'%0A'}"
+          m="${m//$'\n'/'\n'}"
           m="${m//$'\r'/'%0D'}"
           echo ${m}
           curl -X POST \
