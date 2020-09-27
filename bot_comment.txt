@@ -1,8 +1,9 @@
 このPull Requestではtextlintが走ります:rocket:
-指摘が必要ない場合は`./github/workflows/textlint.yml`を削除してください。以降のcommitに対してはtextlintによる指摘が行われなくなります。
+指摘が必要ない場合は`./github/workflows/textlint.yml`を削除してください。
+以降のcommitに対してはtextlintによる指摘が行われなくなります。
 
 おかしな指摘・指摘されていないが今後プログラムで指摘可能なルールを発見した場合は、
 今後のために[こちら](https://github.com/dbgroup-nagoya-u/test-public-textlint-settings/issues/new?assignees=&labels=&template=bug-report.md&title=)から指摘をお願いします:smiley:
-また、適宜`update.bash`を使用してtextlintの設定を更新してください。
+また、適宜`./update.bash`を使用してtextlintの設定を更新してください。
 
 執筆頑張ってください！
