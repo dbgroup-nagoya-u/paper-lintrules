@@ -2,7 +2,7 @@ runner:
   latexlint-by-draftcheck:
     # draftcheck all files
     cmd: |
-        for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.txt' -o -iname '*.tex' );
+        for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.tex');
         do
           draftcheck ${file}
         done

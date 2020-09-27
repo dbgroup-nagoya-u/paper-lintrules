@@ -1,17 +1,15 @@
-name: TextLint
+name: Linter
 on: [pull_request]
 
 jobs:
   textlint:
-    name: runner / textlint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: '12'
-      - name: Setup reviewdog
-        uses: reviewdog/action-setup@v1
+      - uses: reviewdog/action-setup@v1
       - name: Install textlint and packages
         run: |
           npm install textlint@latest \
@@ -24,13 +22,12 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.txt' -o -iname '*.tex' );
+          for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.txt' -o -iname '*.tex');
           do
-            $(npm bin)/textlint --config ./textlint-rules/textlint.json -f checkstyle ${file} | reviewdog -f=checkstyle -name="hoge" -reporter=github-pr-review -level=error
+            $(npm bin)/textlint --config ./lintrules/textlint/textlint.json -f checkstyle ${file} | reviewdog -f=checkstyle -name="textlint" -reporter=github-pr-review
           done
-          
-  Latex-linter:
-    name: runner / latexlint
+
+  latexlint:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -44,14 +41,15 @@ jobs:
       - name: Install draftcheck
         run: |
           git clone https://github.com/dvolgyes/draftcheck
+          # Replace rules.py
+          cp lintrules/draftcheck/rules.py draftcheck/draftcheck/rules.py
           cd draftcheck
           # Apply a patch that modifies line number.
           sed -i -e 's/print_warning(fname, lineno, line.strip(), span, rule, args)/print_warning(fname, lineno+1, line.strip(), span, rule, args)/' draftcheck/script.py
           python setup.py install
-      - name: Setup reviewdog
-        uses: reviewdog/action-setup@v1
+      - uses: reviewdog/action-setup@v1
       - name: Run draftcheck with reviewdog
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          reviewdog -conf=.reviewdog.yml -reporter=github-pr-review
+          reviewdog -conf=lintrules/draftcheck/.reviewdog.yml -reporter=github-pr-review
