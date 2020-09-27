@@ -1,1 +1,2 @@
 このPull Requestではtextlintが走ります:rocket:
+以降のcommitに対してはtextlintによる指摘が行われなくなります。
