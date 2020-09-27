@@ -13,12 +13,11 @@ jobs:
       - name: Run GitHub API
         run: |
           cat comment.txt
-          m=AAA
+          m=$(cat comment.txt)
           m="${m//'%'/'%25'}"
           m="${m//$'\n'/'%0A'}"
           m="${m//$'\r'/'%0D'}"
           echo ${m}
-          echo ${{env.m}}
           curl -X POST \
                -H "Content-Type: application/json" \
                -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
