@@ -18,7 +18,7 @@ jobs:
           m="${m//$'\n'/'%0A'}"
           m="${m//$'\r'/'%0D'}"
           echo $m
-          echo ${{m}}
+          # echo ${{m}}
           echo ${{env.m}}
           curl -X POST \
                -H "Content-Type: application/json" \
