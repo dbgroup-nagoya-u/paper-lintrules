@@ -103,7 +103,7 @@ def check_space_before_footnote(text, matches):
 
 @rule(r'\.\\cite{')
 def check_cite_after_period(text, matches):
-    """Place citations before periods with a non-breaking space.
+    """Place citations before periods with a non-breaking space!!!.
 
     Move the \\cite command inside the sentence, before the period.
 
