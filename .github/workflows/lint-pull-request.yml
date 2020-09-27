@@ -25,5 +25,34 @@ jobs:
           for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.txt' -o -iname '*.tex');
           do
             echo "filename := ${file}"
-            $(npm bin)/textlint -f checkstyle ${file} --config ./textlint-rules/textlint.json | reviewdog -f=checkstyle -name="textlint" -reporter=github-pr-review
+            $(npm bin)/textlint -f checkstyle ${file} --config ./lint-rules/textlint/textlint.json | reviewdog -f=checkstyle -name="textlint" -reporter=github-pr-review
           done
+
+  Latex-linter:
+    name: runner / latexlint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install draftcheck
+        run: |
+          git clone https://github.com/dvolgyes/draftcheck
+          # Replace rules.py
+          cp lint-rules/draftcheck/rules.py draftcheck/draftcheck/rules.py
+          cd draftcheck
+          # Apply a patch that modifies line number.
+          sed -i -e 's/print_warning(fname, lineno, line.strip(), span, rule, args)/print_warning(fname, lineno+1, line.strip(), span, rule, args)/' draftcheck/script.py
+          python setup.py install
+      - name: Setup reviewdog
+        uses: reviewdog/action-setup@v1
+      - name: Run draftcheck with reviewdog
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          reviewdog -conf=.reviewdog.yml -reporter=github-pr-review
