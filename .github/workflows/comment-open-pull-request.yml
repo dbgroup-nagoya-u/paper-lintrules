@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Submit a POST Request to the GitHub API
         run: |
-          comment=$(cat bot_comment.md)
+          comment=$(cat .github/workflows/bot_comment.md)
           comment="${comment//$'\n'/'\n'}"
           curl -X POST \
                -H "Content-Type: application/json" \

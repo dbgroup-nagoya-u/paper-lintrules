@@ -40,6 +40,7 @@ rm ${latest_file}
   done
 
   pushd ${unzip_dir}
+  # TODO: Clarify exclude file and directory.
   for file in $(find . -type d \( -path './.github/ISSUE_TEMPLATE' -o -path './dir' \) -prune -false -o -type f -not -name 'README.md' -not -name 'paper.txt' -not -name 'update.bash'); do
     mv ${file} ../${file}
   done
