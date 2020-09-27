@@ -2,8 +2,7 @@
     "plugins": {
         "@textlint/text": {
             "extensions": [".tex"]
-        },
-        "@textlint/markdown": true
+        }
     },
     "filters": {
         "allowlist": {
@@ -31,7 +30,7 @@
         },
         "prh": {
             "rulePaths": [
-                "./textlint-rules/WEB+DB_PRESS.yml"
+                "./WEB+DB_PRESS.yml"
             ]
         }
     }

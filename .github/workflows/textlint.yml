@@ -37,5 +37,5 @@ jobs:
           for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.txt' -o -iname '*.tex' -o -iname '*.md');
           do
             echo "filename := ${file}"
-            $(npm bin)/textlint -f checkstyle ${file} | reviewdog -f=checkstyle -name="textlint" -reporter=github-pr-review
+            $(npm bin)/textlint -f checkstyle ${file} --config ./textlint-rules/.textlintrc | reviewdog -f=checkstyle -name="textlint" -reporter=github-pr-review
           done
