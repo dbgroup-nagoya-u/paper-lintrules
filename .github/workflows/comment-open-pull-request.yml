@@ -12,11 +12,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run GitHub API
         run: |
-          m=$(cat bot_comment.txt)
-          m="${m//$'\n'/'\n'}"
-          echo ${m}
+          comment=$(cat bot_comment.txt)
+          comment="${comment//$'\n'/'\n'}"
           curl -X POST \
                -H "Content-Type: application/json" \
                -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-               -d "{ \"body\": \"$(cat bot_comment.txt)\" }" \
+               -d "{ \"body\": \"${comment}\" }" \
                https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments
