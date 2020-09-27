@@ -7,7 +7,7 @@
 1. 修正が完了し、Reviewerに添削をお願いできる状況になったら、
 `.github/workflows/textlint.yml`と`.github/workflows/comment-open-pull-request.yml`を削除してください。
 以降のcommitに対してはtextlintによる指摘が行われなくなります。
-1. commit後、一度このPull RequestをCloseしてください。ブランチは残るため作業内容はGitHubに保存されています。
+1. commit後、一度このPull RequestをCloseしてください。ブランチはClose後も残るため、作業内容はGitHubに保存されています。
 1. Reviewerを追加する際は同じブランチ（通常は`develop`）をもとに別のPull Requestを作成し、そこでReviewを開始してください。
 - Review commentの数が100に近づくとページの表示が重くなります。
 Textlintの修正が多い場合・Review前にはPull Requestを切り替えると快適に作業ができます。
