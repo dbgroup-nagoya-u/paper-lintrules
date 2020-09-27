@@ -3,7 +3,7 @@
 
 # set -xeu # for debug
 USER="dbgroup-nagoya-u"
-REPOSITORY="test-public-textlint-settings"
+REPOSITORY="paper-lintrules"
 
 # Check if commands exist.
 ESC=$(printf '\033')
@@ -50,4 +50,4 @@ rm -rf ${unzip_dir}
 # TODO: Error handling
 ESC=$(printf '\033')
 GREEN="${ESC}[32m"
-printf "${GREEN}%s${ESC}[m\n" 'Update paper-lint settings successfully!'
+printf "${GREEN}%s${ESC}[m\n" 'Update paper-lintrules settings successfully!'

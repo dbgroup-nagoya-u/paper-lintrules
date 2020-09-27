@@ -14,7 +14,7 @@ Textlintの修正が多い場合・Review前にはPull Requestを切り替える
 
 ### バグ報告
 おかしな指摘・指摘されていないが今後プログラムで指摘可能なルールを発見した場合は、
-今後のために[こちら](https://github.com/dbgroup-nagoya-u/test-public-textlint-settings/issues/new?assignees=&labels=&template=bug-report.md&title=)から指摘をお願いします:smiley:
+今後のために[こちら](https://github.com/dbgroup-nagoya-u/paper-lintrules/issues/new?assignees=&labels=&template=bug-report.md&title=)から指摘をお願いします:smiley:
 
 
 執筆頑張ってください！

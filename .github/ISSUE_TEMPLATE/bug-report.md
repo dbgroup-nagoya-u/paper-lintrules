@@ -2,7 +2,7 @@
 name: bug report
 about: おかしい指摘を見つけた時・指摘できそうなルールを考えた時
 title: ''
-labels: ''
+labels: 'bug'
 assignees: ''
 
 ---
