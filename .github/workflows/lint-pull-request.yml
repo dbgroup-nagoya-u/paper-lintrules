@@ -50,6 +50,8 @@ jobs:
           python setup.py install
       - name: INFO draftcheck
         run: |
+          pwd
+          echo "cant print?"
           touch output.txt
           draftcheck paper.tex &> output.txt
           cat output.txt
