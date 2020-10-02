@@ -42,11 +42,9 @@ jobs:
       - name: Install draftcheck
         run: |
           git clone https://github.com/dvolgyes/draftcheck
-          # Replace rules.py
+          # Replace rules.py and script.py
           cp lintrules/draftcheck/rules.py draftcheck/draftcheck/rules.py
-          cd draftcheck
-          # Apply a patch that modifies line number.
-          sed -i -e 's/print_warning(fname, lineno, line.strip(), span, rule, args)/print_warning(fname, lineno+1, line.strip(), span, rule, args)/' draftcheck/script.py
+          cp lintrules/draftcheck/script.py draftcheck/draftcheck/script.py
           python setup.py install
       - name: INFO draftcheck
         run: |
