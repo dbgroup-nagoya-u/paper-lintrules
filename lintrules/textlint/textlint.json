@@ -40,9 +40,7 @@
             "rulePaths": [
                 "./WEB+DB_PRESS.yml",
                 "./techbooster.yml",
-                "./typo.yml",
-                "./textlint-prh-kanji-hiragana.yml",
-                "./textlint-prh-noun.yml"
+                "./typo.yml"
             ]
         }
     }
