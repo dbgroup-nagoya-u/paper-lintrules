@@ -48,6 +48,12 @@ jobs:
           # Apply a patch that modifies line number.
           sed -i -e 's/print_warning(fname, lineno, line.strip(), span, rule, args)/print_warning(fname, lineno+1, line.strip(), span, rule, args)/' draftcheck/script.py
           python setup.py install
+      - name: INFO draftcheck
+        run: |
+          for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.tex');
+          do
+            draftcheck ${file}
+          done
       - uses: reviewdog/action-setup@v1
       - name: Run draftcheck with reviewdog
         env:
