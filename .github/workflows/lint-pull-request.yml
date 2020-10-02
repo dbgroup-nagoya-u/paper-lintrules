@@ -49,9 +49,6 @@ jobs:
           python setup.py install
       - name: INFO draftcheck
         run: |
-          pwd
-          echo "cant print?"
-          touch output.txt
           for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.tex');
           do
             draftcheck ${file} >> output.txt || true
