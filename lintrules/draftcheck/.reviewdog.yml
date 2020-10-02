@@ -2,6 +2,7 @@ runner:
   latexlint-by-draftcheck:
     # draftcheck all files
     cmd: |
+        echo "THIS IS TEST!!"
         for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.tex');
         do
           echo "filename := ${file}"
