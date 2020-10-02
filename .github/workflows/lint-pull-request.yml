@@ -42,15 +42,25 @@ jobs:
       - name: Install draftcheck
         run: |
           git clone https://github.com/dvolgyes/draftcheck
-          # Replace rules.py
+          # Replace rules.py and script.py
           cp lintrules/draftcheck/rules.py draftcheck/draftcheck/rules.py
+          cp lintrules/draftcheck/script.py draftcheck/draftcheck/script.py
           cd draftcheck
-          # Apply a patch that modifies line number.
-          sed -i -e 's/print_warning(fname, lineno, line.strip(), span, rule, args)/print_warning(fname, lineno+1, line.strip(), span, rule, args)/' draftcheck/script.py
           python setup.py install
+      - name: INFO draftcheck
+        run: |
+          for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.tex');
+          do
+            draftcheck ${file} >> output.txt || true
+          done
+          cat output.txt
       - uses: reviewdog/action-setup@v1
       - name: Run draftcheck with reviewdog
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          reviewdog -conf=lintrules/draftcheck/.reviewdog.yml -reporter=github-pr-review
+          for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.tex');
+          do
+            echo "filename := ${file}"
+            draftcheck ${file} | reviewdog -efm="%f:%l:%c: %m" -name="latexlint by draftcheck" -reporter=github-pr-review
+          done
