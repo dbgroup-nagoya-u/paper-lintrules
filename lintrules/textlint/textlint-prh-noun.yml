@@ -1,0 +1,278 @@
+# https://gist.github.com/af12066/62be5414dab260b71a1749801f9f4e49
+# 名詞の表記に関して収録
+# 参考:
+# - http://www.sic.shibaura-it.ac.jp/~kanzawa/cep/report_how_to.html
+# - http://kikakurui.com/z8/Z8103-2000-01.html
+# = https://github.com/azu/textlint-rule-web-plus-db/blob/master/dict/web%2Bdb_press.yml
+version: 1
+rules:
+    - expected: アーキテクチャ
+      pattern: /アーキテクチャー|アーキティクチャ/
+    - expected: アーチファクト
+      pattern: アーティファクト
+    - expected: アクセシビリティ
+      pattern: アクセシビリティー
+    - expected: 一次
+      pattern: 1次
+    - expected: インタフェース
+      pattern: /インターフェ(ー|イ)ス/
+      specs:
+          - from: インターフェース
+            to: インタフェース
+          - from : インターフェイス
+            to: インタフェース
+          - from: インタフェース
+            to: インタフェース
+    - expected: インバータ
+      pattern: インバーター
+    - expected: オドボール
+      pattern: オッドボール
+    - expected: カテゴリ
+      pattern: カテゴリー
+    - expected: 関数
+      pattern: 函数
+    - expected: キャラクタ
+      pattern: キャラクター
+    - expected: クラスタ
+      pattern: クラスター
+    - expected: 原波形
+      pattern: 生波形
+    - expected: 交差検証
+      pattern: 交差検定
+    - expected: コミュニケーション
+      pattern: /コミニュ?ケーション/
+      specs:
+          - from: コミニケーション
+            to: コミュニケーション
+          - from: コミニュケーション
+            to: コミュニケーション
+          - from: コミュニケーション
+            to: コミュニケーション
+    - expected: コントローラ
+      pattern: コントローラー
+    - expected: コンバータ
+      pattern: コンバーター
+    - expected: コンピュータ
+      pattern: コンピューター
+    - expected: サーバ
+      pattern: サーバー
+    - expected: サポートベクターマシン
+      pattern: /サポートベク(タ|トル)マシン/
+      specs:
+          - from: サポートベクタマシン
+            to: サポートベクターマシン
+          - from: サポートベクトルマシン
+            to: サポートベクターマシン
+          - from: サポートベクターマシン
+            to: サポートベクターマシン
+    - expected: 三次
+      pattern: 3次
+    - expected: ジェスチャ
+      pattern: ジェスチャー
+    - expected: シミュレーション
+      pattern: シュミレーション
+    - expected: シミュレータ
+      pattern: /シミュレーター|シュミレーター?/
+      specs:
+          - from: シミュレーター
+            to: シミュレータ
+          - from: シュミレータ
+            to: シミュレータ
+          - from: シュミレーター
+            to: シミュレータ
+          - from: シミュレータ
+            to: シミュレータ
+    - expected: スタンドアロン
+      pattern: スタンドアローン
+    - expected: 正弦波
+      pattern: サイン波
+      prh: サイン波でもよいですが、どちらかに統一してください。
+    - expected: セキュリティ
+      pattern: セキュリティー
+    - expected: センサ
+      pattern: センサー
+    - expected: ソフトウエア
+      pattern: ソフトウェア
+    - expected: チャネル
+      pattern: チャンネル
+    - expected: 提示
+      pattern: 呈示
+    - expected: ディジタル
+      pattern: デジタル
+    - expected: ティシュ
+      patterns:
+          - ティシュー
+          - ティッシュ
+    - expected: ディスプレイ
+      pattern: ディスプレー
+    - expected: テクスチャ
+      pattern: テクスチャー
+    - expected: トリガ
+      pattern: トリガー
+    - expected: 二次
+      pattern: 2次
+    - expected: ハードウエア
+      pattern: ハードウェア
+    - expected: バッファ
+      pattern: バッファー
+    - expected: パラメータ
+      pattern: /パラメタ|パラメーター/
+    - expected: ファジィ
+      pattern: ファジー
+    - expected: フィルタ
+      pattern: フィルター
+    - expected: フォルダ
+      pattern: フォルダー
+    - expected: ブラウザ
+      patterns:
+          - /Webブラウザー?|WEBブラウザー?/
+          - ブラウザー
+    - expected: プラットフォーム
+      pattern: プラットホーム
+    - expected: プリンタ
+      pattern: プリンター
+    - expected: プロッタ
+      pattern: プロッター
+    - expected: ヘッダ
+      pattern: ヘッダー
+    - expected: マーカ
+      pattern: マーカー
+      prh: マーカーでもよいですが、どちらかに統一してください。
+    - expected: メーカ
+      pattern: メーカー
+      prh: メーカーでもよいですが、どちらかに統一してください。
+    - expected: メディアン
+      pattern: /(メジ|ミディ)アン/
+      specs:
+          - from: メジアン
+            to: メディアン
+          - from: ミディアン
+            to: メディアン
+          - from: メディアン
+            to: メディアン
+    - expected: メモリ
+      pattern: メモリー
+    - expected: モータ
+      pattern: モーター
+      prh: モーターでもよいですが、どちらかに統一してください。
+    - expected: ユーザ
+      pattern: ユーザー
+    - expected: ユーザビリティ
+      pattern: ユーザビリティー
+    - expected: ライブラリ
+      pattern: ライブラリー
+    - expected: リアリティ
+      pattern: リアリティー
+    - expected: ルータ
+      pattern: ルーター
+    - expected: レコーダ
+      pattern: レコーダー
+    - expected: AD変換
+      pattern: A/D変換
+    - expected: Arduino
+      pattern: /arduino|[Aa]rudino|AR(DU|UD)INO/
+      specs:
+          - from: arduino
+            to: Arduino
+          - from: Arudino
+            to: Arduino
+          - from: arudino
+            to: Arduino
+          - from: ARDUINO
+            to: Arduino
+          - from: ARUDINO
+            to: Arduino
+          - from: Arduino
+            to: Arduino
+    - expected: BITalino
+      pattern: /[Bb]italino|BITALINO/
+      specs:
+          - from: Bitalino
+            to: BITalino
+          - from: bitalino
+            to: BITalino
+          - from: BITALINO
+            to: BITalino
+          - from: BITalino
+            to: BITalino
+    - expected: DA変換
+      pattern: D/A変換
+    - expected: ECHONET Lite
+      patterns:
+          - /[Ee]chonet [Ll]ite/
+          - /ECHO[Nn]et [Ll]ite/
+      specs:
+          - from: 電動車椅子の無線操作やEchonet Liteを介した家電操作
+            to: 電動車椅子の無線操作やECHONET Liteを介した家電操作
+    - expected: Facebook
+      patterns:
+          - facebook
+          - FACEBOOK
+          - FaceBook
+          - /フェ[イー]スブック/
+      specs:
+          - from: フェイスブック
+            to: Facebook
+          - from: フェースブック
+            to: Facebook
+    - expected: HTML5
+      pattern: HTML 5
+    - expected: HoloLens
+      patterns:
+          - ホロレンズ
+          - /[Hh]ololens/
+    - expected: IEEE $1$2
+      pattern: /\bIEEE(\S)(\d*\.?\d*)\b/
+      specs:
+          - from: IEEE802.11における標準化動向
+            to: IEEE 802.11における標準化動向
+          - from: IEEE1394はFireWireを標準化したものである
+            to: IEEE 1394はFireWireを標準化したものである
+          - from: IEEE Transaction
+            to: IEEE Transaction
+          - from: IEEETrans.
+            to: IEEETrans.
+    - expected: JavaScript
+      pattern: /\bJava Script\b|\bJavascript\b|\bjavascript\b/
+    - expected: Microsoft
+      patterns:
+          - マイクロソフト
+          - MicroSoft
+    - expected: Node.js
+      patterns:
+          - /[Nn]ode[Jj][Ss]/
+          - /[Nn]ode.J[Ss]/
+      specs:
+          - from: NodeJS
+            to: Node.js
+          - from: Node.JS
+            to: Node.js
+    - expected: OpenCV
+      patterns:
+          - /[Oo]pen[Cc]v/
+          - Open CV
+    - expected: Python
+      patterns:
+          - python
+          - PYTHON
+          - /[Pp]yhon/
+          - /[Pp][iy]son/
+    - expected: RFC $1
+      pattern: /RFC([0-9]*)/
+      specs:
+          - from: プライベートIPアドレスの範囲はRFC1918で規定されており
+            to: プライベートIPアドレスの範囲はRFC 1918で規定されており
+    - expected: TCP/IP
+      pattern: TCP / IP
+      specs:
+          - from: マスタリングTCP / IP入門編
+            to: マスタリングTCP/IP入門編
+    - expected: Twitter
+      patterns:
+          - ツイッター
+          - twitter
+          - TWITTER
+    - expected: Windows
+      patterns:
+          - /ウ[ィイ]ンドウズ/
+          - WINDOWS

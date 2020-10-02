@@ -1,0 +1,169 @@
+# https://gist.github.com/af12066/62be5414dab260b71a1749801f9f4e49
+# 漢字とひらがなのどちらで書くべきか迷うワードを収録
+version: 1
+rules:
+    - expected: あらかじめ
+      pattern:  予め
+      prh: 漢字で書かず、ひらがなで書くと読みやすくなります
+    - expected: なぜ
+      pattern:  何故
+      prh: 漢字で書かず、ひらがなで書くと読みやすくなります
+    - expected: ゆえに
+      pattern:  故に
+      prh: 漢字で書かず、ひらがなで書くと読みやすくなります
+    - expected: すてき
+      pattern:  素敵
+      prh: 漢字で書かず、ひらがなで書くと読みやすくなります
+    - expected: やはり
+      pattern:  矢張り
+      prh: 漢字で書かず、ひらがなで書くと読みやすくなります
+    - expected: さすが
+      pattern:  流石
+      prh: 漢字で書かず、ひらがなで書くと読みやすくなります
+    - expected: うまく
+      pattern:  巧く
+      prh: 漢字で書かず、ひらがなで書くと読みやすくなります
+    - expected: かかわらず
+      pattern:  /関わ?らず/
+      specs:
+          - from: 関わらず
+            to:   かかわらず
+          - from: 関らず
+            to:   かかわらず
+      prh: 漢字で書かず、ひらがなで書くと読みやすくなります
+    - expected: さまざま
+      pattern: 様々
+    - expected: 十分
+      pattern: 充分
+    - expected: $1とおり
+      patterns: /(思った|以下の)通り/
+      specs:
+          - from: （例）思った通り。
+            to:   （例）思ったとおり。
+          - from: 以下の通りです。
+            to:   以下のとおりです。
+          - from: プリペット通り4番地
+            to: プリペット通り4番地
+    - expected: 基づ$1
+      pattern: /もとづ(く|き|い)/
+      specs:
+          - from: 文献にもとづいている
+            to: 文献に基づいている
+    - expected: $1とき
+      pattern:  /(の)時(?!点|代|々|間|定数)/
+      specs:
+          - from: その時
+            to:   そのとき
+          - from: その時点
+            to:   その時点
+          - from: その時代
+            to:   その時代
+          - from: その時定数
+            to:   その時定数
+          - from: それまでの時間
+            to:   それまでの時間
+          - from: 同時
+            to:   同時
+          - from: 実行時
+            to:   実行時
+          - from: 利用時
+            to:   利用時
+          - from: 開発時
+            to:   開発時
+          - from: 執筆時
+            to:   執筆時
+          - from: 時点
+            to:   時点
+          - from: 時代
+            to:   時代
+          - from: 時間
+            to:   時間
+    - expected: $1あとで
+      pattern:  /(して|した|、)後で/
+      specs:
+          - from: して後で
+            to: してあとで
+    - expected: $1あとに
+      pattern:  /(して|した|、)後に/
+      specs:
+          - from: した後に
+            to: したあとに
+    - expected: もしくは
+      patterns: 若しくは
+# 表外音訓については http://www16.atpages.jp/kanjikentei/hyogaiyomi.html
+    - expected: かなし
+      pattern: 哀し
+      prh: 表外音訓
+    - expected: にくむ
+      pattern: 悪む
+      prh: 表外音訓
+    - expected: こく
+      pattern: 扱く
+      prh: 表外音訓
+    - expected: ゆだね
+      pattern: 委ね
+      prh: 表外音訓
+    - expected: なす
+      pattern: 為す
+      prh: 表外音訓
+    - expected: なる
+      pattern: 為る
+      prh: 表外音訓
+    - expected: よる
+      pattern: 依る
+      prh: 表外音訓
+    - expected: よっ
+      pattern: 依っ
+      prh: 表外音訓
+    - expected: より
+      pattern: 依り
+      prh: 表外音訓
+    - expected: ちなみ
+      pattern: 因み
+      prh: 表外音訓
+    - expected: ちなむ
+      pattern: 因む
+      prh: 表外音訓
+    - expected: ますます
+      pattern: 益々
+      prh: 表外音訓
+    - expected: こたえ
+      pattern: 応え
+      prh: 表外音訓
+    - expected: おぼえ
+      pattern: 憶え
+      prh: 表外音訓
+    - expected: ぬるい
+      pattern: 温い
+      prh: 表外音訓
+    - expected: ぬるめ
+      pattern: 温め
+      prh: 表外音訓
+    - expected: くらべ
+      pattern: 較べ
+      prh: 表外音訓
+    - expected: くくる
+      pattern: 括る
+      prh: 表外音訓
+    - expected: くくり
+      pattern: 括り
+      prh: 表外音訓
+    - expected: 箇所
+      patterns: 個所
+      prh: 表外音訓
+    - expected: 箇条書き
+      patterns: 個条書き
+      prh: 表外音訓
+# 常用漢字外
+    - expected: あるいは
+      pattern: 或いは
+      prh: 常用漢字外
+    - expected: ほとんど
+      pattern: 殆ど
+      prh: 常用漢字外
+    - expected: ぜひ
+      pattern: 是非
+      prh: 常用漢字外
+    - expected: およぞ
+      pattern: 凡そ
+      prh: 常用漢字外
