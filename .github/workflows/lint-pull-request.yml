@@ -52,8 +52,9 @@ jobs:
         run: |
           for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.tex');
           do
-            draftcheck ${file}
+            draftcheck ${file} &> output.txt
           done
+          cat output.txt
       - uses: reviewdog/action-setup@v1
       - name: Run draftcheck with reviewdog
         env:
