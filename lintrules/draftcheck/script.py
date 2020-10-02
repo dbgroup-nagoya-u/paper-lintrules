@@ -30,16 +30,7 @@ def pad_string(text, span, size):
 def print_warning(fname, lineno, line, span, rule, args):
     prefix = f'{fname}:{lineno}:{span[0]}:'
     print(prefix, end=' ')
-
-    padded_str, start_index = pad_string(line, span, 10)
-    if rule.show_spaces:
-        print(padded_str.replace(' ', '_'))
-    else:
-        print(padded_str)
-
-    print(' ' * (len(prefix) + start_index + 1) + '^' * (span[1] - span[0]))
     print(f"\t[{rule.id:03d}]", get_brief(rule))
-    print()
 
 
 def main():
