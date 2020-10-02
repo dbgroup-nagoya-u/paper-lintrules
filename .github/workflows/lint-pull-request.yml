@@ -51,10 +51,7 @@ jobs:
       - name: INFO draftcheck
         run: |
           touch output.txt
-          for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.tex');
-          do
-            draftcheck ${file} &>> output.txt
-          done
+          draftcheck paper.tex &> output.txt
           cat output.txt
       - uses: reviewdog/action-setup@v1
       - name: Run draftcheck with reviewdog
