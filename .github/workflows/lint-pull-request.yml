@@ -50,9 +50,10 @@ jobs:
           python setup.py install
       - name: INFO draftcheck
         run: |
+          touch output.txt
           for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.tex');
           do
-            draftcheck ${file} &> output.txt
+            draftcheck ${file} &>> output.txt
           done
           cat output.txt
       - uses: reviewdog/action-setup@v1
