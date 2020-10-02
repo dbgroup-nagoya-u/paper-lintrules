@@ -54,7 +54,8 @@ jobs:
           echo "cant print?"
           touch output.txt
           cat paper.tex
-          draftcheck paper.tex
+          $(draftcheck paper.tex > output.txt)
+          cat output.txt
       - uses: reviewdog/action-setup@v1
       - name: Run draftcheck with reviewdog
         env:
