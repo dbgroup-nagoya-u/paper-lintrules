@@ -150,7 +150,7 @@ def check_no_space_before_cite(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'[^~]\\ref{')
+@rule(r'[^(~|{)]\\ref{')
 def check_no_space_before_ref(text, matches):
     """Place a single, non-breaking space '~' before references.
 
