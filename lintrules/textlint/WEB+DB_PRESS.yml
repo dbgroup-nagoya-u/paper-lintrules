@@ -1064,7 +1064,7 @@ rules:
       - 元々
       - 本々
     expected: もともと
-  - pattern: /基([^数準盤板底礎本づ])/
+  - pattern: /基([^数準盤板底礎本])/
     expected: もと$1
   - pattern: した上
     expected: したうえ
