@@ -71,9 +71,9 @@ rules:
   - expected: すべて
     pattern:  /(全て|総て)/
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-  - expected: たとえば
-    pattern:  例えば
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
+  - expected: 例えば
+    pattern:  たとえば
+    prh: ひらがなで書かず、漢字で書くと読みやすくなります。
   - expected: 他の
     pattern:  ほかの
     prh: ひらがなで書かず、漢字で書くと読みやすくなります
@@ -205,9 +205,9 @@ rules:
   - expected: あるいは
     pattern:  或いは
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります。
-  - expected: はじめて
-    pattern:  初めて
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります。
+  - expected: 初めて
+    pattern:  はじめて
+    prh: ひらがなで書かず、漢字で書くと読みやすくなります。
   - expected: どういうとき
     pattern:  どういう時
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります。
