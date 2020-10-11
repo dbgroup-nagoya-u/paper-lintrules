@@ -380,8 +380,6 @@ rules:
       - うなづ
       - 頷
     expected: うなず
-  #- pattern: /上手([いく])|美味([いく])|ウマ([いく])/
-  #  expected: うま$1
   - pattern: 嬉し
     expected: うれし
   - pattern: 美味し
@@ -1102,8 +1100,6 @@ rules:
     expected: 汚$1
   - pattern: /果([さしすせそ])/
     expected: 果た$1
-  #- pattern: /([^排人])他([^ァ-ヶ社者人方])/
-  #  expected: $1ほか$2
   - pattern: 後ほど
     expected: のちほど
   - pattern: うしろ
@@ -1409,6 +1405,7 @@ rules:
   - pattern:
       - 戻り値
       - 返値
+      - 戻値
     expected: 返り値
   - pattern: /勇し([かくい])/
     expected: 勇まし$1
