@@ -32,6 +32,14 @@ def print_warning(fname, lineno, line, span, rule, args):
     print(prefix, end=' ')
     print(f"\t[{rule.id:03d}]", get_brief(rule))
 
+def get_no_comment_line(line):
+    n = len(line)
+    for i in range(1, n):
+        if line[i] == '%':
+            if line[i-1] == "\\":
+                continue
+            return line[:i]
+    return line
 
 def main():
     import argparse
@@ -54,6 +62,7 @@ def main():
             for lineno, line in enumerate(infile):
                 if line[0] == '%':
                     continue
+                line = get_no_comment_line(line)
                 for rule, span in validator.validate(line):
                     num_errors += 1
 
@@ -68,6 +77,7 @@ def main():
             for lineno, line in enumerate(infile):
                 if line[0] == '%':
                     continue
+                line = get_no_comment_line(line)
                 for rule, span in validator.validate(line):
                     print_warning(fname, lineno + 1 , line.strip(), span, rule, args)
 
