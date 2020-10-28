@@ -32,11 +32,11 @@ def print_warning(fname, lineno, line, span, rule, args):
     print(prefix, end=' ')
     print(f"\t[{rule.id:03d}]", get_brief(rule))
 
-def get_no_comment_line(line):
-    n = len(line)
-    for i in range(1, n):
+
+def remove_latex_comment(line):
+    for i in range(len(line)):
         if line[i] == '%':
-            if line[i-1] == "\\":
+            if i > 0 and line[i - 1] == "\\":
                 continue
             return line[:i]
     return line
@@ -60,9 +60,7 @@ def main():
         with open(fname, 'r') as infile:
             validator = Validator()
             for lineno, line in enumerate(infile):
-                if line[0] == '%':
-                    continue
-                line = get_no_comment_line(line)
+                line = remove_latex_comment(line)
                 for rule, span in validator.validate(line):
                     num_errors += 1
 
@@ -75,9 +73,7 @@ def main():
         with open(fname, 'r') as infile:
             validator = Validator()
             for lineno, line in enumerate(infile):
-                if line[0] == '%':
-                    continue
-                line = get_no_comment_line(line)
+                line = remove_latex_comment(line)
                 for rule, span in validator.validate(line):
                     print_warning(fname, lineno + 1 , line.strip(), span, rule, args)
 
