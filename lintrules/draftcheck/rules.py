@@ -242,7 +242,7 @@ def check_space_surrounded_dash(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'\b([a-z]+)\s+\1\b(?![^{]*})')
+@rule(r'\b([a-z]+)\s+\1\b(?![^{]*})')
 def check_duplicate_word(text, matches):
     """Remove duplicated word.
 
