@@ -52,6 +52,8 @@ def main():
         with open(fname, 'r') as infile:
             validator = Validator()
             for lineno, line in enumerate(infile):
+                if line[0] == '%':
+                    continue
                 for rule, span in validator.validate(line):
                     num_errors += 1
 
@@ -64,6 +66,8 @@ def main():
         with open(fname, 'r') as infile:
             validator = Validator()
             for lineno, line in enumerate(infile):
+                if line[0] == '%':
+                    continue
                 for rule, span in validator.validate(line):
                     print_warning(fname, lineno + 1 , line.strip(), span, rule, args)
 
