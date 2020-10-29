@@ -21,6 +21,7 @@
         "preset-ja-technical-writing": {
             "ja-no-mixed-period": false,
             "ja-unnatural-alphabet": false,
+            "max-kanji-continuous-len": false,
             "sentence-length": {
                 "max": 100,
                 "exclusionPatterns": [
