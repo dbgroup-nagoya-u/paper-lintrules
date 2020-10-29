@@ -37,6 +37,8 @@ def remove_latex_comment(line):
     for i in range(len(line)):
         if line[i] == '%':
             if i > 0 and line[i - 1] == "\\":
+                if i > 1 and line[i - 2] == "\\":
+                    return line[:i]
                 continue
             return line[:i]
     return line
