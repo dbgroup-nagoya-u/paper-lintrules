@@ -183,23 +183,6 @@ def check_unescaped_percentage(text, matches):
     return [m.span() for m in matches]
 
 
-# @rule(r'\s[,;.!?]', show_spaces=True)
-def check_space_before_punctuation(text, matches):
-    """Do not precede punctuation characters with spaces.
-
-    Example
-    -------
-    Bad:
-        Nether Stowey, where Coleridge wrote The Rime of the Ancient Mariner ,
-        is a few miles from Bridgewater.
-
-    Good:
-        Nether Stowey, where Coleridge wrote The Rime of the Ancient Mariner,
-        is a few miles from Bridgewater.
-    """
-    return [m.span() for m in matches]
-
-
 # @rule(r'\d+\s?x\d+')
 def check_incorrect_usage_of_x_as_times(text, matches):
     """In the context of 'times' or 'multiply', use $\\times$ instead of 'x'.
