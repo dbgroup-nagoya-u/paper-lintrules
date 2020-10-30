@@ -104,7 +104,7 @@ def check_space_before_footnote(text, matches):
     return [m.span() for m in matches]
 
 
-# @rule(r'\.\\cite{')
+@rule(r'．~?\\cite{')
 def check_cite_after_period(text, matches):
     """Place citations before periods with a non-breaking space.
 
