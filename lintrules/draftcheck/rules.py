@@ -165,7 +165,7 @@ def check_no_space_before_ref(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'\d+%')
+@rule(r'\d+%')
 def check_unescaped_percentage(text, matches):
     """Escape percentages with backslash.
 
@@ -242,7 +242,7 @@ def check_space_surrounded_dash(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'\b([a-z]+)\s+\1\b(?![^{]*})')
+@rule(r'\b([a-z]+)\s+\1\b(?![^{]*})')
 def check_duplicate_word(text, matches):
     """Remove duplicated word.
 
@@ -259,7 +259,7 @@ def check_duplicate_word(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'\.\.\.')
+@rule(r'\.\.\.')
 def check_dot_dot_dot(text, matches):
     """Typeset ellipses by \\ldots, not '...'.
 
@@ -274,7 +274,7 @@ def check_dot_dot_dot(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'"')
+@rule(r'"')
 def check_double_quote(text, matches):
     """Use left and right quotation marks `` and '' rather than ".
 
@@ -289,7 +289,7 @@ def check_double_quote(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'\s\'.+?\'[\s\.,]')
+@rule(r'\s\'.+?\'[\s\.,]')
 def check_single_quote(text, matches):
     """Use left and right quotation marks ` and ' rather than '.
 
@@ -304,7 +304,7 @@ def check_single_quote(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'\\begin{center}', in_env='any')
+@rule(r'\\begin{center}', in_env='any')
 def check_begin_center(text, matches):
     """Use \\centering instead of \\begin{center}.
 
@@ -326,7 +326,7 @@ def check_begin_center(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'^\$\$', in_env='math')
+@rule(r'^\$\$', in_env='math')
 def check_double_dollar_math(text, matches):
     """Use \\[ or \\begin{equation} instead of $$.
 
@@ -346,7 +346,7 @@ def check_double_dollar_math(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'\d\s?-\s?\d')
+@rule(r'\d\s?-\s?\d')
 def check_numeric_range_dash(text, matches):
     """Use endash '--' for numeric ranges instead of hyphens.
 
@@ -426,7 +426,7 @@ def check_number_next_to_unit(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'[^\\](sin|cos|tan|log|max|min)', in_env='math')
+@rule(r'[^\\](sin|cos|tan|log|max|min)', in_env='math')
 def check_unescaped_named_math_operators(text, matches):
     """Precede named mathematical operators with a backslash.
 
@@ -464,13 +464,13 @@ def check_def_command(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'\\sloppy')
+@rule(r'\\sloppy')
 def check_sloppy_command(text, matches):
     """Avoid the \\sloppy command."""
     return [m.span() for m in matches]
 
 
-#@rule(r"'''|```")
+@rule(r"'''|```")
 def check_triple_quote(text, matches):
     r"""Use a thin space \, to separate quotes."""
     return [m.span() for m in matches]
@@ -488,13 +488,13 @@ def check_unspelt_single_digit_numbers(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r',\s*\.\.\.\s*,', in_env='math')
+@rule(r',\s*\.\.\.\s*,', in_env='math')
 def check_dot_dot_dot_maths(text, matches):
     """Use \\cdots to denote ellipsis in maths."""
     return [m.span() for m in matches]
 
 
-#@rule(r'(?<!\\url{)(\bhttps?://)[^\s.]+\.[-A-Za-z0-9+&@#/%?=~_|!:,.;]+')
+@rule(r'(?<!\\url{)(\bhttps?://)[^\s.]+\.[-A-Za-z0-9+&@#/%?=~_|!:,.;]+')
 def check_bare_urls(text, matches):
     """Wrap URLs with the \\url command."""
     return [m.span() for m in matches]
