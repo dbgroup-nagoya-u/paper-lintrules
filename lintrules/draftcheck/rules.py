@@ -121,21 +121,6 @@ def check_cite_after_period(text, matches):
     return [m.span() for m in matches]
 
 
-# @rule(r'\b(:?in|as|on|by)[ ~]\\cite{')
-def check_cite_used_as_noun(text, matches):
-    """Avoid using citations as nouns.
-
-    Examples
-    --------
-    Bad:
-        The method proposed in~\\cite{} shows a decrease in methanol toxicity.
-
-    Good:
-        A proposed method shows a decrease in methanol toxicity~\\cite{}.
-    """
-    return [m.span() for m in matches]
-
-
 @rule(r"[^~]\\cite{")
 def check_no_space_before_cite(text, matches):
     """Place a single, non-breaking space '~' before citations.
