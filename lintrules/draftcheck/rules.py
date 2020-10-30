@@ -458,7 +458,7 @@ def check_abbreviation_innerword_spacing(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r'\\def\\[a-z]+{')
+@rule(r'\\def\\')
 def check_def_command(text, matches):
     """Do not use the \\def command. Use \\newcommand instead."""
     return [m.span() for m in matches]
