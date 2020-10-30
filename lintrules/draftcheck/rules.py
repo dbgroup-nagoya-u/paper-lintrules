@@ -245,23 +245,6 @@ def check_space_surrounded_dash(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r"\b([a-z]+)\s+\1\b(?![^{]*})")
-def check_duplicate_word(text, matches):
-    """Remove duplicated word.
-
-    Example
-    -------
-    Bad:
-        The famous two masks associated with drama are symbols of the
-        the ancient Muses, Thalia (comedy) and Melpomene (tragedy).
-
-    Good:
-        The famous two masks associated with drama are symbols of the
-        ancient Muses, Thalia (comedy) and Melpomene (tragedy).
-    """
-    return [m.span() for m in matches]
-
-
 # @rule(r'\.\.\.')
 def check_dot_dot_dot(text, matches):
     """Typeset ellipses by \\ldots, not '...'.
