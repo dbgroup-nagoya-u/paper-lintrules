@@ -118,21 +118,6 @@ def check_cite_after_period(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'\b(:?in|as|on|by)[ ~]\\cite{')
-def check_cite_used_as_noun(text, matches):
-    """Avoid using citations as nouns.
-
-    Examples
-    --------
-    Bad:
-        The method proposed in~\\cite{} shows a decrease in methanol toxicity.
-
-    Good:
-        A proposed method shows a decrease in methanol toxicity~\\cite{}.
-    """
-    return [m.span() for m in matches]
-
-
 @rule(r'[^~]\\cite{')
 def check_no_space_before_cite(text, matches):
     """Place a single, non-breaking space '~' before citations.
@@ -180,38 +165,6 @@ def check_unescaped_percentage(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'\s[,;.!?]', show_spaces=True)
-def check_space_before_punctuation(text, matches):
-    """Do not precede punctuation characters with spaces.
-
-    Example
-    -------
-    Bad:
-        Nether Stowey, where Coleridge wrote The Rime of the Ancient Mariner ,
-        is a few miles from Bridgewater.
-
-    Good:
-        Nether Stowey, where Coleridge wrote The Rime of the Ancient Mariner,
-        is a few miles from Bridgewater.
-    """
-    return [m.span() for m in matches]
-
-
-#@rule(r'\w+\(|\)\w+', show_spaces=True)
-def check_no_space_next_to_parentheses(text, matches):
-    """Separate parentheses from text with a space.
-
-    Example
-    -------
-    Bad:
-        Pablo Picasso(1881--1973) is one of the pioneers of Cubism.
-
-    Good:
-        Pablo Picasso (1881--1973) is one of the pioneers of Cubism.
-    """
-    return [m.span() for m in matches]
-
-
 #@rule(r'\d+\s?x\d+')
 def check_incorrect_usage_of_x_as_times(text, matches):
     """In the context of 'times' or 'multiply', use $\\times$ instead of 'x'.
@@ -238,23 +191,6 @@ def check_space_surrounded_dash(text, matches):
 
     Good:
         He only desired one thing --- success.
-    """
-    return [m.span() for m in matches]
-
-
-@rule(r'\b([a-z]+)\s+\1\b(?![^{]*})')
-def check_duplicate_word(text, matches):
-    """Remove duplicated word.
-
-    Example
-    -------
-    Bad:
-        The famous two masks associated with drama are symbols of the
-        the ancient Muses, Thalia (comedy) and Melpomene (tragedy).
-
-    Good:
-        The famous two masks associated with drama are symbols of the
-        ancient Muses, Thalia (comedy) and Melpomene (tragedy).
     """
     return [m.span() for m in matches]
 
@@ -473,12 +409,6 @@ def check_sloppy_command(text, matches):
 #@rule(r"'''|```")
 def check_triple_quote(text, matches):
     r"""Use a thin space \, to separate quotes."""
-    return [m.span() for m in matches]
-
-
-#@rule(r'1st|2nd|3rd')
-def check_unspelt_ordinal_numbers(text, matches):
-    """Spell out ordinal numbers (1st, 2nd, etc.) in words."""
     return [m.span() for m in matches]
 
 
