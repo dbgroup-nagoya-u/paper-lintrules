@@ -298,8 +298,8 @@ rules:
     expected: あなた
   - pattern: 予め
     expected: あらかじめ
-  - pattern: 改めて
-    expected: あらためて
+  - pattern: あらためて
+    expected: 改めて
   - pattern:
       - 有り難
       - 有難
@@ -380,8 +380,6 @@ rules:
       - うなづ
       - 頷
     expected: うなず
-  - pattern: /上手([いく])|美味([いく])|ウマ([いく])/
-    expected: うま$1
   - pattern: 嬉し
     expected: うれし
   - pattern: 美味し
@@ -430,8 +428,6 @@ rules:
     expected: くく$1
   - pattern: 下さい
     expected: ください
-  - pattern: /([^解])決して|([^解])けして/
-    expected: $1けっして
   - pattern: /拘([らりるれろっ])/
     expected: こだわ$1
   - pattern: 諺
@@ -514,8 +510,8 @@ rules:
       - 素晴らし
       - 素晴し
     expected: すばらし
-  - pattern: 素早
-    expected: すばや
+  - pattern: すばや
+    expected: 素早
   - pattern: 須らく
     expected: すべからく
   - pattern: 折角
@@ -553,12 +549,12 @@ rules:
     expected: 筆者
   - pattern: /辿([らりるれろっ])/
     expected: たど$1
-  - pattern: 例えば
-    expected: たとえば
+  - pattern: たとえば
+    expected: 例えば
   - pattern:
       - 譬え
       - 喩え
-      - 例え
+      - /例え([^ばるて])/
     expected: たとえ
   - pattern: たのし
     expected: 楽し
@@ -806,7 +802,7 @@ rules:
     expected: わか$1
   - pattern: /解([らりるれろっ])/
     expected: わか$1
-  - pattern: /の分([^散割類解野離析岐])/
+  - pattern: /の分([^散割類解野離析岐担])/
     expected: のぶん$1
   - pattern:
       - 気をつか
@@ -1064,7 +1060,7 @@ rules:
       - 元々
       - 本々
     expected: もともと
-  - pattern: /基([^数準盤板底礎本])/
+  - pattern: /基([^数準盤板底礎本づ])/
     expected: もと$1
   - pattern: した上
     expected: したうえ
@@ -1102,8 +1098,6 @@ rules:
     expected: 汚$1
   - pattern: /果([さしすせそ])/
     expected: 果た$1
-  - pattern: /([^排人])他([^ァ-ヶ社者人方])/
-    expected: $1ほか$2
   - pattern: 後ほど
     expected: のちほど
   - pattern: うしろ
@@ -1407,9 +1401,10 @@ rules:
   - pattern: もどって
     expected: 戻って
   - pattern:
-      - 返り値
+      - 戻り値
       - 返値
-    expected: 戻り値
+      - 戻値
+    expected: 返り値
   - pattern: /勇し([かくい])/
     expected: 勇まし$1
   - pattern: /揺([がぎぐげご])/
