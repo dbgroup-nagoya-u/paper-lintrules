@@ -13,7 +13,7 @@ import re
 RULES_LIST = []
 
 
-def rule(pattern, show_spaces=False, in_env='paragraph'):
+def rule(pattern, show_spaces=False, in_env="paragraph"):
     """Decorator used to create rules.
 
     The decorated function must have the following signature:
@@ -48,7 +48,7 @@ def rule(pattern, show_spaces=False, in_env='paragraph'):
 
     def inner_rule(func):
         def wrapper(text, env):
-            if in_env == 'any' or env == in_env:
+            if in_env == "any" or env == in_env:
                 return func(text, regexpr.finditer(text))
             return []
 
@@ -64,11 +64,13 @@ def rule(pattern, show_spaces=False, in_env='paragraph'):
         RULES_LIST.append(wrapper)
 
         return wrapper
+
     return inner_rule
 
 
-def rule_generator(show_spaces=False, in_env='paragraph'):
+def rule_generator(show_spaces=False, in_env="paragraph"):
     """Decorator that generates rules from a generator."""
+
     def inner_rule(func):
         for r in func():
             # Register this rule into our global rules list
@@ -79,10 +81,11 @@ def rule_generator(show_spaces=False, in_env='paragraph'):
             # Format the docstring with parameters specific to this instance
             # of the rule
             RULES_LIST[-1].__doc__ = func.__doc__.format(*r[1:])
+
     return inner_rule
 
 
-#@rule(r'\s+\\footnote{', show_spaces=True)
+# @rule(r'\s+\\footnote{', show_spaces=True)
 def check_space_before_footnote(text, matches):
     """Do not precede footnotes with spaces.
 
@@ -101,7 +104,7 @@ def check_space_before_footnote(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'\.\\cite{')
+# @rule(r'\.\\cite{')
 def check_cite_after_period(text, matches):
     """Place citations before periods with a non-breaking space.
 
@@ -118,7 +121,7 @@ def check_cite_after_period(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r'[^~]\\cite{')
+@rule(r"[^~]\\cite{")
 def check_no_space_before_cite(text, matches):
     """Place a single, non-breaking space '~' before citations.
 
@@ -135,7 +138,7 @@ def check_no_space_before_cite(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r'[^~{]\\ref{')
+@rule(r"[^~{]\\ref{")
 def check_no_space_before_ref(text, matches):
     """Place a single, non-breaking space '~' before references.
 
@@ -150,7 +153,7 @@ def check_no_space_before_ref(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r'\d+%')
+@rule(r"\d+%")
 def check_unescaped_percentage(text, matches):
     """Escape percentages with backslash.
 
@@ -165,7 +168,7 @@ def check_unescaped_percentage(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'\d+\s?x\d+')
+# @rule(r'\d+\s?x\d+')
 def check_incorrect_usage_of_x_as_times(text, matches):
     """In the context of 'times' or 'multiply', use $\\times$ instead of 'x'.
 
@@ -180,7 +183,7 @@ def check_incorrect_usage_of_x_as_times(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'[a-z]+\s-\s[a-z]+')
+# @rule(r'[a-z]+\s-\s[a-z]+')
 def check_space_surrounded_dash(text, matches):
     """Use an em-dash '---' to denote parenthetical breaks or statements.
 
@@ -195,7 +198,7 @@ def check_space_surrounded_dash(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r'\.\.\.')
+@rule(r"\.\.\.")
 def check_dot_dot_dot(text, matches):
     """Typeset ellipses by \\ldots, not '...'.
 
@@ -225,7 +228,7 @@ def check_double_quote(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r'\s\'.+?\'[\s\.,]')
+@rule(r"\s\'.+?\'[\s\.,]")
 def check_single_quote(text, matches):
     """Use left and right quotation marks ` and ' rather than '.
 
@@ -240,7 +243,7 @@ def check_single_quote(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r'\\begin{center}', in_env='any')
+@rule(r"\\begin{center}", in_env="any")
 def check_begin_center(text, matches):
     """Use \\centering instead of \\begin{center}.
 
@@ -262,7 +265,7 @@ def check_begin_center(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r'\$\$', in_env='math')
+@rule(r"\$\$", in_env="math")
 def check_double_dollar_math(text, matches):
     """Use \\[ or \\begin{equation} instead of $$.
 
@@ -282,7 +285,7 @@ def check_double_dollar_math(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r'\d\s?-\s?\d')
+@rule(r"\d\s?-\s?\d")
 def check_numeric_range_dash(text, matches):
     """Use endash '--' for numeric ranges instead of hyphens.
 
@@ -297,7 +300,7 @@ def check_numeric_range_dash(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'\\footnote{.+?}[,;.?]')
+# @rule(r'\\footnote{.+?}[,;.?]')
 def check_footnote_before_punctuation(text, matches):
     """Place footnotes after punctuation marks.
 
@@ -314,7 +317,7 @@ def check_footnote_before_punctuation(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'<[^\s](.+?)[^\s]>', in_env='math')
+# @rule(r'<[^\s](.+?)[^\s]>', in_env='math')
 def check_relational_operators(text, matches):
     """Use \\langle and \\rangle instead of '<' and '>' for angle brackets.
 
@@ -332,7 +335,7 @@ def check_relational_operators(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'\\cite{.+?}\s?\\cite{')
+# @rule(r'\\cite{.+?}\s?\\cite{')
 def check_multiple_cite(text, matches):
     """Use \\cite{..., ...} for multiple citations.
 
@@ -347,7 +350,7 @@ def check_multiple_cite(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'\d(m|A|kg|s|K|mol|cd)\b')
+# @rule(r'\d(m|A|kg|s|K|mol|cd)\b')
 def check_number_next_to_unit(text, matches):
     """Place a non-breaking space between a number and its unit.
 
@@ -362,7 +365,7 @@ def check_number_next_to_unit(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r'[^\\](sin|cos|tan|log|max|min)', in_env='math')
+@rule(r"[^\\](sin|cos|tan|log|max|min)", in_env="math")
 def check_unescaped_named_math_operators(text, matches):
     """Precede named mathematical operators with a backslash.
 
@@ -377,7 +380,7 @@ def check_unescaped_named_math_operators(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'\b(e\.g\.|i\.e\.)\s+')
+# @rule(r'\b(e\.g\.|i\.e\.)\s+')
 def check_abbreviation_innerword_spacing(text, matches):
     """Place a '\\ ' (backslash space) after the period of an abbreviation.
 
@@ -394,13 +397,13 @@ def check_abbreviation_innerword_spacing(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r'\\def\\')
+@rule(r"\\def\\")
 def check_def_command(text, matches):
     """Do not use the \\def command. Use \\newcommand instead."""
     return [m.span() for m in matches]
 
 
-@rule(r'\\sloppy')
+@rule(r"\\sloppy")
 def check_sloppy_command(text, matches):
     """Avoid the \\sloppy command."""
     return [m.span() for m in matches]
@@ -412,25 +415,25 @@ def check_triple_quote(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'[a-z]+ \d [a-z]+')
+# @rule(r'[a-z]+ \d [a-z]+')
 def check_unspelt_single_digit_numbers(text, matches):
     """Spell out single digit numbers in words."""
     return [m.span() for m in matches]
 
 
-@rule(r',\s*\.\.\.\s*,', in_env='math')
+@rule(r",\s*\.\.\.\s*,", in_env="math")
 def check_dot_dot_dot_maths(text, matches):
     """Use \\cdots to denote ellipsis in maths."""
     return [m.span() for m in matches]
 
 
-@rule(r'(?<!\\url{)(\bhttps?://)[^\s.]+\.[-A-Za-z0-9+&@#/%?=~_|!:,.;]+')
+@rule(r"(?<!\\url{)(\bhttps?://)[^\s.]+\.[-A-Za-z0-9+&@#/%?=~_|!:,.;]+")
 def check_bare_urls(text, matches):
     """Wrap URLs with the \\url command."""
     return [m.span() for m in matches]
 
 
-#@rule(r'\.  [A-Z]')
+# @rule(r'\.  [A-Z]')
 def check_double_space(text, matches):
     """Prefer single space over double space after a period."""
     return [m.span() for m in matches]
@@ -441,15 +444,15 @@ def check_incorrect_abbreviations():
     """Punctuate abbreviations correctly. Should be "{0}"."""
 
     changes = {
-        r'et\. al\.': 'et al.',
-        r'etc[^\.]': 'etc.',
-        r'i\.e[^\.]': 'i.e.',
-        r'e\.g[^\.]': 'e.g.',
-        r'Dr\.': 'Dr',
+        r"et\. al\.": "et al.",
+        r"etc[^\.]": "etc.",
+        r"i\.e[^\.]": "i.e.",
+        r"e\.g[^\.]": "e.g.",
+        r"Dr\.": "Dr",
     }
 
     for incorrect, correct in changes.items():
-        yield r'\b' + incorrect + r'\b', correct
+        yield r"\b" + incorrect + r"\b", correct
 
 
 @rule_generator()
@@ -457,19 +460,19 @@ def check_obsolete_commands():
     """Use the \\{0} command instead."""
 
     changes = {
-        'rm': 'textrm',
-        'tt': 'texttt',
-        'it': 'textit',
-        'bf': 'textbf',
-        'sc': 'textsc',
-        'sf': 'textsf',
-        'sl': 'textsl',
-        'over': 'frac',
-        'centerline': 'centering'
+        "rm": "textrm",
+        "tt": "texttt",
+        "it": "textit",
+        "bf": "textbf",
+        "sc": "textsc",
+        "sf": "textsf",
+        "sl": "textsl",
+        "over": "frac",
+        "centerline": "centering",
     }
 
     for incorrect, correct in changes.items():
-        yield r'\\' + incorrect + '{', correct
+        yield r"\\" + incorrect + "{", correct
 
 
 @rule_generator()
@@ -477,37 +480,34 @@ def check_obsolete_packages():
     """Avoid obsolete packages. Use {0} instead."""
 
     changes = {
-        'a4': 'a4paper',
-        'a4wide': 'a4paper',
-        't1enc': r'\usepackage[T1]{fontenc}',
-        'umlaute': r'\usepackage[latin1]{inputenc}',
-        'isolatin': r'\usepackage[isolatin]{inputenc}',
-        'isolatin1': r'\usepackage[latin1]{inputenc}',
-        'fancyheadings': 'fancyhdr',
-        'mathptm': 'mathptmx',
-        'mathpple': 'mathpazo',
-        'epsf': 'graphicx',
-        'epsfig': 'graphicx',
-        'doublespace': 'setspace',
-        'scrpage': 'scrpage2'
+        "a4": "a4paper",
+        "a4wide": "a4paper",
+        "t1enc": r"\usepackage[T1]{fontenc}",
+        "umlaute": r"\usepackage[latin1]{inputenc}",
+        "isolatin": r"\usepackage[isolatin]{inputenc}",
+        "isolatin1": r"\usepackage[latin1]{inputenc}",
+        "fancyheadings": "fancyhdr",
+        "mathptm": "mathptmx",
+        "mathpple": "mathpazo",
+        "epsf": "graphicx",
+        "epsfig": "graphicx",
+        "doublespace": "setspace",
+        "scrpage": "scrpage2",
     }
 
     for incorrect, correct in changes.items():
-        yield r'\\' + incorrect + '{', correct
+        yield r"\\" + incorrect + "{", correct
 
 
 @rule_generator()
 def check_obsolete_environments():
     """Use the {0} instead."""
 
-    changes = {
-        'eqnarray': '"align" environment',
-        'appendix': '\\appendix command'
-    }
+    changes = {"eqnarray": '"align" environment', "appendix": "\\appendix command"}
 
     for incorrect, correct in changes.items():
-        yield r'\begin{' + incorrect + '}', correct
+        yield r"\begin{" + incorrect + "}", correct
 
 
 def get_brief(r):
-    return r.__doc__.split('\n\n')[0]
+    return r.__doc__.split("\n\n")[0]
