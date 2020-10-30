@@ -326,7 +326,7 @@ def check_begin_center(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r'^\$\$', in_env='math')
+@rule(r'\$\$', in_env='math')
 def check_double_dollar_math(text, matches):
     """Use \\[ or \\begin{equation} instead of $$.
 
@@ -458,7 +458,7 @@ def check_abbreviation_innerword_spacing(text, matches):
     return [m.span() for m in matches]
 
 
-#@rule(r'\\def\\[a-z]+{')
+@rule(r'\\def\\[a-z]+{')
 def check_def_command(text, matches):
     """Do not use the \\def command. Use \\newcommand instead."""
     return [m.span() for m in matches]
