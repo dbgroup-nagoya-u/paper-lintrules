@@ -200,21 +200,6 @@ def check_space_before_punctuation(text, matches):
     return [m.span() for m in matches]
 
 
-# @rule(r'\w+\(|\)\w+', show_spaces=True)
-def check_no_space_next_to_parentheses(text, matches):
-    """Separate parentheses from text with a space.
-
-    Example
-    -------
-    Bad:
-        Pablo Picasso(1881--1973) is one of the pioneers of Cubism.
-
-    Good:
-        Pablo Picasso (1881--1973) is one of the pioneers of Cubism.
-    """
-    return [m.span() for m in matches]
-
-
 # @rule(r'\d+\s?x\d+')
 def check_incorrect_usage_of_x_as_times(text, matches):
     """In the context of 'times' or 'multiply', use $\\times$ instead of 'x'.
