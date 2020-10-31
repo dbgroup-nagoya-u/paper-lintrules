@@ -6,7 +6,7 @@ paper-lintrulesはtextlint等の校生ツールを組み合わせて論文執筆
 ## 使い方
 自分の論文リポジトリの一番上の階層で、
 ``` bash
-$ curl -sSf https://raw.githubusercontent.com/dbgroup-nagoya-u/paper-lintrules/master/update.bash | bash
+$ curl -sSf https://raw.githubusercontent.com/dbgroup-nagoya-u/paper-lintrules/main/update.bash | bash
 ```
 を実行すると設定ファイルがダウンロードされます。
 ダウンロードした設定ファイルを全てcommitし、Pull Requestを作成すると校生ツールが起動します。

@@ -25,13 +25,13 @@ then
   exit 1
 fi
 
-# Download from the latest commit on master branch.
-latest_file_url="https://github.com/${USER}/${REPOSITORY}/archive/master.zip"
+# Download from the latest commit on main branch.
+latest_file_url="https://github.com/${USER}/${REPOSITORY}/archive/main.zip"
 wget -q ${latest_file_url} --show-progress
-latest_file="master.zip"
+latest_file="main.zip"
 
 # Unzip files in |unzip_dir|.
-unzip_dir="${REPOSITORY}-master"
+unzip_dir="${REPOSITORY}-main"
 unzip -qq ${latest_file}
 rm ${latest_file}
 
