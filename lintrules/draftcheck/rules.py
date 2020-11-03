@@ -352,7 +352,7 @@ def check_multiple_cite(text, matches):
 
 @rule(r'\d[\s　]?(ms|s|A|cores?|GHz|heyperthreads?|bytes?|bit|KB|MB|GB|TB|PB)\b')
 def check_number_next_to_unit(text, matches):
-    """Place a non-breaking space \'~\' between a number and its unit. [e.g. 64~GB]
+    """Place a non-breaking space '\~' between a number and its unit. [e.g. 64~GB]
 
     Example
     -------
