@@ -121,7 +121,7 @@ def check_cite_after_period(text, matches):
     return [m.span() for m in matches]
 
 
-# @rule(r"[^~]\\cite{")
+@rule(r"[^~]\\cite{")
 def check_no_space_before_cite(text, matches):
     """Place a single, non-breaking space '~' before citations.
 
