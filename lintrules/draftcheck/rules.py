@@ -85,7 +85,7 @@ def rule_generator(show_spaces=False, in_env="paragraph"):
     return inner_rule
 
 
-# @rule(r'\s+\\footnote{', show_spaces=True)
+@rule(r"\s+\\footnote(\[\d*\])?{", show_spaces=True)
 def check_space_before_footnote(text, matches):
     """Do not precede footnotes with spaces.
 
@@ -104,7 +104,7 @@ def check_space_before_footnote(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r'．~?\\cite{')
+@rule(r"．~?\\cite{")
 def check_cite_after_period(text, matches):
     """Place citations before periods with a non-breaking space.
 
