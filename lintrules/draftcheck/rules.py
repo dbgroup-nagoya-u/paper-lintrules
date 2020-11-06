@@ -168,7 +168,7 @@ def check_unescaped_percentage(text, matches):
     return [m.span() for m in matches]
 
 
-# @rule(r'\d+\s?x\d+')
+@rule(r'\d+\s?x\s?\d+')
 def check_incorrect_usage_of_x_as_times(text, matches):
     """In the context of 'times' or 'multiply', use $\\times$ instead of 'x'.
 
