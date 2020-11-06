@@ -168,7 +168,7 @@ def check_unescaped_percentage(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r'\d+\s?x\s?\d+')
+@rule(r"\d+\s?x\s?\d+")
 def check_incorrect_usage_of_x_as_times(text, matches):
     """In the context of 'times' or 'multiply', use $\\times$ instead of 'x'.
 
@@ -317,7 +317,7 @@ def check_footnote_before_punctuation(text, matches):
     return [m.span() for m in matches]
 
 
-# @rule(r'<[^\s](.+?)[^\s]>', in_env='math')
+@rule(r"<[^\s](.+?)[^\s]>", in_env="math")
 def check_relational_operators(text, matches):
     """Use \\langle and \\rangle instead of '<' and '>' for angle brackets.
 
@@ -350,7 +350,7 @@ def check_multiple_cite(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r'\d[\s　]?(ms|s|A|cores?|GHz|heyperthreads?|bytes?|bit|KB|MB|GB|TB|PB)\b')
+@rule(r"\d[\s　]?(ms|s|A|cores?|GHz|heyperthreads?|bytes?|bit|KB|MB|GB|TB|PB)\b")
 def check_number_next_to_unit(text, matches):
     """Place a non-breaking space '\~' between a number and its unit. [e.g. 64~GB]
 
