@@ -1,5 +1,5 @@
 このPull Requestではtextlintが走ります:rocket:
-適宜`update.bash`を使用してtextlintの設定を更新してください。
+適宜`update-paper-lintrules.bash`を使用してtextlintの設定を更新してください。
 
 ### 執筆の流れ
 
@@ -8,7 +8,7 @@
 `.github/workflows/textlint.yml`と`.github/workflows/comment-open-pull-request.yml`を削除してください。
 以降のcommitに対してはtextlintによる指摘が行われなくなります。
 1. commit後、一度このPull RequestをCloseしてください。ブランチはClose後も残るため、作業内容はGitHubに保存されています。
-1. Reviewerを追加する際は同じブランチ（通常は`develop`）をもとに別のPull Requestを作成し、そこでReviewを開始してください。
+1. Reviewerを追加する際は同じブランチ（通常は`draft`）をもとに別のPull Requestを作成し、そこでReviewを開始してください。
 - Review commentの数が100に近づくとページの表示が重くなります。
 Textlintの修正が多い場合・Review前にはPull Requestを切り替えると快適に作業ができます。
 
