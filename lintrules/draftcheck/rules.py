@@ -335,7 +335,7 @@ def check_relational_operators(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r"\\cite{.+?}[\s~，]?\\cite{")
+@rule(r"\\cite{.+?}[\s~，]*\\cite{")
 def check_multiple_cite(text, matches):
     """Use \\cite{..., ...} for multiple citations.
 
