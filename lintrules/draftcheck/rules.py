@@ -380,7 +380,7 @@ def check_unescaped_named_math_operators(text, matches):
     return [m.span() for m in matches]
 
 
-# @rule(r'\b(e\.g\.|i\.e\.)\s+')
+@rule(r'\b(e\.g\.|i\.e\.)\s+')
 def check_abbreviation_innerword_spacing(text, matches):
     """Place a '\\ ' (backslash space) after the period of an abbreviation.
 
