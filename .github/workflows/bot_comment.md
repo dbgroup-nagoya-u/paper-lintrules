@@ -1,16 +1,15 @@
-このPull Requestではtextlintが走ります:rocket:
+このPull Requestではtextlintが走ります。
 適宜`update-paper-lintrules.bash`を使用してtextlintの設定を更新してください。
 
 ### 執筆の流れ
 
-1. 最初はReviewerを追加せず、このPull Requestで執筆と修正を続けてください。可能な限りtextlintが指摘を行います。
+1. 最初はReviewerを追加せず、このDraft Pull Requestで執筆・修正を続けてください。可能な限りtextlintが指摘を行います。
+- Review commentの数が100に近づくとページの表示が重くなります。適宜Draft Pull RequestをCloseし，別のDraft Pull Requestで作業を続けてください。
 1. 修正が完了し、Reviewerに添削をお願いできる状況になったら、
-`.github/workflows/textlint.yml`と`.github/workflows/comment-open-pull-request.yml`を削除してください。
+`.github/workflows/textlint.yml`と`.github/workflows/comment-open-pull-request.yml`を削除し，commitしてください。
 以降のcommitに対してはtextlintによる指摘が行われなくなります。
-1. commit後、一度このPull RequestをCloseしてください。ブランチはClose後も残るため、作業内容はGitHubに保存されています。
-1. Reviewerを追加する際は同じブランチ（通常は`draft`）をもとに別のPull Requestを作成し、そこでReviewを開始してください。
-- Review commentの数が100に近づくとページの表示が重くなります。
-Textlintの修正が多い場合・Review前にはPull Requestを切り替えると快適に作業ができます。
+1. 元のDraft Pull RequestをCloseし、新たに（通常の）Pull Requestを作成してください。Reviewerに先生を追加し、先生からの指摘をもとに執筆・修正を続けてください。
+
 
 ### バグ報告
 おかしな指摘・指摘されていないが今後プログラムで指摘可能なルールを発見した場合は、
