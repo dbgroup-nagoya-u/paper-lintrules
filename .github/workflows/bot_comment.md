@@ -10,8 +10,13 @@
 以降のcommitに対してはtextlintによる指摘が行われなくなります。
 1. 元のDraft Pull RequestをCloseし、新たに（通常の）Pull Requestを作成してください。Reviewerに先生を追加し、先生からの指摘をもとに執筆・修正を続けてください。
 
+### 参考
+
+- [常用漢字表・送り仮名について](https://www.ieice.org/jpn/shiori/pdf/furoku_d.pdf)
+- [常用漢字一覧表](https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kakuki/14/pdf/jyouyou_kanjihyou.pdf)
 
 ### バグ報告
+
 おかしな指摘・指摘されていないが今後プログラムで指摘可能なルールを発見した場合は、
 今後のために[こちら](https://github.com/dbgroup-nagoya-u/paper-lintrules/issues/new?assignees=&labels=&template=bug-report.md&title=)から指摘をお願いします:smiley:
 
