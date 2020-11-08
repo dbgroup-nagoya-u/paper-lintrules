@@ -10,6 +10,14 @@
 以降のcommitに対してはtextlintによる指摘が行われなくなります。
 1. 元のDraft Pull RequestをCloseし、新たに（通常の）Pull Requestを作成してください。Reviewerに先生を追加し、先生からの指摘をもとに執筆・修正を続けてください。
 
+### やることリスト
+
+すべて終えてから先生にReviewをお願いしましょう！
+
+- [ ] textlintを参考に，可能な限り執筆・修正
+- [ ] `.github/workflows/textlint.yml`と`.github/workflows/comment-open-pull-request.yml`を削除
+- [ ] このDraft Pull RequestをClose
+
 ### 参考
 
 - [常用漢字表・送り仮名について](https://www.ieice.org/jpn/shiori/pdf/furoku_d.pdf)
