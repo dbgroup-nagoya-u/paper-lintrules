@@ -4,7 +4,7 @@
 ### 執筆の流れ
 
 1. 最初はReviewerを追加せず、このDraft Pull Requestで執筆・修正を続けてください。可能な限りtextlintが指摘を行います。
-- Review commentの数が100に近づくとページの表示が重くなります。適宜Draft Pull RequestをCloseし，別のDraft Pull Requestで作業を続けてください。
+Review commentの数が100に近づくとページの表示が重くなります。適宜Draft Pull RequestをCloseし，別のDraft Pull Requestで作業を続けてください。
 1. 修正が完了し、Reviewerに添削をお願いできる状況になったら、
 `.github/workflows/textlint.yml`と`.github/workflows/comment-open-pull-request.yml`を削除し，commitしてください。
 以降のcommitに対してはtextlintによる指摘が行われなくなります。
