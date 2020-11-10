@@ -44,18 +44,9 @@ def remove_latex_comment(line):
     return line
 
 
-def remove_latex_url(line):
-    for i in range(len(line) - 3):
-        if line[i : i + 4] == "\\url":
-            j = i
-            while j < len(line) and line[j] != '}':
-                j += 1
-            return line[:i] + line[j + 1:]
-    return line
-
-
 def main():
     import argparse
+    import re
 
     parser = argparse.ArgumentParser(
         description="Check for common mistakes in LaTeX documents."
@@ -74,7 +65,7 @@ def main():
             validator = Validator()
             for lineno, line in enumerate(infile):
                 line = remove_latex_comment(line)
-                line = remove_latex_url(line)
+                line = re.sub(r'\\url{.*}','', line)
                 for rule, span in validator.validate(line):
                     num_errors += 1
 
@@ -88,7 +79,7 @@ def main():
             validator = Validator()
             for lineno, line in enumerate(infile):
                 line = remove_latex_comment(line)
-                line = remove_latex_url(line)
+                line = re.sub(r'\\url{.*}','', line)
                 for rule, span in validator.validate(line):
                     print_warning(fname, lineno + 1, line.strip(), span, rule, args)
 
