@@ -1,5 +1,5 @@
 # paper-lintrules
-paper-lintrulesはtextlint等の校生ツールを組み合わせて論文執筆をサポートするツールです。
+paper-lintrulesはtextlint等の校正ツールを組み合わせて論文執筆をサポートするツールです。
 
 （GitHub ActionsがAction in Actionをサポートするまで設定をダウンロードで代用するためのリポジトリです。）
 
@@ -9,7 +9,7 @@ paper-lintrulesはtextlint等の校生ツールを組み合わせて論文執筆
 $ curl -sSf https://raw.githubusercontent.com/dbgroup-nagoya-u/paper-lintrules/main/update.bash | bash
 ```
 を実行すると設定ファイルがダウンロードされます。
-ダウンロードした設定ファイルを全てcommitし、Pull Requestを作成すると校生ツールが起動します。
+ダウンロードした設定ファイルを全てcommitし、Pull Requestを作成すると校正ツールが起動します。
 
 ### 注意事項
 厳しい指摘がたくさん行われるので、コメント数が増えてページが重くなる場合があります。
