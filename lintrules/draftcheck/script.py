@@ -7,7 +7,7 @@
 
 from .rules import get_brief
 from .validator import Validator
-
+import regex
 
 def pad_string(text, span, size):
     left_str = text[max(0, span[0] - size) : span[0]]
@@ -34,19 +34,20 @@ def print_warning(fname, lineno, line, span, rule, args):
 
 
 def remove_latex_comment(line):
-    for i in range(len(line)):
-        if line[i] == "%":
-            if i > 0 and line[i - 1] == "\\":
-                if i > 1 and line[i - 2] == "\\":
-                    return line[: i + 1]
-                continue
-            return line[: i + 1]
+    line = regex.sub(r'(?<=(?<!\\)(\\{2})*%).*', '', line)
     return line
 
+def remove_url_command(line):
+    line = regex.sub(r'\\url{.*?}', '', line)
+    return line
+
+def remove_string_for_error(line):
+    line = remove_latex_comment(line)
+    line = remove_url_command(line)
+    return line
 
 def main():
     import argparse
-    import re
 
     parser = argparse.ArgumentParser(
         description="Check for common mistakes in LaTeX documents."
@@ -64,8 +65,7 @@ def main():
         with open(fname, "r") as infile:
             validator = Validator()
             for lineno, line in enumerate(infile):
-                line = remove_latex_comment(line)
-                line = re.sub(r'\\url{.*?}','', line)
+                line = remove_string_for_error(line)
                 for rule, span in validator.validate(line):
                     num_errors += 1
 
@@ -78,8 +78,7 @@ def main():
         with open(fname, "r") as infile:
             validator = Validator()
             for lineno, line in enumerate(infile):
-                line = remove_latex_comment(line)
-                line = re.sub(r'\\url{.*?}','', line)
+                line = remove_string_for_error(line)
                 for rule, span in validator.validate(line):
                     print_warning(fname, lineno + 1, line.strip(), span, rule, args)
 
