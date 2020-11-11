@@ -65,7 +65,7 @@ def main():
             validator = Validator()
             for lineno, line in enumerate(infile):
                 line = remove_latex_comment(line)
-                line = re.sub(r'\\url{.*}','', line)
+                line = re.sub(r'\\url{.*?}','', line)
                 for rule, span in validator.validate(line):
                     num_errors += 1
 
@@ -79,7 +79,7 @@ def main():
             validator = Validator()
             for lineno, line in enumerate(infile):
                 line = remove_latex_comment(line)
-                line = re.sub(r'\\url{.*}','', line)
+                line = re.sub(r'\\url{.*?}','', line)
                 for rule, span in validator.validate(line):
                     print_warning(fname, lineno + 1, line.strip(), span, rule, args)
 
