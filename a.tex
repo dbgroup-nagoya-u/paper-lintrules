@@ -1,0 +1,756 @@
+\documentclass{fit}
+
+%------------------------------------------------------------------------------%
+% Import your preferred packages
+%------------------------------------------------------------------------------%
+
+% Graphics (figures and colors)
+\usepackage{graphicx,xcolor}
+
+% \usepackage{fontenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% Mathematics markup
+\usepackage{latexsym,amsmath}
+% Warn the use of non-ams­math math­e­mat­icc
+\usepackage[all, warning]{onlyamsmath}
+
+% Graceful theorem environment
+\usepackage{amsthm}
+
+% Writing algorithms
+\usepackage[linesnumbered,plain,vlined,figure]{algorithm2e}
+
+% Using graceful tables
+\usepackage{booktabs,multirow}
+\setlength\heavyrulewidth{0.4mm}
+\setlength\lightrulewidth{0.1mm}
+\setlength\cmidrulewidth{0.1mm}
+
+% Using smart citations
+\usepackage{cite,url}
+
+% Using graceful alphabets
+\usepackage{newtxtext,newtxmath}
+
+\usepackage{enumitem}
+\setlist[enumerate,2]{label = (\theenumi.\alph*),ref = (\theenumi.\alph*)}
+
+%------------------------------------------------------------------------------%
+% Define your macros
+%------------------------------------------------------------------------------%
+% For definition and theorem environments
+\newtheorem{theorem}{定理}
+\theoremstyle{definition}
+\newtheorem{definition}{定義}
+\newtheorem{example}{例}
+\newcommand{\END}{\hfill $\blacksquare$}
+
+% For references
+\newcommand{\Sec}[1]{#1~章}
+\newcommand{\Subsec}[1]{#1~節}
+\newcommand{\Subsubsec}[1]{#1~項}
+\newcommand{\Fig}[1]{図~#1}
+\newcommand{\Tab}[1]{表~#1}
+\newcommand{\Def}[1]{定義~#1}
+\newcommand{\Theo}[1]{定理~#1}
+\newcommand{\Eq}[1]{式~(#1)}
+
+% For math operations
+\DeclareMathOperator{\Dist}{dist}
+
+%------------------------------------------------------------------------------%
+% Describe paper's title, authors, and authors' affiliations.
+%------------------------------------------------------------------------------%
+\title
+  {3次元TINデータ上での空間的スカイライン問合せ}
+  {Spatial Skyline Queries on 3D TIN Data}
+
+\author{笠井 雄太}{Yuta Kasai}{I}
+\author{杉浦 健人}{Kento Sugiura}{I}
+\author{石川 佳治}{Yoshiharu Ishikawa}{I}
+\affiliation{I}
+  {名古屋大学大学院情報学研究科}
+  {Graduate School of Informatics, Nagoya University}
+
+\begin{document}
+\maketitle
+
+%------------------------------------------------------------------------------%
+% Describe your document
+%------------------------------------------------------------------------------%
+
+% ---------------------------------------------------------------------------- %
+\section{はじめに}
+
+意思決定の支援には\emph{スカイライン問合せ}が有用である．
+スカイライン問合せとは，データの集合が与えられた際に他のデータに支配されない集合を検索する問合せである~\cite{ICDE:borz2001}．
+例えば海の近くにある安いホテルや現在地から近い評価の高い食事店など，対象データが複数の評価指標を持つ際に有効であり，
+スカイライン問合せを解くことで意思決定における適切な候補を列挙できる~\cite{copr:christos2017}．
+
+スカイライン問合せを地理空間上に拡張した研究として，Sharifzadehらは\emph{空間的スカイライン問合せ（spatial skyline query）}を提案した~\cite{vldb:shahabi2006}．
+空間的スカイライン問合せでは，空間上に存在する複数人からの距離を評価指標としてスカイライン問合せを定義しており，例えば集合場所の決定などに応用できる．
+しかし，この研究では空間上の移動距離をユークリッド距離で計算しており，
+3次元空間における高低差の激しい土地や山を跨ぐような広範囲な地域への問合せにおいて計算上で使用する距離と実際の移動距離との差が大きいという問題がある．
+
+一方，複雑な3次元オブジェクトを表現するためのデータモデルとして，\emph{3次元TIN（triangulated irregular network）}が注目を集め始めている．
+3次元TINデータは3次元の頂点と辺の集合からなるグラフデータの一種であり，三角形のみのネットワークとして構成される．
+3次元オブジェクトを表現するデータとしては他に点群データなどがあるが，3次元TINは辺の情報を用いて物体の面を柔軟かつ効率的に表現する．
+つまり，3次元TINを用いることで，3次元オブジェクト上の移動についてより正確な距離を計算できる．
+
+そこで，本稿では3次元TIN空間上における空間的スカイライン問合せを提案する．
+距離の計算にユークリッド距離ではなく3次元TIN上の表面距離を用いることで，より正確な移動距離に基づいた3次元空間上でのスカイライン問合せを定義する．
+更に，3次元TIN上での移動距離に関する索引~\cite{vldb:shahabi2008}を利用し，この問題を解く方法を提案する．
+
+% ---------------------------------------------------------------------------- %
+\section{問題定義}
+
+\subsection{3次元TINについて}
+
+% 3次元TINの取得方法
+3次元空間の\emph{点群データ}はLiDARやカメラ，レーザーを介して得られる．
+点の情報を元に3次元空間上の地形やオブジェクトをより正確に表現するために，一定の規則に従って領域全体を覆う三角形の集合を生成した結果が3次元TINである．
+
+% より詳細な生成方法(https://desktop.arcgis.com/en/arcmap/10.3/manage-data/tin/fundamentals-of-tin-surfaces.htm)
+元の点の位置を保持したまま三角形を生成するための方法には，ドロネー三角形分割や距離順列の方法が存在する．
+特に，ドロネー三角形分割ではネットワーク内の三角形の演習の内側に頂点が存在しないことを保証する．
+これにより全ての三角形の最小の内角が最大化され，生成された複数の三角形の中に細長い三角形が可能な限り含まれない特徴がある．
+
+% 3次元TINの構成
+3次元TINデータで表現される地形は，水平面上の全ての点に標高を割り当てた連続関数のグラフであり，複数の三角形で構成される面の集合$T$からなる．
+各三角形は，3次元空間上の3つの頂点とそれぞれの頂点のうちの2つを結ぶ3つの辺からなり，隣接する三角形と頂点及び辺を共有している．
+（各三角形の内角は0度より大きいものとする．）
+面の集合$T$内に存在するある三角形の平面上に点$p$が存在する場合，$p \in T$と表記し，$p$が$T$に含まれると呼ぶ．
+
+\subsection{問題定義}
+
+$P =\{p_1,\ldots,p_m\}$を3次元TIN上の点の集合，
+$Q =\{q_1,\ldots,q_n\}$を3次元TIN上の問合せ点の集合，
+$D_s: \mathbf{R}^3 \times \mathbf{R}^3 \rightarrow \mathbf{R}$を3次元TIN表面上の距離関数と定義する．
+$Q$に関して$p_a \in P$が$p_b \in P$を\emph{3次元TIN上で空間的に支配する（spatially dominate on 3D TIN）}ことを$p_a \prec _Q p_b$と表記し，次の\Eq{\ref{eq:base:skyline_definition}}で定める．
+
+\begin{equation}
+  \label{eq:base:skyline_definition}
+  p_a \prec _Q p_b \equiv \forall q \in Q, D_s(p_a,q) < D_s(p_b,q)
+\end{equation}
+
+$p$が$P$中のどの点にも支配されない場合，$p$を\emph{スカイライン点}と呼ぶ．
+$Q$に対するスカイライン点の集合が3次元TIN空間上の空間的スカイライン問合せの解である．
+例えば，\Fig{\ref{fig:skyline_example}}の3次元TINにおける空間的スカイライン問合せを考える．
+各問合せ点$q \in \{q_1,q_2,q_3\}$からの距離を計算すると全ての問合せ点において$D_s(p_2, q) < D_s(p_3, q)$であり，$p_3$は$p_2$に空間的に支配される（$p_2 \prec _Q p_3$）．
+つまり，$p_3$はスカイライン点ではない．
+一方，$p_1$と$p_2$は問合せ点$q_2$と$q_3$について互いに優位性があり（$D_s(p_1, q_2) < D_s(p_2, q_2)$かつ$D_s(p_2, q_3) < D_s(p_1, q_3)$），それぞれ空間的に支配されていない．
+したがって，この問合せの解は$S(Q)=\{p_1,p_2\}$となる．
+\begin{figure}[t]
+  \centering
+  \includegraphics{./figures/skyline_example.pdf}
+  \caption{3次元TIN空間上の空間的スカイライン問合せの例}
+  \label{fig:skyline_example}
+\end{figure}
+
+空間的スカイライン問合せと比較して3次元TIN空間上の空間的スカイライン問合せではより大きな計算時間が必要である．
+3次元TINを構成する頂点数を$N$として，二点間の距離$D_s$を求めるためのアルゴリズムにはChen-and-Hanアルゴリズムがある．
+このアルゴリズムの時間計算量は$\Theta (N^2)$である~\cite{scg:chen1990, acm:xin2009}．
+これを元に\Eq{\ref{eq:base:skyline_definition}}を用いて愚直な手法でスカイライン点を判定する時間計算量は$\Theta (N^2|P|^2|Q|)$となる．
+
+% ---------------------------------------------------------------------------- %
+\section{空間的スカイライン問合せ}\label{sec:existing-work}
+
+Sharifzadehらは空間的スカイライン問合せを定義するとともにその効率的な解法も提案しており，解の集合を$S(Q)$，問合せ点集合$Q$の凸包を$CH_v(Q)$と定義したときの時間計算量を$\Theta(|S(Q)|^2|CH_v(Q)|+\log |P|)$に抑えた~\cite{vldb:shahabi2006}．
+以下では，時間計算量の削減における主要なアイデアを簡潔に説明する．
+
+\subsection{最小包含長方形の利用}\label{subsec:exist:mbr}
+
+候補点集合$P$から一部の解$S(Q)$が見つけられた後，新たな候補点$p_{new}$は既に判明しているスカイライン点$p_j \in S(Q)$に対してスカイライン点であるかどうかで二分される．
+更にスカイライン点である場合には，既存のスカイライン点を支配するかどうかで二分され，全体で三つの状態に分けられる．
+
+\begin{enumerate}%[label=(\roman*)]
+  \item 既知の解が$p_{new}$を支配し，$p_{new}$はスカイライン点ではない．
+    \begin{equation}
+      \label{eq:base:notskyline}
+      \exists p_j \in S(Q), p_j \prec_Q p_{new}
+    \end{equation}
+  \item $p_{new}$はスカイライン点である．
+  \begin{enumerate}
+    \item $p_{new}$はスカイライン点であり，既存の解を支配しない．
+      \begin{equation}
+        \label{eq:base:skylinebutnotdominate}
+        \forall p_j \in S(Q), p_{new} \nprec_Q p_j \wedge p_j \nprec_Q p_{new}
+      \end{equation}
+    \item $p_{new}$はスカイライン点であり，既存の解を支配する．
+      \begin{equation}
+        \label{eq:base:skylineanddominate}
+        \exists p_j \in S(Q), p_{new} \prec_Q p_j
+      \end{equation}
+  \end{enumerate}
+\end{enumerate}
+
+
+このうち2.となった時点で$p_{new}$は解$S(Q)$に含まれるため，1.の状態になるかどうかを効率的に判定できればよい．
+これに対しSharifzadehらは，各問合せ点$q \in Q$を中心とした半径$D(p_j,q)$の円の領域内に$p_{new}$が含まれないとき$p_{new}$が$p_j$によって支配される（1.の状態になる）ことを導いた．
+つまり，スカイライン問合せにおける支配関係の判定を，ある領域に対する空間的な交差関係の判定へと帰着させた．
+$p_{new}$が支配されるかどうかの判定には通常$\Theta(|P||Q|)$の時間計算量が必要であるが，円の和集合に対する最小包含長方形に点$p_{new}$が含まれるかの判定は$\Theta(1)$で実行できるため，空間的スカイライン問合せの解の効率的な検出を実現している．
+
+\Fig{\ref{fig:skyline_circle_dominate}}に既知の解$p_{ans}$が支配する点の領域を示した．
+$p_{new1}$はこの領域に含まれるため，$p_{ans}$が$p_{new1}$を支配し，$p_{new1}$はスカイライン点ではない．
+ある候補点が最小包含長方形に含まれない場合，必ず支配されないと判定が可能である．
+一方で最小包含長方形は円の和集合に含まれない領域を含むため，$p_{new2}$のような最小包含長方形の中に含まれるが円の和集合に含まれない点が支配すると正しい判定ができない．
+このように最小包含長方形を用いた判定は偽陽性をもつため，$p_{new2}$のような点はこれ以外の手法を用いて支配関係を判定する必要がある．
+
+\begin{figure}[t]
+  \centering
+  \includegraphics{./figures/skyline_circle_dominate_inverted.pdf}
+  \caption{最小包含長方形を用いた3次元空間で支配される領域の図示}
+  \label{fig:skyline_circle_dominate}
+\end{figure}
+
+\subsection{ボロノイ図の利用}\label{subsec:existing-work-voronoi}
+
+ボロノイ図とは与えられたオブジェクトの集合$P$のそれぞれに対して，ある距離関数$d$に従って最も近い領域に分割した図である~\cite{de1997computational}．
+また，\Eq{\ref{eq:base:voronoi_definition}}で定義される領域$VC(p)$を，$p$のボロノイセルと呼ぶ．
+\begin{equation}
+  \label{eq:base:voronoi_definition}
+  VC(p) \equiv \{ r \mid r \in T \wedge \forall p' \in P \setminus \{p\}, d(p,r) < d(p',r) \}
+\end{equation}
+
+候補点$p$に対応するボロノイセル$VC(p)$に少なくとも1つ以上の問合せ点が含まれる場合，$p$はスカイライン点となる．
+\Eq{\ref{eq:base:voronoi_definition}}よりある問合せ点$q$が$VC(p)$に含まれる場合，任意の$p'$について$d(p,q)<d(p',q)$であるため，必ず最小値を持つ．
+したがって，\Eq{\ref{eq:base:skyline_definition}}より$p$を支配する点は存在しない．
+候補点集合に対応するボロノイ図を利用することで，候補点の中から問合せ点に対応する最近傍点を発見し，スカイライン点と判定できる．
+
+\subsection{凸包の利用}
+Sharifzadehらは問合せ点集合$Q$の凸包の内部に含まれる候補点は全てスカイライン点であることを示した．
+更に先のボロノイ図を利用し，ボロノイセルと凸包が交差するならばそのようなボロノイセルをなす$p$はスカイライン点であることを示し，計算の簡略化を行った．
+
+\subsection{3次元TINを用いる際の問題}
+
+これらの計算量の削減はユークリッド空間における距離の使用を前提としており，3次元TIN上の表面距離では成立しない．
+具体的には，空間的な交差判定に点集合$P$から生成したボロノイ図及び問合せ点集合$Q$の凸包を利用しているが，3次元TIN空間上におけるボロノイ図や凸包の定義は明らかではない．
+つまり，既存手法を単純に3次元TINへと拡張することは難しい．
+更に3次元TIN上の表面距離$D_s$の計算には$\Theta(N^2)$の時間計算量が必要であり，空間的な交差判定を用いない方法に必要な計算量はユークリッド空間における空間的スカイライン問合せよりも大きいという問題もある．
+
+% ---------------------------------------------------------------------------- %
+\section{3次元TIN上で最近傍点を発見する索引の前準備}\label{sec:tsilsi}
+
+% 先に全体像を出しておく
+本稿で提案する3次元TIN空間上の空間的スカイラインを求める方法について，全体の流れを述べる．
+前準備として，最近傍点に基づくスカイライン点を発見するための索引を作成する．
+その後与えられた問合せ点をもとに，索引を用いてスカイライン点を発見する．
+残った候補点に対しては枝刈り処理を行い候補を減らし，支配関係を確認しスカイライン点を発見する．
+前準備については\Sec{\ref{sec:tsilsi}}，問合せ点をもとにしたスカイライン点の発見については\Sec{\ref{sec:3dtinskyline}}で詳しく述べる．
+
+% つながりが微妙だけど，最近傍点の話を振り返る．
+まずは最近傍点を発見するために\Subsec{\ref{subsec:existing-work-voronoi}}の既存手法で用いられたボロノイ図の代替として，3次元TIN上における最近傍点の索引を用いる手法について述べる．
+各問合せ点に対する最近傍点を候補点の中から発見できれば，その候補点がスカイライン点である．
+この事実から効率的に各問合せ点に対する最近傍点を求めたい．
+しかし候補点の集合$P$に対する3次元TIN上のボロノイ図を構築するための時間計算量は$\Theta(|P|N^3)$~\cite{scg:chen1990}であり，単純に3次元TIN空間上の空間的スカイライン問合せを解くよりも計算量が大きい．
+そこで，Shahabiら~\cite{vldb:shahabi2008}によって提案された\emph{TSI（tight surface index）}及び\emph{LSI（loose surface index）}の利用を考える．
+
+LSI及びTSIは事前に候補点だけ与えられれば計算可能である．
+問合せ点が与えられる前に索引を構築することで問合せ時，即座に索引を利用可能である．
+
+% Dsの不等式の紹介
+\subsection{3次元TIN上の距離と不等式}
+3次元TIN上における空間的スカイライン問合せの問題の一つは，表面距離の計算に必要な時間計算量の大きさである．
+そこで，より高速に計算できるユークリッド・ネットワーク距離の利用を考える．
+なお，本稿におけるネットワーク距離とは3次元TINを構成する三角形の辺上のみを経路として使用する場合の距離とする．
+各問合せ点$q \in Q$から3次元TIN上の任意の頂点へのネットワーク距離は時間計算量$\Theta(|Q|N \log N)$で事前計算できるため，処理時には$\Theta(1)$で使用できる．
+
+% ベース
+ユークリッド距離を$D_e$，表面距離を$D_s$，ネットワーク距離を$D_n$で表すとき，以下の関係が成り立つ~\cite{vldb:shahabi2008}．
+\begin{equation}
+  \label{eq:base:tin_inequality}
+  D_{e}(s,t) \leq D_{s}(s,t) \leq D_{n}(s,t)
+\end{equation}
+
+% Dsの大小関係が成り立つための十分条件
+この式から，点$p, p' \in P$と問合せ点$q \in Q$について次の関係が成り立つ．
+\begin{equation}
+  \label{eq:tin:fortsi}
+  D_n(p,q) < D_e(p',q) \Rightarrow D_s(p,q) < D_s(p',q)
+\end{equation}
+つまり，\Eq{\ref{eq:base:skyline_definition}}の空間的な支配関係の一部はユークリッド距離とネットワーク距離から求められる．
+\begin{equation}
+  \label{eq:tin:sufficient_skyline}
+  \forall q \in Q, D_n(p,q) < D_e(p',q) \Rightarrow p \prec_Q p'
+\end{equation}
+
+% Dsの大小関係が成り立つための必要条件
+一方，$p,p'$と問合せ点$q \in Q$について$D_s(p,q) < D_s(p',q)$となる場合，次の関係が成り立つ．
+\begin{equation}
+  \label{eq:tin:necessary_skyline}
+  D_s(p,q) < D_s(p',q) \Rightarrow D_e(p,q) < D_n(p',q)
+\end{equation}
+\Eq{\ref{eq:tin:necessary_skyline}}から，$D_s(p,q) < D_s(p',q)$を満たすためには，その必要条件として$D_e(p,q) < D_n(p',q)$が必要がある．
+したがって$D_s(p,q) < D_s(p',q)$であるかどうかを調べる際，$D_e(p,q) < D_n(p',q)$を満たさない場合は$D_s$の計算なしに不等式を満たさないことが分かる．
+
+% TSI
+\subsection{TSIの定義と性質}
+
+% 定義と利用法
+与えられた3次元TINの表現可能な面上全ての点からなるモデルを$T$と定義する．
+TSIは3次元TINのモデル$T$上の各点$p \in P$に対して以下の式で定義され，候補点がスカイライン点であることの判定に利用できる．
+\begin{equation}
+  TSI(p) \equiv \{ r \mid r \in T \wedge \forall p' \in P \setminus \{p\}, D_n(p,r) < D_e(p',r) \}
+\end{equation}
+中心が点$p, p' \in P$であるボロノイセルの境界線をなす点の集合は$D_s(p, m) = D_s(p', m)$を満たす点$m$の集合であるため，\Eq{\ref{eq:tin:fortsi}}よりTSIはボロノイセルよりも狭い範囲を表現している．
+
+% NNである，その証明
+\begin{theorem}
+  \label{theorem:tsinn}
+  全ての$r \in TSI(p_j)$について，$r$のNearest Neighbourは$p_j$である．
+\end{theorem}
+
+\begin{proof}
+  $r \in TSI(p_j)$より，定義から$\forall p_k \in P \setminus \{p_j\}, D_n(p_j,r) < D_e(p_k, r)$である．
+  $r$は$D_s(p_j,r) \leq D_n(p_j,r)$かつ，$D_e(p_k,r) \leq D_s(p_k,r)$である．
+  したがって$D_s(p_j,r)<D_s(p_k,r)$であり，$TSI(p_j)$に含まれる点は$p_j$のNearest neighbourである．
+\end{proof}
+
+\Theo{\ref{theorem:tsinn}}より，TSIはある問合せ点$q \in Q \subset T$がボロノイセル$VC(p_j)$に含まれるかを判定する．
+また\Eq{\ref{eq:base:skyline_definition}}より，$q$の最近傍点$p_j$がスカイライン点となる．
+
+\begin{figure}[t]
+  \centering
+  \includegraphics{figures/TSI.pdf}
+  \caption{候補点に対応するTight surface indexの例}
+  \label{fig:tsi}
+
+  \centering
+  \includegraphics{figures/LSI.pdf}
+  \caption{$p_1,p_2,p_3,p_6$に対するLoose surface Indexの例}
+  \label{fig:lsi}
+\end{figure}
+% 具体例
+\Fig{\ref{fig:tsi}}にモデル$T$に7つの候補点が与えられた場合のTSIを示した．
+青色で示した枠がそれぞれの候補点に対応したTSIである．
+前述の通りいずれかのTSIに問合せ点が含まれる場合，そのTSIに対応する候補点がスカイライン点となる．
+
+% 問題点とTSIへ繋げる部分
+またTSIはその定義から，モデル$T$で表現される面上全てを覆えない場合がある．
+そのような場合，ある問合せ点がどのTSIにも含まれず，問合せ点$q \in Q$の最近傍点を発見できない．
+TSIに比べ定義を緩くしたLSIではモデル$T$全てを必ず覆い，問合せ点の最近傍点を発見できる．
+
+% LSI
+\subsection{LSIの定義と性質}
+LSIは各点$p \in P$に対して以下の式で定義され，候補点がスカイライン点であることの判定に利用できる．
+\begin{equation}
+  LSI(p) \equiv \{ r \mid r \in T \wedge \forall p' \in P \setminus \{p\}, D_e(p,r) < D_n(p',r) \}
+\end{equation}
+
+% TSIに含まれなければスカイライン点ではないと断言できないから
+各候補点$p \in P$に対し，$LSI(p)$は$p$のボロノイセルよりも広い範囲を表現しており，$p$が各問合せ点$q \in Q$の最近傍点になりうるかを判定できる．
+つまり，問合せ点$q$が$LSI(p)$に含まれるとき，$p$は$q$の最近傍点である可能性がある．
+問合せ点が1つもLSIに含まれないような候補点$p$はいずれの最近傍点にもなりえず，最近傍点に基づくスカイライン点発見の候補から除外できる．
+
+% Tを全て覆う例
+各問合せ点$q_i$は必ず1つ以上のLSIに含まれる．
+\Fig{\ref{fig:lsi}}に$p_1,p_2,p_3,p_6$に対応するLSIの境界線と，どのTSIにも含まれない問合せ点$q_1$を示した．
+$q_1$を含むLSIに対応する候補点は$p_1,p_2,p_3,p_6$であり，$q_1$はそれ以外のLSIに含まれない．
+
+% Dsの計算が必要であるが，その数は少ない
+各問合せ点$q_i$は複数のLSIに含まれるため，最近傍点が即座に定まらず$D_s$を用いた計算が必要である．
+$q_i$との距離が最小となる候補点は唯一であるから，同一の問合せ点を含むLSI全てとの距離$D_s$を計算し，$q_i$について最小値をもつスカイライン点を1つ発見する．
+$q_i$を含むLSIに対応する候補点の数は\Fig{\ref{fig:lsi}}のように$q_i$の周囲に限定されるため，LSIに問合せ点を含まない候補点は$D_s$の計算をする必要がない．
+したがって$D_s$の計算回数を減らすことができる．
+
+% 構築時間
+LSI及びTSIを構築するための時間計算量は$\Theta (N^2 \log N)$，空間計算量は$\mathrm{O}(N)$ ~\cite{vldb:shahabi2008}である．
+ボロノイ図を構築するための時間計算量$\Theta (|P|N^3)$と比較すると，小さい計算量で最近傍点に基づいたスカイライン点を発見できる．
+
+\section{計算時間を減らすための手法}\label{sec:3dtinskyline}
+%% ここで実装例も紹介してしまうのが良さそう
+% 先に全体での構成を述べておく．
+\Sec{\ref{sec:tsilsi}}で紹介した，候補点からスカイライン点を発見する方法の全容について述べる．
+まず，事前に構築された索引TSIとLSIを利用してスカイライン点の一部を発見する．
+その後発見したスカイライン点をもとに，残った候補点に対して枝刈り処理を行い候補を減らす．
+枝刈り処理後に残った候補点は，既存のスカイライン点との支配関係を確認しスカイライン点であるかを検証する．
+
+\subsection{TSIとLSIを用いた初期解の生成}\label{subsec:createtsilsi}
+\Sec{\ref{sec:tsilsi}}で述べた索引TSIとLSIを用いて最近傍点に基づくスカイライン点を求める．
+候補点$p \in P$に対応する$TSI(p)$に問合せ点が含まれるとき，そのような候補点はスカイライン点であった．
+また，問合せ点がどのTSIにも含まれない場合，LSIを使用する．
+ある問合せ点$q \in Q$を含む複数のLSIに対して，問合せ点と対応する候補点との距離$D_s$を計算することで，候補点から$q$の最近傍点を発見しスカイライン点とできる．
+
+問合せ点に対する最近傍点に基づいたスカイライン点は必ず1つ以上存在する．
+これら発見済みのスカイライン点の集合を初期解とする．
+
+\subsection{$D_s$を使用しないスカイラインの判定式}\label{subsec:no_ds_formulas}
+% sub 式変形の紹介
+
+% ここで，事前に式を全部書いておく
+前節で述べた初期解をもとに，特定の条件を満たす場合は$D_s$の計算なしでスカイラインにまつわる判定ができることを示す．
+スカイライン点であるかが不明な候補点$p_{new}$が与えられた場合，その状態は3種類に分類される．
+\begin{enumerate}
+  \item 既知の解が$p_{new}$を支配し，$p_{new}$はスカイライン点ではない．
+  \item $p_{new}$はスカイライン点である．
+  \begin{enumerate}
+    \item $p_{new}$はスカイライン点であり，既存の解を支配しない．
+    \item $p_{new}$はスカイライン点であり，既存の解を支配する．
+  \end{enumerate}
+\end{enumerate}
+対応する式は\Eq{\ref{eq:base:notskyline}}--\eqref{eq:base:skylineanddominate}に示した．
+
+どの状態であるかを判定するためには$D_s$の計算が必要であり，時間計算量は$\Theta (N^2|P||Q|)$と大きい．
+そのため，\Eq{\ref{eq:base:tin_inequality}}の不等式を用いて$D_s$なしで判定式を表現するための変形を行う．
+
+\subsubsection{スカイライン点ではないことを判定する式}\label{subsubsec:notskyline}
+次の\Eq{\ref{pj_dominate_pnew_with_ds}}を満たす場合，$p_{new}$はスカイライン点ではない．
+\begin{equation}
+  \label{pj_dominate_pnew_with_ds}
+  \exists p_j \in S(Q), \forall q_i \in Q, D_s(p_j,q_i) < D_s(p_{new},q_i)
+\end{equation}
+\Eq{\ref{pj_dominate_pnew_with_ds}}は更に次の3つの状態に分類できる．
+\begin{enumerate}
+  \item 必ず満たされる．
+  \item 満たされる可能性がある．
+  \item 必ず満たされない．
+\end{enumerate}
+2.の部分集合には1.が含まれ，2.と3.は互いの余事象である．
+
+ここで，\Eq{\ref{pj_dominate_pnew_with_ds}}が必ず満たされる，すなわち必ず$p_{new}$がスカイライン点ではないと判定するためには\Eq{\ref{pj_dominate_pnew_with_ineq_ok}}を満たす必要がある．
+\Eq{\ref{pj_dominate_pnew_with_ineq_ok}}は\Eq{\ref{pj_dominate_pnew_with_ds}}に\Eq{\ref{eq:tin:fortsi}}を組み合わせることで導かれる．
+\begin{equation}
+  \label{pj_dominate_pnew_with_ineq_ok}
+  \exists p_j \in S(Q), \forall q_i \in Q, D_n(p_j,q_i) < D_e(p_{new}, q_i)
+\end{equation}
+
+\Eq{\ref{pj_dominate_pnew_with_ds}}が満たされる可能性があると判定するためには，\Eq{\ref{pj_dominate_pnew_with_ineq_maybe}}を満たす必要がある．
+\Eq{\ref{pj_dominate_pnew_with_ineq_maybe}}は\Eq{\ref{pj_dominate_pnew_with_ds}}に\Eq{\ref{eq:tin:necessary_skyline}}を組み合わせることで導かれる．
+\begin{equation}
+  \label{pj_dominate_pnew_with_ineq_maybe}
+  \exists p_j \in S(Q), \forall q_i \in Q, D_e(p_j,q_i) < D_n(p_{new}, q_i)
+\end{equation}
+
+\Eq{\ref{pj_dominate_pnew_with_ds}}が必ず満たされないと判定するためには，\Eq{\ref{pj_dominate_pnew_with_ineq_maybe}}の余事象となるかを確認すれば良い．
+よって\Eq{\ref{pj_dominate_pnew_with_ineq_maybe}}が満たされない場合，\Eq{\ref{pj_dominate_pnew_with_ds}}は必ず満たされない．
+
+\subsubsection{$p_{new}$がスカイライン点であることを確認する判定式}
+
+次の\Eq{\ref{pnew_is_skyline_with_ds}}を満たす場合，$p_{new}$はスカイライン点である．
+\begin{equation}
+  \label{pnew_is_skyline_with_ds}
+  \forall p_j \in S(Q), \exists q_i \in Q, D_s(p_j, q_i) \geq D_s(p_{new}, qi)
+\end{equation}
+
+\Eq{\ref{pnew_is_skyline_with_ds}}が必ず満たされる，すなわち$p_{new}$がスカイライン点となるためには\Eq{\ref{pnew_is_skyline_with_ineq_ok}}を満たす必要がある．
+\begin{equation}
+  \label{pnew_is_skyline_with_ineq_ok}
+  \forall p_j \in S(Q), \exists q_i \in Q, D_e(p_j, q_i) \geq D_n(p_{new}, q_i)
+\end{equation}
+
+\Eq{\ref{pnew_is_skyline_with_ds}}が満たされる可能性があると判定するためには，\Eq{\ref{pnew_is_skyline_with_ineq_maybe}}を満たす必要がある．
+\begin{equation}
+  \label{pnew_is_skyline_with_ineq_maybe}
+  \forall p_j \in S(Q), \exists q_i \in Q, D_n(p_j, q_i) \geq D_e(p_{new}, q_i)
+\end{equation}
+
+\Eq{\ref{pnew_is_skyline_with_ds}}が必ず満たされないと判定するためには，\Subsubsec{\ref{subsubsec:notskyline}}と同様に\Eq{\ref{pnew_is_skyline_with_ineq_maybe}}が満たされないかを判定すれば良い．
+
+\subsubsection{$p_{new}$が既存の解を支配するかを判定する式}
+次の\Eq{\ref{pnew_is_dominated_with_ds}}を満たす場合，$p_{new}$はスカイライン点であり，かつ既存の解を支配する．
+\begin{equation}
+  \label{pnew_is_dominated_with_ds}
+  \exists p_j \in S(Q), \forall q_i \in Q, D_s(p_j, q_i) > D_s(p_{new}, qi)
+\end{equation}
+
+\Eq{\ref{pnew_is_dominated_with_ds}}が必ず満たされる，すなわち$p_{new}$がスカイライン点かつ既存の解を支配するかを判定するためには\Eq{\ref{pnew_is_dominated_with_ineq_ok}}を満たす必要がある．
+\begin{equation}
+  \label{pnew_is_dominated_with_ineq_ok}
+  \exists p_j \in S(Q), \forall q_i \in Q, D_e(p_j, q_i) > D_n(p_{new}, q_i)
+\end{equation}
+
+\Eq{\ref{pnew_is_dominated_with_ds}}が満たされる可能性があると判定するためには，\Eq{\ref{pnew_is_dominated_with_ineq_maybe}}を満たす必要がある．
+\begin{equation}
+  \label{pnew_is_dominated_with_ineq_maybe}
+  \exists p_j \in S(Q), \forall q_i \in Q, D_n(p_j, q_i) > D_e(p_{new}, q_i)
+\end{equation}
+
+\Eq{\ref{pnew_is_dominated_with_ds}}が必ず満たされないと判定するためには，\Subsubsec{\ref{subsubsec:notskyline}}と同様に\Eq{\ref{pnew_is_dominated_with_ineq_maybe}}が満たされないかを判定すれば良い．
+
+式~(\ref{pj_dominate_pnew_with_ineq_ok})，~(\ref{pj_dominate_pnew_with_ineq_maybe})，~(\ref{pnew_is_skyline_with_ineq_ok})，~(\ref{pnew_is_skyline_with_ineq_maybe})，~(\ref{pnew_is_dominated_with_ineq_ok}), ~(\ref{pnew_is_dominated_with_ineq_maybe})について，全ての式で$D_s$を用いず$D_e$と$D_n$のみで判定するための式を表現した．
+$p_{new}$に対してそれぞれの式を満たすかどうかを判定するための時間計算量は全て$\Theta (|P||Q|)$である．
+
+式~(\ref{pj_dominate_pnew_with_ineq_ok})，~(\ref{pnew_is_skyline_with_ineq_ok})，~(\ref{pnew_is_dominated_with_ineq_ok})を満たす場合，必ず元の$D_s$を含む式を満たすか否かを判定可能である．
+また式~(\ref{pj_dominate_pnew_with_ineq_maybe})，~(\ref{pnew_is_skyline_with_ineq_maybe})，~(\ref{pnew_is_dominated_with_ineq_maybe})の場合，これらの式は可能性について述べているため，式を満たさない場合は必ず元の$D_s$を含む式を満たさないと判定できる．
+一方で，式を満たす場合は元の式を満たす可能性があるとしか確認できない点に注意が必要である．
+
+
+\subsection{最小包含長方形による枝刈り判定}\label{subsec:bmr}
+% sub 最近傍点で枝刈り
+
+% この節の位置づけ
+\Subsec{\ref{subsec:createtsilsi}}で発見した初期解をもとに，支配関係が不明な候補点から明らかにスカイライン点となりえない点を枝刈りにより候補から外すことを目的とする．
+枝刈りには\Subsec{\ref{subsec:no_ds_formulas}}で導出した式をもとにした最小包含長方形を使用する．
+
+% 問題点とその解消方法のためには前節の式を利用
+\Sec{\ref{sec:existing-work}}で述べたとおり，3次元空間では半径$D_e(p_j,q)$の円の和集合の外側に$p_{new}$が存在する時，既知の解$p_j$が$p_{new}$を支配するため$p_{new}$はスカイライン点ではないと判定される．
+3次元TIN上で同じ手法を採る場合は ，3次元TIN上の距離に基づいた半径$D_s(p_j,q)$の円を用いる必要がある．
+このままでは$D_s$を計算する必要があるため，$\Theta (N^2|P||Q|)$の時間計算量が必要である．
+そこで\Subsec{\ref{subsec:no_ds_formulas}}で導出した式を用いて，支配関係の断定と可能性の確認を行う．
+更にそれぞれの状態を最小包含長方形で表現し，$D_s$を用いずに$p_{new}$が必ずスカイライン点ではないことをSharifzadehらの手法と同様に$\Theta (1)$で判定する．
+
+% 最小包含長方形の作成方法と利用方法
+$p_{new}$がスカイライン点ではないことを判定する\Eq{\ref{pj_dominate_pnew_with_ineq_ok}}を最小包含長方形による判定に置き換えるために\Fig{\ref{fig:circle_dn}}に示す作図を行う．
+各問合せ点$q_i \in Q$を中心とした半径$D_n(p_j,q_i)$の円を配置し，これらの円の和集合に対する最小包含長方形を作成する．
+既存手法で円の半径は$D_e$であったが，$D_n$に変更しても問合せ点や候補点の位置は変化しないため図形的な意味が変化せず，同様に判定できる．
+$p_{new}$が最小包含長方形に含まれなければ，全ての$q_i$について$D_n(p_j,q_i)<D_e(p_{new},q_i)$となる．
+よって\Eq{\ref{eq:tin:sufficient_skyline}}より必ず$p_{new}$は既存の解に支配され，$p_{new}$はスカイライン点とならない．
+また，長方形が点を含むかどうかの判定は空間的スカイライン問合せと同様に$\Theta(1)$で可能である．
+
+\begin{figure}[t]
+  \centering
+  \includegraphics{figures/skyline_circle_dominate_dn_inverted.pdf}
+  \caption{解$p_{ans}$のなす円の半径が$D_n$の場合に解に支配される領域と最小包含長方形}
+  \label{fig:circle_dn}
+\end{figure}
+
+% 更新について
+複数個のスカイライン点が既に発見されている場合，及び新たなスカイライン点を発見した場合に最小包含長方形を1つにまとめる方法について述べる．
+\Eq{\ref{pj_dominate_pnew_with_ineq_ok}}を例に，その手順を\Fig{\ref{fig:wa_no_seki}}に示した．
+まず$p_{j} \in S(Q)$それぞれの問合せ点からなる，円の和集合に対する最小包含長方形を作成する．
+$p_{new}$が\Eq{\ref{pj_dominate_pnew_with_ineq_ok}}を満たす場合，$p_{new}$はいずれかの最小包含長方形の外側に存在する．
+したがって，これら最小包含長方形の積集合に$p_{new}$が含まれないことを判定すれば良い．
+最小包含長方形どうしの積集合を取ることで最小包含長方形の大きさは必ず小さくなる．
+事前に複数の解が発見されている場合，最小包含長方形の大きさが解が1つしか発見されていない場合よりも小さくなり，より厳しい判定を行える利点がある．
+スカイライン点が発見されるたびに最小包含長方形どうしの積を取ることで，更新は$\Theta (|Q|)$で行える．
+よって，枝刈り処理全体で$\Theta (|P||Q|)$の時間計算量でスカイライン点ではない点を判定可能である．
+
+\begin{figure}[t]
+  \centering
+  \includegraphics{figures/merge_wa_no_seki_inverted.pdf}
+  \caption{円の和集合に対する最小包含長方形が支配する領域の集約例}
+  \label{fig:wa_no_seki}
+\end{figure}
+
+% 最小包含長方形はDupper(pj) cond De(p_new)となる場合しか利用できない
+続いて，最小包含長方形が使用できる判定式の特徴について述べる．
+\Eq{\ref{pj_dominate_pnew_with_ineq_ok}}のように既知のスカイライン点$p_j \in S(Q)$と問合せ点$q_i \in Q$は3次元空間に位置しているため，3次元空間に$D_n$を用いた円を作成し，複数の円に基づく最小包含長方形に$p_{new}$が含まれないかを確認できる．
+しかし\Eq{\ref{pnew_is_skyline_with_ineq_ok}}のように$p_{new}$に関係する距離関数が$D_e$ではない式の場合，対応する最小包含長方形の内外に$p_{new}$が存在するかどうかという問いに帰着できない．
+より一般には既知のスカイライン点$p_j \in S(Q)$に関係する距離関数は$D_s$に対する任意の上界かつ，$p_{new}$に関係する距離関数は$D_e$である場合のみ，最小包含長方形を使用した枝刈り判定が可能である．
+
+% 図形を使うと，微妙な場合があるので確実に条件を満たさないものだけを省略できることを注記する
+最後に，最小包含長方形の偽陽性について述べる．
+\Subsec{\ref{subsec:exist:mbr}}の3次元空間での空間的スカイラインと同じく，最小包含長方形を使用する際は\Fig{\ref{fig:skyline_circle_dominate}}のように偽陽性をもつ判定であることに注意が必要である．
+最小包含長方形を用いた判定は，長方形の外側の領域に点が位置すれば必ず円の外側に存在するため，その判定も高速に行うことができる．
+一方で最小包含長方形を用いず式を判定する方法は判定時間が少し劣るものの，確実に判定を行うことができる．
+両者の方法には正確さと判定時間の間にトレードオフの関係があるため，実験によりその方法の優劣を確認する．
+
+
+\subsection{枝刈り処理後の候補点の判定}\label{subsec:after:mbr}
+% sub 枝刈りを抜けた候補点の処理
+% [3] P^2Qのチェック
+最小包含長方形による枝刈りは偽陽性があるため，候補点に\Subsec{\ref{subsec:no_ds_formulas}}で導いた$D_s$を使わない判定を適用する．
+適用後，支配関係が明らかになる場合は処理を終了して他の候補点に対して判定を繰り返し行う．
+それぞれの判定には$\Theta (|P||Q|)$の時間計算量が必要である．
+
+% [4] 可能性だけ残る場合はDsの計算をする必要がある．
+式~(\ref{pj_dominate_pnew_with_ineq_maybe})，~(\ref{pnew_is_skyline_with_ineq_maybe})，~(\ref{pnew_is_dominated_with_ineq_maybe})のような元の式を満たす可能性のみが存在する場合，不等式による大小関係からはスカイライン点の支配判定ができない．
+既知の解$S(Q)$と判定対象の候補点$p_{new}$の支配関係を判定するために，各$q_i \in Q$について$D_s(p_j, q_i)$と$D_s(p_{new}, q_i)$の大小関係を知る必要がある．
+したがって必要な部分だけ$D_s$を計算し，大小関係を明確にすることで支配判定を行う．
+
+\subsection{厳しい不等式の利用}
+% sub 改善のために必要な式やコスト
+手法全体で更に$D_s$の計算回数を減らすため，\Eq{\ref{eq:base:tin_inequality}}の$D_s$の上界と下界を更に厳密に評価することを目的とする．
+これにより\Sec{\ref{sec:tsilsi}}の最近傍点に基づいたスカイライン点の発見では，TSIの範囲が大きくなり，かつLSIの範囲が小さくなるため問合せ点$q$に最も近い候補点を$D_s$の計算なしに発見しやすくなる．
+また，\Subsec{\ref{subsec:no_ds_formulas}}の判定式で支配関係が明らかになる場合が増えるため，結果枝刈り処理後に$D_s$の計算回数を減らすことができる．
+
+\subsubsection{3DTINを構成する三角形による$D_s$の不等式の評価}\label{subsubsec:ineq}
+Monoharら~\cite{vldb:manohar2013}らは，3次元TINを構成する三角形の角度に着目することで\Eq{\ref{eq:base:tin_inequality}}よりも更に厳しい下界を定義した．
+3次元TINのモデル$T$を構成する三角形全体の内角の最小値を$\theta _m$としたときの$D_s(s,t)$の下界は $\lambda D_n(s,t) \leq D_s(s,t), \lambda = \min(\frac{\sin \theta _m}{2},\sin \theta _m,\cos \theta _m)$ であることを示した．
+Monoharらの論文で使用したEagle Peak (EP)データセット（\url{http://data.geocomm.com}）はアメリカのWyoming州，$10.7 \times 14 \, \mathrm{km^2}$の領域を$1.3$億点の点で表現しており，広く使われている~\cite{vldb:deng2008, sigmod:liu2011, vldb:shahabi2008, vldb:xing2009, yan2012monochromatic}．
+このデータセットを構成する三角形はドロネー三角形分割により生成されており，構成される三角形の内角の最小値が最大化され$\theta _m \geq \frac{\pi}{4}$となっている．
+そのため$\lambda D_n(s,t)$は$D_e(s,t)$の3倍以上大きい値となり厳しい下界を計算できる．
+
+三角形全体の内角の最小値$\theta _m$は3次元TINが与えられた段階で計算可能であるため，不等式を使用する際は$\Theta (1)$の時間計算量で使用できる．
+下界を評価する場合は，$D_e(s,t)$と$\lambda D_n(s,t)$のうち値が大きい方を下界として採用すれば良い．
+TSIとLSIは更新した上界と下界を$D_{upper},D_{lower}$として，次のように定義を変更できる．
+\begin{equation}
+    TSI'(p) \equiv \{ r \mid r \in T \wedge \forall p' \in P \setminus \{p\}, D_{upper}(p,r) < D_{lower}(p',r) \}
+\end{equation}
+\begin{equation}
+    LSI'(p) \equiv \{ r \mid r \in T \wedge \forall p' \in P \setminus \{p\}, D_{lower}(p,r) < D_{upper}(p',r) \}
+\end{equation}
+
+\subsubsection{shortest surface face-crossing pathよる$D_s$の不等式の評価}
+Manoharら~\cite{vldb:manohar2015}は更にshortest surface face-crossing pathを定義し，上界下界共に更に厳しい評価を行うことに成功した．
+点対の距離の上界と下界をクエリ毎$\Theta (N\log N)$で計算し，正確な距離$D_s$を求める時間計算量$\Theta (N^2)$と比較して高速に評価を行う．
+
+\Subsubsec{\ref{subsubsec:ineq}}の方法と比較して毎回$\Theta (N\log N)$時間必要であるが，より厳しい$D_s$の大小比較が行えるため時間と精度にトレードオフの関係がある．
+しかしどの評価も，$D_s$を計算するよりも小さい時間計算量で上界下界を求めるため，有用な改善である．
+
+
+\subsection{実装上の注意やテクニック}
+% sub 細かい更新
+% \subsection{大小関係が定まらないとわかったら打ち切るやつ}
+% 最悪ケースでは意味がないけど多分結構効いちゃう系のやつ．
+% $O(|Q|)$が$O(1)$になるだけじゃなくて，$O(N^2)$を計算しなくて良くなるので$(|P||Q|N^2)$回の計算回数が良い状態だと$O(|P|)$になる．オーダーじゃないかな…
+
+% \subsection{定数倍その２}
+% LSIも同様の方針で打ち切ると速い場合が存在する．
+% 特にQにPが囲まれる状況で動作するので，実行時間が速くなる可能性が高い．
+% そもそも確認順序を少し変えるだけなので
+
+% \subsection{メモ}
+% \textcolor{blue}{$P,Q$の表は$\Theta (|P||Q|N^2)$で埋まるので，naiveは$\Theta (|P||Q|N^2 + |P|^2|Q|)$かもしれない．（ただし，空間は使用する）}
+% つまり，一度求めた距離は全てキャッシュしておくのが良い．
+% 組合せは$\Theta(|P||Q|)$しか存在しない．
+
+% sub 動作例
+%% 必要そうなら書く 結構大変そうなので覚悟が必要そう
+
+
+% ---------------------------------------------------------------------------- %
+% \section{具体的なアルゴリズム（実装？）}
+% 書き直す
+
+% そもそも必要…？具体的とともに説明する章とすると良さそう？
+% \textcolor{blue}{勝手にTとPが事前に与えられるとしました．何をベースにするかを決めてから変更します．}
+
+% \subsection{事前計算}
+% 事前に3次元TINのモデル$T$と候補点$P$が与えられていると仮定する．
+% 事前計算としてTSIとLSIを構築する．
+% $D_s$に対する不等式の種類は何を使用しても良い．
+
+% \subsection{問合せ点が与えられた後の処理}
+% 問合せ点集合$Q$が与えられる．
+% $Q$を元にそれぞれを始点とした各候補点までのネットワーク距離$D_n(p_j, q_i)$を計算する．
+% %（Skyline前計算・表）$|P|^2|Q|$時間かけて，明らかに支配されるものは削除しておく
+% 上界と下界のみで支配されることが明らかな候補点は候補点集合から削除する．
+
+% \subsubsection{最小値をもつスカイライン点の発見}
+% % （min, Skyline前計算・ボロノイセル）Pのうち，TSIに含まれるものは解に追加する．
+% 問合せ点$q_i \in Q$がTSIに含まれる場合，TSIに対応する$p_j$を解集合$S(Q)$に追加する．
+% %（min, Skyline前計算）不等式区間で見る．（一緒だけど）
+% また，$D_s$に対する不等式を用いて最小値を発見できた場合は，最小値をもつ候補点を$S(Q)$に追加する．
+% %（min, Skyline前計算）LSIでコストをかけて最小値をもつスカイライン点を発見する．
+
+% 問合せ点$q_i \in Q$がTSIに含まれずLSIにのみ含まれる場合，同一の$q_i$をLSIに含む複数の候補点を取得して$D_s(p_j,q_i)$のうち最小値をもつ候補点を$S(Q)$に追加する．
+
+% \subsubsection{最小値を持たないスカイライン点の発見}
+% 既知の解を用いて最小包含長方形を作成する．
+% % （実際の処理）長方形に含まれるものだけを検証する．
+% これを用いてスカイライン点である可能性がない候補点は次の支配関係の計算を行わない．
+
+% 次に不等式を用いた式が成立するかの確認を行う．
+% 明らかにスカイライン点である候補点を$S(Q)$に追加する．
+
+% 最後に，スカイライン点である可能性のみあるいはスカイライン点でかつ既知のスカイライン点を支配する可能性のみが存在する場合のみ，$D_s$を計算することで判定を行う．
+% 判定した点がスカイライン点である場合のみ，$S(Q)$に追加する．
+
+\subsection{具体例}
+アルゴリズムの全体像を\Fig{\ref{impl:zenbou}--\ref{impl:NotDominatedPoint}}に示した．
+
+% skyline on 3dtin
+\begin{algorithm}[t]
+  \SetAlgoLined
+  \DontPrintSemicolon
+  \KwIn{$P, Q, TSI, LSI$} % input
+  \KwOut{$S(Q)$} % output
+  \SetKwFunction{FMain}{SSQon3DTIN} % func name
+  \SetKwProg{Fn}{Function}{:}{}
+  \Fn{\FMain{$P, Q, TSI, LSI$}} % argument
+  {
+    S(Q) = NearestNeighborSearch(Q, TSI, LSI)\;
+    S(Q) = S(Q) \cup ~NotDominatedPoint(P, S(Q))\;
+    \textbf{return} $S(Q)$
+  }
+  \textbf{End Function}
+  \caption{3次元TIN上でスカイラインを求めるアルゴリズム}
+  \label{impl:zenbou}
+\end{algorithm}
+
+
+% NearestNeighborSearch
+\begin{algorithm}[t]
+  \SetAlgoLined
+  \DontPrintSemicolon
+  \KwIn{$ Q, TSI, LSI $} % input
+  \KwOut{$ skyline $} % output
+  \SetKwFunction{FMain}{NearestNeighborSearch} % func name
+  \SetKwProg{Fn}{Function}{:}{}
+  \Fn{\FMain{$ Q, TSI, LSI $}} % argument
+  {
+    skyline = \{\}\;
+    \ForEach{$ q \in Q $}
+    {
+      \uIf{q in TSI(p)}
+      {
+        skyline = skyline \cup ~p\;
+      }
+      \ElseIf{q in LSI}
+      {
+        arg\_min\_p = SurfaceDistanceMinOnlyInLSIwithoutTSI(q, LSI)\;
+        skyline = skyline \cup ~arg\_min\_p\;
+      }
+    }
+    \textbf{return} skyline
+  }
+  \textbf{End Function}
+  \caption{NearestNeighborSearch}
+  \label{impl:NearestNeighborSearch}
+\end{algorithm}
+
+% 色付きコメント設定
+% \newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+% \SetCommentSty{mycommfont}
+
+% NotDominatedPoint
+\begin{algorithm}[t]
+  \SetAlgoLined
+  \DontPrintSemicolon
+  \KwIn{$ P, S(Q) $} % input
+  \KwOut{$ skyline $} % output
+  \SetKwFunction{FMain}{NotDominatedPoint} % func name
+  \SetKwProg{Fn}{Function}{:}{}
+  \Fn{\FMain{$ P, S(Q) $}} % argument
+  {
+    bounding\_box = CreateBoundingBox(S(Q))\;
+    skyline = \{\}\;
+    \ForEach{$ p \in P $}
+    {
+      \If{p not in bounding\_box}
+      {
+        continue\;
+      }
+      \If{p is skyline for inequity() || p is not dominated by S(Q)}
+      {
+        skyline = skyline \cup ~p\;
+        bounding\_box.update(p)\;
+        \If{p dominates skyline}
+        {
+          ex\_p = dominated |skyline| by p\;
+          skyline = skyline \setminus ~ex\_p\;
+        }
+      }
+    }
+    \textbf{return} skyline
+  }
+  \textbf{End Function}
+  \caption{NotDominatedPoint}
+  \label{impl:NotDominatedPoint}
+\end{algorithm}
+
+% ---------------------------------------------------------------------------- %
+\section{実験}
+
+\section{おわりに}
+
+本稿では，3次元TIN空間上の空間的スカイライン問合せを実行する方法及び改善点を提案した．
+3次元TINの距離空間では既存研究での手法を直接適用できないため，代替手法としてTSIやLSIによる最近傍点の索引を利用した．
+また，3次元TIN上の表面距離に対する不等式を適用した最小包含長方形による枝刈りを行い，スカイラインを求める際に重い計算を行う回数を削減する方法について詳しく述べた．
+今後は，計算量の厳密な評価，及び実行速度の測定を行う予定である．
+
+\section*{謝辞}
+
+本研究はJSPS科研費（JP16H01722，JP19K21530，JP20K19804）の助成及び国立研究開発法人新エネルギー・産業技術総合開発機構（NEDO）の委託業務による．
+今後は，今後は，今後は，今後は予定である．
+%------------------------------------------------------------------------------%
+% Import your bibliography
+%------------------------------------------------------------------------------%
+\small
+\bibliographystyle{ieeetr}
+\bibliography{reference}
+
+\end{document}
