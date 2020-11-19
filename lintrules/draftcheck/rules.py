@@ -300,7 +300,7 @@ def check_numeric_range_dash(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r'\\footnote{.+?}[，．]')
+@rule(r"\\footnote{.+?}[，．]")
 def check_footnote_before_punctuation(text, matches):
     """Place footnotes after punctuation marks.
 
@@ -365,7 +365,7 @@ def check_number_next_to_unit(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r"[^\\](sin|cos|tan|log|max|min)", in_env="math")
+@rule(r"[^\\](?<![a-zA-Z])(sin|cos|tan|log|max|min)(?![a-zA-Z])", in_env="math")
 def check_unescaped_named_math_operators(text, matches):
     """Precede named mathematical operators with a backslash.
 
@@ -380,7 +380,7 @@ def check_unescaped_named_math_operators(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r'\b(e\.g\.|i\.e\.)\s+')
+@rule(r"\b(e\.g\.|i\.e\.)\s+")
 def check_abbreviation_innerword_spacing(text, matches):
     """Place a '\\ ' (backslash space) after the period of an abbreviation.
 
