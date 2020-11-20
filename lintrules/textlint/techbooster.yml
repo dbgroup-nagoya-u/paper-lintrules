@@ -38,9 +38,6 @@ rules:
   - expected: いわ
     pattern:  言わ
     prh: 呼ぶ、で代替するか漢字で書かず、ひらがなで書くと読みやすくなります。
-  - expected: さまざま
-    pattern:  様々
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: よい
     pattern:  /良い(?!例)/
     prh: 良し悪しを評価する表現は"良い"、しなくていい、など評価でない表現は"よい"を使います
@@ -62,18 +59,9 @@ rules:
   - expected: とおり
     pattern:  通り
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります。"どおり"のケースもありえます
-  - expected: ひととおり
-    pattern:  /(一|ひと)通り/
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります。
-  - expected: すでに
-    pattern:  既に
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: すべて
     pattern:  /(全て|総て)/
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-  - expected: 例えば
-    pattern:  たとえば
-    prh: ひらがなで書かず、漢字で書くと読みやすくなります。
   - expected: 他の
     pattern:  ほかの
     prh: ひらがなで書かず、漢字で書くと読みやすくなります
@@ -83,9 +71,6 @@ rules:
   - expected: $1中
     pattern:  /(その)なか/
     prh: ひらがなで書かず、漢字で書くと読みやすくなります
-  - expected: きれい
-    pattern:  綺麗
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: こと
     pattern:  /(記|大|仕|返|無|食|見|議|当)?事(?!情|件|前|後|象|例|実|体|態|項|務|業|柄|故)/
     regexpMustEmpty: $1
@@ -131,30 +116,12 @@ rules:
       - from: 時間
         to:   時間
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-  - expected: でき$1
-    pattern:  /出来(る|て|た|ま|上が)/
-    specs:
-      - from: 出来上がった
-        to:   でき上がった
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: したがって
     pattern:  従って
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: $1ように
     pattern:  /(の)様に/
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-  - expected: 次$1
-    pattern:  /(?:以下|下記)(の|に)/
-    specs:
-      - from: 以下の
-        to:   次の
-      - from: 以下に
-        to:   次に
-      - from: 次回
-        to:   次回
-      - from: 下記の
-        to:   次の
-    prh: 書籍の場合は、以下ではなく次を利用します（常に下にあるとは限らないため）
   - expected: かかわらず
     pattern:  /関わ?らず/
     specs:
@@ -168,20 +135,11 @@ rules:
       - 成る
       - 為る
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-  - expected: お勧め
-    pattern:  おすすめ
-    prh: ひらがなで書かず、漢字で書くと読みやすくなります
   - expected: $1あとで
     pattern:  /(して|した|、)後で/
     specs:
       - from: して後で
         to:   してあとで
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-  - expected: あらかじめ
-    pattern:  予め
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-  - expected: なぜ
-    pattern:  何故
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: ゆえに
     pattern:  故に
@@ -198,18 +156,9 @@ rules:
   - expected: のよう
     pattern:  の様
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります。
-  - expected: まったく
-    pattern:  全く
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります。
   - expected: さきほど
     pattern:  先程
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります。
-  - expected: あるいは
-    pattern:  或いは
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります。
-  - expected: 初めて
-    pattern:  はじめて
-    prh: ひらがなで書かず、漢字で書くと読みやすくなります。
   - expected: どういうとき
     pattern:  どういう時
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります。
@@ -219,36 +168,15 @@ rules:
   - expected: 下げ
     pattern:  さげ
     prh: ひらがなで書かず、漢字で「下げ」と読みやすくなります。
-  - expected: もら$1
-    pattern:  /貰(う|い)/
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります。
-    specs:
-      - from: 貰う
-        to:   もらう
-      - from: 貰い
-        to:   もらい
-  - expected: いったん
-    pattern:  一旦
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります。
-
   # 通常は、ひとつ。数詞は１つ、漢数字は数えられる固有名詞を指す場合に利用
   - expected: ひとつ
     pattern:  一つ
     prh: 通常は、ひとつ。数詞は１つ、漢数字は数えられる固有名詞を指す場合に利用します
-  - expected: ふたつ
-    pattern:  二つ
-    prh: 通常は、ふたつ。数詞は１つ、漢数字は数えられる固有名詞を指す場合に利用
-  - expected: もっとも
-    pattern:  最も
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
+#  - expected:ふたつ
+#    pattern:二つ
+#    prh: 通常は、ふたつ。数詞は１つ、漢数字は数えられる固有名詞を指す場合に利用
   - expected: ちょうど
     pattern:  /(丁度|調度)/
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-  - expected: いずれ
-    pattern:  何れ
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-  - expected: ほとんど
-    pattern:  殆ど
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: ，
     pattern:  、
@@ -271,10 +199,6 @@ rules:
   # 本文中の半角スペースは排除したい
 
   # 横文字
-  - expected: ライブラリ
-    pattern:  ラブライブ # C87でやらかした人がいましたね？
-    prh: C87でざきさんがやらかした思い出
-
   # その他
   - expected: コード補完
     pattern:  コード保管

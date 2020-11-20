@@ -564,8 +564,6 @@ rules:
     expected: たま$1
   - pattern: 因みに
     expected: ちなみに
-  - pattern: 丁度
-    expected: ちょうど
   - pattern: 遂に
     expected: ついに
   - pattern: /掴([まみむめもん])/
@@ -826,8 +824,6 @@ rules:
     expected: $1代わり
   - pattern: /代([らりるれろっ])/
     expected: 代わ$1
-  - pattern: 全て
-    expected: すべて
   - pattern: 全く
     expected: まったく
   - pattern: /([にも])関わらず|([にも])関らず|([にも])拘わらず|([にも])拘らず/
@@ -2012,11 +2008,6 @@ rules:
     pattern:  /ファクトリー/
   - expected: フィーチャーフォン
     pattern:  /フィーチャフォン/
-  - expected: ブラウザ
-    pattern:
-      - /Webブラウザー?/
-      - /WEBブラウザー?/
-      - ブラウザ
   - expected: プライマリ
     pattern:  /プライマリー/
   - expected: プラットフォーム
