@@ -13,7 +13,8 @@ Review commentの数が100に近づくとページの表示が重くなります
 修正が完了し、Reviewerに添削をお願いできる状況になったら、上記ファイルを削除し，commitしてください。以降のcommitに対してはtextlintによる指摘が行われなくなります。
 - [ ] **このDraft Pull RequestをClose**
 - [ ] **Pull Requestを作成**
-元のDraft Pull RequestをCloseし、新たに（通常の）Pull Requestを作成してください。Reviewerに先生を追加し、先生からの指摘をもとに執筆・修正を続けてください。
+元のDraft Pull RequestをCloseし、新たに（通常の）Pull Requestを作成してください。Reviewerに共著者を追加し、共著者からの指摘や議論をもとに執筆・修正を続けてください。
+共著者の追加方法は[ここ](https://github.com/dbgroup-nagoya-u/template-latex/tree/main#%E5%9F%B7%E7%AD%86%E3%81%AE%E6%B5%81%E3%82%8C)を見てください。
 
 ### バグ報告
 
