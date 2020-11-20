@@ -1,1 +1,1 @@
-grep -P -rn '(?<!\\url{)(\bhttps?://)[^\s.]+\.[-A-Za-z0-9+&@#/%?=~_|!:,.;]+' * | grep .bib | cut -d: -f1,2 | tee list | sed -e "s/\$/ Wrap URLs with the \\\\url command./" | reviewdog -efm="%f:%l %m" -name="bibtexlint by draftcheck" -reporter=github-pr-review
+grep -P -rn '(?<!\\url{)(\bhttps?://)[^\s.]+\.[-A-Za-z0-9+&@#/%?=~_|!:,.;]+' * | grep .bib | cut -d: -f1,2 | sed -e "s/\$/ Wrap URLs with the \\\\url command./" | reviewdog -efm="%f:%l %m" -name="bibtexlint by draftcheck" -reporter=github-pr-review
