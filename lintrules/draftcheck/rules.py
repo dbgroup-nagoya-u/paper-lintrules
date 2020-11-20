@@ -365,7 +365,7 @@ def check_number_next_to_unit(text, matches):
     return [m.span() for m in matches]
 
 
-@rule(r"[^\\](?<![a-zA-Z])(sin|cos|tan|log|max|min)(?![a-zA-Z])", in_env="math")
+@rule(r"(?<![a-zA-Z\\])(sin|cos|tan|log|max|min)(?![a-zA-Z])", in_env="math")
 def check_unescaped_named_math_operators(text, matches):
     """Precede named mathematical operators with a backslash.
 
