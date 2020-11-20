@@ -23,6 +23,7 @@
             "ja-no-mixed-period": false,
             "ja-unnatural-alphabet": false,
             "max-kanji-continuous-len": false,
+            "max-comma": false,
             "sentence-length": {
                 "max": 100,
                 "exclusionPatterns": [
