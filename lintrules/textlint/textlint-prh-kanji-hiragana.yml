@@ -67,7 +67,7 @@ rules:
       pattern: 温い
       prh: 表外音訓
     - expected: ぬるめ
-      pattern: 温め
+      pattern: 矢張り
       prh: 表外音訓
     - expected: くくる
       pattern: 括る
