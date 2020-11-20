@@ -5,7 +5,7 @@
 
 必ず上から順番に行いましょう。各手順が終わったらチェックをつけてください。
 
-- [ ] **textlintを参考に、可能な限り執筆・修正**
+- [ ] **textlintを参考に、可能な限り執筆・修正：**
 最初はReviewerを追加せず、このDraft Pull Requestで執筆・修正を続けてください。可能な限りtextlintが指摘を行います。
 漢字や送り仮名に対する微妙な指摘については、[電子情報通信学会の資料（1ページ）](https://www.ieice.org/jpn/shiori/pdf/furoku_d.pdf)や[常用漢字一覧表 - 文化庁](https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kakuki/14/pdf/jyouyou_kanjihyou.pdf)を参考にしてください。
 Review commentの数が100に近づくとページの表示が重くなります。適宜Draft Pull RequestをCloseし、別のDraft Pull Requestで作業を続けてください。
