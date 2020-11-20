@@ -9,7 +9,7 @@
 最初はReviewerを追加せず、このDraft Pull Requestで執筆・修正を続けてください。可能な限りtextlintが指摘を行います。
 漢字や送り仮名に対する微妙な指摘については、[電子情報通信学会の資料（1ページ）](https://www.ieice.org/jpn/shiori/pdf/furoku_d.pdf)や[常用漢字一覧表 - 文化庁](https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kakuki/14/pdf/jyouyou_kanjihyou.pdf)を参考にしてください。
 Review commentの数が100に近づくとページの表示が重くなります。適宜Draft Pull RequestをCloseし、別のDraft Pull Requestで作業を続けてください。
-- [ ] **`.github/workflows/textlint.yml`と`.github/workflows/comment-open-pull-request.yml`を削除し、commitをpush**
+- [ ] **`.github/workflows/textlint.yml`と`.github/workflows/comment-open-pull-request.yml`を削除し、commitをpush：**
 修正が完了し、Reviewerに添削をお願いできる状況になったら、上記ファイルを削除してcommitをpushしてください。以降のcommitに対してはtextlintによる指摘が行われなくなります。
 - [ ] **このDraft Pull RequestをClose**
 - [ ] **Pull Requestを作成**
