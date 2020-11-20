@@ -164,7 +164,9 @@ rules:
         to:   かかわらず
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: なる
-    pattern:  成る
+    pattern:
+      - 成る
+      - 為る
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: お勧め
     pattern:  おすすめ

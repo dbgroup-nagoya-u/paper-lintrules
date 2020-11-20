@@ -36,9 +36,6 @@ rules:
     - expected: なす
       pattern: 為す
       prh: 表外音訓
-    - expected: なる
-      pattern: 為る
-      prh: 表外音訓
     - expected: よる
       pattern: 依る
       prh: 表外音訓
