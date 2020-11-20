@@ -57,9 +57,6 @@ rules:
     - expected: ちなむ
       pattern: 因む
       prh: 表外音訓
-    - expected: ますます
-      pattern: 益々
-      prh: 表外音訓
     - expected: こたえ
       pattern: 応え
       prh: 表外音訓
@@ -72,17 +69,11 @@ rules:
     - expected: ぬるめ
       pattern: 温め
       prh: 表外音訓
-    - expected: くらべ
-      pattern: 較べ
-      prh: 表外音訓
     - expected: くくる
       pattern: 括る
       prh: 表外音訓
     - expected: くくり
       pattern: 括り
-      prh: 表外音訓
-    - expected: 箇所
-      patterns: 個所
       prh: 表外音訓
     - expected: 箇条書き
       patterns: 個条書き
