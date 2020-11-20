@@ -58,7 +58,7 @@ jobs:
           done
           cat output.txt
       - uses: reviewdog/action-setup@v1
-      - name: Run draftcheck to tex with reviewdog
+      - name: Run draftcheck with reviewdog
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -67,13 +67,15 @@ jobs:
             echo "filename := ${file}"
             draftcheck ${file} | reviewdog -efm="%f:%l:%c: %m" -name="latexlint by draftcheck" -reporter=github-pr-review
           done
+
+
+  bibtexlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
       - uses: reviewdog/action-setup@v1
-      - name: Run draftcheck to bib with reviewdog
+      - name: Run bibtexlint with reviewdog
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          for file in $(find . -type d \( -path './node_modules' \) -prune -false -o -iname '*.bib');
-          do
-            echo "filename := ${file}"
-            grep -P -n '(?<!\\url{)(\bhttps?://)[^\s.]+\.[-A-Za-z0-9+&@#/%?=~_|!:,.;]+' ${file} | reviewdog -efm="%l:%m" -name="latexlint by draftcheck" -reporter=github-pr-review
-          done
+          grep -P -rn '(?<!\\url{)(\bhttps?://)[^\s.]+\.[-A-Za-z0-9+&@#/%?=~_|!:,.;]+' * | grep .bib | cut -d: -f1,2 | tee list | sed -e "s/\$/ Wrap URLs with the \\url command./" | reviewdog -efm="%f:%l %m" -name="latexlint by draftcheck" -reporter=github-pr-review
