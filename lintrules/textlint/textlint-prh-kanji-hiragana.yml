@@ -4,9 +4,6 @@ rules:
     - expected: すてき
       pattern:  素敵
       prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-    - expected: やはり
-      pattern:  矢張り
-      prh: 漢字で書かず、ひらがなで書くと読みやすくなります
     - expected: $1とおり
       patterns: /(思った|以下の)通り/
       specs:
@@ -68,9 +65,6 @@ rules:
       prh: 表外音訓
     - expected: ぬるめ
       pattern: 温め
-      prh: 表外音訓
-    - expected: やはり
-      pattern: 矢張り
       prh: 表外音訓
     - expected: くくる
       pattern: 括る

@@ -780,7 +780,9 @@ rules:
     expected: やすやす
   - pattern: 厄介
     expected: やっかい
-  - pattern: やっぱり
+  - pattern:
+    - やっぱり
+    - 矢張り
     expected: やはり
   - pattern: 闇雲
     expected: やみくも
