@@ -11,6 +11,12 @@
             "allow": [
                 "/\\$\\$[\\s\\S]*?\\$\\$/m",
                 "/\\\\begin\\{equation[\\s\\S]*?\\\\end\\{equation/m",
+                "/\\\\begin\\{algorithm[\\s\\S]*?\\\\end\\{algorithm/m",
+                "/\\\\begin\\{figure[\\s\\S]*?\\\\end\\{figure/m",
+                "/\\\\begin\\{align[\\s\\S]*?\\\\end\\{align/m",
+                "/\\\\begin\\{table[\\s\\S]*?\\\\end\\{table/m",
+                "/\\\\begin\\{tabular[\\s\\S]*?\\\\end\\{tabular/m",
+                "/\\\\begin\\{verbatim[\\s\\S]*?\\\\end\\{verbatim/m",
                 "/\\$[\\s\\S]*?\\$/",
                 "/\\{[\\s\\S]*?\\}/",
                 "/\\[[\\s\\S]*?\\]/",
