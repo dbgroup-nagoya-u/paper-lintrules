@@ -46,6 +46,7 @@ rules:
         to:   よい
       - from: 良い例
         to:   良い例
+<<<<<<< HEAD
   - expected: さらに
     pattern:  /(変)?更に/
     regexpMustEmpty: $1
@@ -71,6 +72,17 @@ rules:
   - expected: $1中
     pattern:  /(その)なか/
     prh: ひらがなで書かず、漢字で書くと読みやすくなります
+=======
+  - expected: ひととおり
+    pattern:  /(一|ひと)通り/
+    prh: 漢字で書かず、ひらがなで書くと読みやすくなります。
+  - expected: 他の
+    pattern:  ほかの
+    prh: ひらがなで書かず、漢字で書くと読みやすくなります
+  - expected: きれい
+    pattern:  綺麗
+    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
+>>>>>>> 17a0c49290d91b390095845c7ed1fa649bc4a403
   - expected: こと
     pattern:  /(記|大|仕|返|無|食|見|議|当)?事(?!情|件|前|後|象|例|実|体|態|項|務|業|柄|故)/
     regexpMustEmpty: $1
@@ -116,8 +128,16 @@ rules:
       - from: 時間
         to:   時間
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
+<<<<<<< HEAD
   - expected: したがって
     pattern:  従って
+=======
+  - expected: でき$1
+    pattern:  /出来(る|て|た|ま|上が)/
+    specs:
+      - from: 出来上がった
+        to:   でき上がった
+>>>>>>> 17a0c49290d91b390095845c7ed1fa649bc4a403
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: $1ように
     pattern:  /(の)様に/

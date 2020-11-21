@@ -46,8 +46,6 @@ rules:
     expected: 付け足
   - pattern: 関連づけ
     expected: 関連付け
-  - pattern: 受付
-    expected: 受け付け
   - pattern: 位置づけ
     expected: 位置付け
   - pattern: 意味づけ
@@ -271,15 +269,6 @@ rules:
     expected: ヵ所
   - pattern: 個所
     expected: 箇所
-  - pattern:
-      - いちから
-      - 1から
-      - 一から
-      - イチから
-      - 0から
-    expected: ゼロから
-  - pattern: 曖昧
-    expected: あいまい
   - pattern: 敢えて
     expected: あえて
   - pattern: /煽([らりるれろっ])/
@@ -290,8 +279,6 @@ rules:
     expected: あこがれ
   - pattern: 辺り
     expected: あたり
-  - pattern: 後々
-    expected: あとあと
   - pattern:
       - 貴方
       - 貴女
@@ -338,8 +325,6 @@ rules:
       - 何れ
       - いづれ
     expected: いずれ
-  - pattern: /頂([いかきくけこ])|戴([いかきくけこ])/
-    expected: いただ$1
   - pattern: 至って
     expected: いたって
   - pattern: 一々
@@ -355,7 +340,7 @@ rules:
   - pattern: 今や
     expected: いまや
   - pattern: 色々
-    expected: いろいろ
+    expected: 様々
   - pattern: 色んな
     expected: いろんな
   - pattern: 所謂
@@ -388,8 +373,6 @@ rules:
     expected: おいて
   - pattern: 大掛かり
     expected: おおがかり
-  - pattern: 概ね
-    expected: おおむね
   - pattern:
       - お陰
       - 御陰
@@ -416,8 +399,6 @@ rules:
     expected: かな$1
   - pattern: 仮名
     expected: かな
-  - pattern: /構([いうわっ])/
-    expected: かま$1
   - pattern: /痒([いかくさみ])/
     expected: かゆ$1
   - pattern:
@@ -442,10 +423,6 @@ rules:
     expected: 年ごろ
   - pattern: 歳頃
     expected: 歳ごろ
-  - pattern: 日頃
-    expected: 日ごろ
-  - pattern: 頃
-    expected: ころ
   - pattern: /遡([らりるれろっ])/
     expected: さかのぼ$1
   - pattern: さしづめ
@@ -456,20 +433,12 @@ rules:
     expected: さっそく
   - pattern: /捌([いかきくけこ])/
     expected: さば$1
-  - pattern: 様々
-    expected: さまざま
   - pattern: /晒([さしすせそ])/
     expected: さら$1
   - pattern: 仕掛け
     expected: しかけ
-  - pattern: 仕方
-    expected: しかた
   - pattern: /([^正率垂安素愚])直に/
     expected: $1じかに
-  - pattern: /仕組([^み])/
-    expected: しくみ$1
-  - pattern: 仕組み
-    expected: しくみ
   - pattern: しし
     expected: し
   - pattern: しだい
@@ -478,8 +447,6 @@ rules:
       - 暫く
       - 暫らく
     expected: しばらく
-  - pattern: いたします
-    expected: します
   - pattern: 所詮
     expected: しょせん
   - pattern:
@@ -500,8 +467,6 @@ rules:
     expected: すご$1
   - pattern: づつ
     expected: ずつ
-  - pattern: 既に
-    expected: すでに
   - pattern:
       - すなはち
       - 即ち
@@ -524,21 +489,17 @@ rules:
     expected: それぞれ
   - pattern: 其れ
     expected: それ
-  - pattern: /揃([わいうえおっ])/
-    expected: そろ$1
   - pattern: 大体
     expected: だいたい
   - pattern: 大抵
     expected: たいてい
-  - pattern: 大変
-    expected: たいへん
   - pattern: 沢山
     expected: たくさん
   - pattern:
-      - 高々
+      - たかだか
       - 高高
       - 高だか
-    expected: たかだか
+    expected: 高々
   - pattern: /叩([かきくけこ])/
     expected: たた$1
   - pattern: 但し
@@ -558,8 +519,6 @@ rules:
     expected: たとえ
   - pattern: たのし
     expected: 楽し
-  - pattern: 度々
-    expected: たびたび
   - pattern: /溜ま([らりるれろっ])/
     expected: たま$1
   - pattern: 因みに
@@ -595,8 +554,6 @@ rules:
         to:   持てない
       - from: 消えてなくなる
         to:   消えてなくなる
-  - pattern: /([^捨当立])てる/
-    expected: $1ている
   - pattern: /出来([かがのをは過す損ずなまるたれてそ])/
     expected: でき$1
   - pattern:
@@ -644,10 +601,6 @@ rules:
         to:   踏みとどまる
   - pattern: /とは言え([^なまる])/
     expected: とはいえ$1
-  - pattern: 共に
-    expected: ともに
-  - pattern: /捉え([ずなにぬまよらたてるろっ方中])/
-    expected: とらえ$1
   - pattern: 囚わ
     expected: とらわ
   - pattern:
@@ -784,8 +737,6 @@ rules:
     expected: やはり
   - pattern: 闇雲
     expected: やみくも
-  - pattern: 止め
-    expected: やめ
   - pattern: やり取り
     expected: やりとり
   - pattern: 他所
@@ -802,8 +753,6 @@ rules:
     expected: わか$1
   - pattern: /解([らりるれろっ])/
     expected: わか$1
-  - pattern: /の分([^散割類解野離析岐担])/
-    expected: のぶん$1
   - pattern:
       - 気をつか
       - 気を使
@@ -824,8 +773,6 @@ rules:
     expected: $1代わり
   - pattern: /代([らりるれろっ])/
     expected: 代わ$1
-  - pattern: 全く
-    expected: まったく
   - pattern: /([にも])関わらず|([にも])関らず|([にも])拘わらず|([にも])拘らず/
     expected: $1かかわらず
   - pattern: /埋めこ([まむめもん])|うめこ([まむめもん])/
@@ -846,10 +793,6 @@ rules:
     expected: 組み込$1
   - pattern: /くみこみ([^ま])|組み込み([^ま])|組みこみ([^ま])/
     expected: 組込み$1
-  - pattern: /組合([わいうえおっ])|くみあ([わいうえおっ])/
-    expected: 組み合$1
-  - pattern: /組合([さしすせそっ])|くみあわ([さしすせそっ])/
-    expected: 組み合わ$1
   - pattern: /くみか([わいうえおっ])|組替([わいうえおっ])/
     expected: 組み替$1
   - pattern: /ことな([りるれっ])/
@@ -905,8 +848,6 @@ rules:
     expected: 巡り合
   - pattern: 割込み
     expected: 割り込み
-  - pattern: 割当
-    expected: 割り当て
   - pattern: 割切り
     expected: 割り切り
   - pattern:
@@ -961,18 +902,8 @@ rules:
       - 言訳
       - 言いわけ
     expected: 言い訳
-  - pattern: いえない
-    expected: 言えない
-  - pattern: いえなく
-    expected: 言えなく
-  - pattern: いえる
-    expected: 言える
   - pattern: いわれる
     expected: 言われる
-  - pattern:
-      - 未だ
-      - 今だ
-    expected: いまだ
   - pattern:
       - 今ひとつ
       - 今一つ
@@ -992,10 +923,6 @@ rules:
     expected: 今さら
   - pattern: 尚更
     expected: なおさら
-  - pattern: 更なる
-    expected: さらなる
-  - pattern: /([^変])更に/
-    expected: $1さらに
   - pattern: やむをえ|止むを得
     expected: やむを得
   - pattern: すこし
@@ -1058,7 +985,7 @@ rules:
       - 元々
       - 本々
     expected: もともと
-  - pattern: /基([^数準盤板底礎本づ])/
+  - pattern: /基([^数準盤板底礎本づに])/
     expected: もと$1
   - pattern: した上
     expected: したうえ
@@ -1074,8 +1001,6 @@ rules:
     expected: 始めた
   - pattern: はじま
     expected: 始ま
-  - pattern: はじめ
-    expected: 始め
   - pattern: かたまり
     expected: 塊
   - pattern: やりかた
@@ -1100,8 +1025,6 @@ rules:
     expected: のちほど
   - pattern: うしろ
     expected: 後ろ
-  - pattern: 同士
-    expected: どうし
   - pattern:
       - 頭が堅
       - 頭が硬
@@ -1216,8 +1139,6 @@ rules:
     expected: 行$1
   - pattern: あわて
     expected: 慌
-  - pattern: あわ
-    expected: 合わ
   - pattern: /混([らりるれろっ])/
     expected: 混ざ$1
   - pattern: おも([いうわ])
@@ -1316,10 +1237,6 @@ rules:
       - 取って換
       - 取って替
     expected: 取って代
-  - pattern:
-      - 存知
-      - ぞんじ
-    expected: 存じ
   - pattern: だれ
     expected: 誰
   - pattern: /断わ([らりるれろっ])/
@@ -1328,13 +1245,6 @@ rules:
     expected: 内蔵
   - pattern: /なか([かでに])/
     expected: 中$1
-  - pattern: /なら(ば(?!、)|[びぶべぼん])/
-    expected: 並$1
-    specs:
-      - from: ならびに
-        to:   並びに
-      - from: ならば、
-        to:   ならば、
   - pattern: /著わ([さしすせそ])/
     expected: 著$1
   - pattern: 著い
@@ -1493,10 +1403,6 @@ rules:
     expected: 詳し$1
   - pattern: 陽の目
     expected: 日の目
-  - pattern: 保障
-    expected: 保証
-  - pattern: 移譲
-    expected: 委譲
   - pattern: 稼動
     expected: 稼働
   - pattern: 芋蔓
@@ -1603,8 +1509,6 @@ rules:
       - ムダづかい
       - ムダずかい
     expected: 無駄遣い
-  - pattern: 発火
-    expected: 発行
   - pattern:
       - 至難のわざ
       - 至難の技
@@ -1649,11 +1553,6 @@ rules:
     pattern:  /医療法人/
   - expected: (宗)
     pattern:  /宗教法人/
-  - expected: オーバー$1
-    pattern:  /オーバ([^ー])/
-    specs:
-      - from: オーバ気味
-        to:   オーバー気味
   - expected: スーパー$1
     pattern:  /スーパ([^ー])/
   - expected: ハイパー$1
@@ -1994,8 +1893,6 @@ rules:
     pattern:  /バランサー/
   - expected: ハンドラ
     pattern:  /ハンドラー/
-  - expected: ビューア
-    pattern:  /ビューアー|ビューワー|ビューワ/
   - expected: ビルダ
     pattern:  /ビルダー/
   - expected: ビルトイン
@@ -2019,8 +1916,6 @@ rules:
     specs:
       - from: プレイング
         to:   プレイング
-  - expected: ブローカ$1
-    pattern:  /ブローカー([^ー])/
   - expected: プロパティ
     pattern:  /プロパティー/
   - expected: ヘビー
@@ -2097,10 +1992,6 @@ rules:
     pattern:  /メタファー/
   - expected: メモリ
     pattern:  /メモリー/
-  - expected: メンテナンス
-    pattern:  /メインテナンス/
-  - expected: メンテナンス$1
-    pattern:  /メンテ([^ナ])/
   - expected: モジュール
     pattern:  /\bmodule\b|\bModule\b/
   - expected: モータ$1
@@ -2191,8 +2082,6 @@ rules:
     pattern:  /キャラクター([^ー])/
   - expected: コミッター$1
     pattern:  /コミッタ([^ー])/
-  - expected: ユーザー$1
-    pattern:  /ユーザ([^ー])/
   - expected: ユーザビリティ
     pattern:  /ユーザービリティ/
   - expected: ディレクター
@@ -2220,8 +2109,6 @@ rules:
     pattern:  /プランナ([^ー])/
   - expected: マネージャー$1
     pattern:  /マネージャ([^ー])/
-  - expected: メンテナー$1
-    pattern:  /メンテナ(?!ンス)([^ー]|)/
   - expected: メンバー
     # 人間の意味では「メンバー」、変数などは「メンバ」
     pattern:  /メンバ(?!ー)/
@@ -2596,8 +2483,6 @@ rules:
     pattern:  /LL言語/
   - expected: macOS
     pattern:  /\bMacOS\b|\bMac OS\b|\bmac OS\b|\bOS X\b|\bOSX\b|\bMac OS X\b|\bMacOSX\b/
-  - expected: OSS
-    pattern:  /オープンソースソフトウェア/
   - expected: MacBook
     pattern:  /\bMac Book\b/
   - expected: MacPorts
@@ -2857,10 +2742,6 @@ rules:
     pattern:  /\bSUSE\b/i
   - expected: SWFファイル
     pattern:  /\bSWFファイル\b/i
-  - expected: Swift
-    pattern:  /\bSwift\b/i
-  - expected: Swift
-    pattern:  /\bSwfit\b/
   - expected: Symfony
     pattern:  /\bSymphony\b|\bsymphony\b|\bSynphony\b|\bsynphony\b|\bsynfony\b|\bSynfony\b|\bsymfony\b/
   - expected: Symfony2
