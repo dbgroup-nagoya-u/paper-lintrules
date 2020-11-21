@@ -12,7 +12,6 @@ import re
 # Global rules list to store all the registered rules
 RULES_LIST = []
 
-
 def rule(pattern, show_spaces=False, in_env="paragraph"):
     """Decorator used to create rules.
 
@@ -67,7 +66,6 @@ def rule(pattern, show_spaces=False, in_env="paragraph"):
 
     return inner_rule
 
-
 def rule_generator(show_spaces=False, in_env="paragraph"):
     """Decorator that generates rules from a generator."""
 
@@ -83,7 +81,6 @@ def rule_generator(show_spaces=False, in_env="paragraph"):
             RULES_LIST[-1].__doc__ = func.__doc__.format(*r[1:])
 
     return inner_rule
-
 
 @rule(r"\s+\\footnote(\[\d*\])?{", show_spaces=True)
 def check_space_before_footnote(text, matches):
@@ -103,10 +100,9 @@ def check_space_before_footnote(text, matches):
     """
     return [m.span() for m in matches]
 
-
 @rule(r"．~?\\cite{")
 def check_cite_after_period(text, matches):
-    """Place citations before periods with a non-breaking space.
+    r"""句点の前で引用をしてください．例：`~\cite{vldb2020:author}．`
 
     Move the \\cite command inside the sentence, before the period.
 
@@ -120,10 +116,9 @@ def check_cite_after_period(text, matches):
     """
     return [m.span() for m in matches]
 
-
 @rule(r"[^~]\\cite{")
 def check_no_space_before_cite(text, matches):
-    """Place a single, non-breaking space '~' before citations.
+    r"""半角スペースを空けつつ行頭を禁止するため，引用の前に`~`を追加してください．
 
     Examples
     --------
@@ -137,10 +132,9 @@ def check_no_space_before_cite(text, matches):
     """
     return [m.span() for m in matches]
 
-
 @rule(r"[^~{]\\ref{")
 def check_no_space_before_ref(text, matches):
-    """Place a single, non-breaking space '~' before references.
+    r"""半角スペースを空けつつ行頭を禁止するため，`\ref`の前に`~`を追加してください．
 
     Examples
     --------
@@ -152,10 +146,9 @@ def check_no_space_before_ref(text, matches):
     """
     return [m.span() for m in matches]
 
-
 @rule(r"\d+%")
 def check_unescaped_percentage(text, matches):
-    """Escape percentages with backslash.
+    r"""`%`を使用する場合は`\%`と書いてください．
 
     Examples
     --------
@@ -167,10 +160,9 @@ def check_unescaped_percentage(text, matches):
     """
     return [m.span() for m in matches]
 
-
 @rule(r"\d+\s?x\s?\d+")
 def check_incorrect_usage_of_x_as_times(text, matches):
-    """In the context of 'times' or 'multiply', use $\\times$ instead of 'x'.
+    r"""数値の間に`x`を入れたい場合は`\times`または`\multiply`を使用してください．
 
     Example
     -------
@@ -181,7 +173,6 @@ def check_incorrect_usage_of_x_as_times(text, matches):
         We used an $10 \\times 10$ grid for the image filter.
     """
     return [m.span() for m in matches]
-
 
 # @rule(r'[a-z]+\s-\s[a-z]+')
 def check_space_surrounded_dash(text, matches):
@@ -197,10 +188,9 @@ def check_space_surrounded_dash(text, matches):
     """
     return [m.span() for m in matches]
 
-
-@rule(r"\.\.\.")
+@rule(r"(\.\.\.|…)")
 def check_dot_dot_dot(text, matches):
-    """Typeset ellipses by \\ldots, not '...'.
+    r"""`...`ではなく`\ldots`を使用してください．
 
     Example
     -------
@@ -212,10 +202,9 @@ def check_dot_dot_dot(text, matches):
     """
     return [m.span() for m in matches]
 
-
 @rule(r'(?<!{\\)"')
 def check_double_quote(text, matches):
-    """Use left and right quotation marks `` and '' rather than ".
+    r"""ダブルクオートで文字を囲わず``` ``文字'' ```としてください．
 
     Example
     -------
@@ -227,10 +216,9 @@ def check_double_quote(text, matches):
     """
     return [m.span() for m in matches]
 
-
 @rule(r"\s\'.+?\'[\s\.,]")
 def check_single_quote(text, matches):
-    """Use left and right quotation marks ` and ' rather than '.
+    r"""シングルクオートで文字を囲わず`` `文字' ``としてください．
 
     Example
     -------
@@ -242,10 +230,9 @@ def check_single_quote(text, matches):
     """
     return [m.span() for m in matches]
 
-
 @rule(r"\\begin{center}", in_env="any")
 def check_begin_center(text, matches):
-    """Use \\centering instead of \\begin{center}.
+    r"""`\begin{center}`ではなく`\centering`を使用してください．
 
     Example
     -------
@@ -264,10 +251,9 @@ def check_begin_center(text, matches):
     """
     return [m.span() for m in matches]
 
-
 @rule(r"\$\$", in_env="math")
 def check_double_dollar_math(text, matches):
-    """Use \\[ or \\begin{equation} instead of $$.
+    r"""数式は`$$`ではなく`\[`あるいは`\begin{equation}`を使用してください.
 
     Example
     -------
@@ -284,10 +270,9 @@ def check_double_dollar_math(text, matches):
     """
     return [m.span() for m in matches]
 
-
 @rule(r"\d\s?-\s?\d")
 def check_numeric_range_dash(text, matches):
-    """Use endash '--' for numeric ranges instead of hyphens.
+    r"""数値の範囲は`-`ではなく`--`を使用してください．
 
     Example
     -------
@@ -299,10 +284,9 @@ def check_numeric_range_dash(text, matches):
     """
     return [m.span() for m in matches]
 
-
 @rule(r"\\footnote{.+?}[，．]")
 def check_footnote_before_punctuation(text, matches):
-    """Place footnotes after punctuation marks.
+    r"""`\footnote`は句読点の直前で使用してください．
 
     Example
     -------
@@ -316,11 +300,9 @@ def check_footnote_before_punctuation(text, matches):
     """
     return [m.span() for m in matches]
 
-
 @rule(r"<[^\s](.+?)[^\s]>", in_env="math")
 def check_relational_operators(text, matches):
-    """Use \\langle and \\rangle instead of '<' and '>' for angle brackets.
-
+    r"""大小関係を表さない`<>`は`\langle`と`\rangle`を使用してください．
     Example
     -------
     Bad:
@@ -334,10 +316,9 @@ def check_relational_operators(text, matches):
     """
     return [m.span() for m in matches]
 
-
 @rule(r"\\cite{.+?}[\s~，]*\\cite{")
 def check_multiple_cite(text, matches):
-    """Use ~\\cite{..., ...} for multiple citations.
+    r"""一度に複数の参考文献を挙げる場合は`~\cite{..., ...}`としてください．
 
     Example
     -------
@@ -349,10 +330,9 @@ def check_multiple_cite(text, matches):
     """
     return [m.span() for m in matches]
 
-
 @rule(r"\d[\s　]?(ms|s|A|cores?|GHz|heyperthreads?|bytes?|bit|KB|MB|GB|TB|PB)\b")
 def check_number_next_to_unit(text, matches):
-    """Place a non-breaking space '\~' between a number and its unit. [e.g. 64~GB]
+    r"""数値と単位の間には`~`を入れてください．例：`64~GB`
 
     Example
     -------
@@ -364,10 +344,9 @@ def check_number_next_to_unit(text, matches):
     """
     return [m.span() for m in matches]
 
-
 @rule(r"(?<![a-zA-Z\\])(sin|cos|tan|log|max|min)(?![a-zA-Z])", in_env="math")
 def check_unescaped_named_math_operators(text, matches):
-    """Precede named mathematical operators with a backslash.
+    r"""関数の名前の前にバックスラッシュを追加してください．例：`\min`
 
     Example
     -------
@@ -379,10 +358,9 @@ def check_unescaped_named_math_operators(text, matches):
     """
     return [m.span() for m in matches]
 
-
 @rule(r"\b(e\.g\.|i\.e\.)\s+")
 def check_abbreviation_innerword_spacing(text, matches):
-    """Place a '\\ ' (backslash space) after the period of an abbreviation.
+    r"""省略や例をあげる場合は直後に`\\ `(backslash space)を入力してください．
 
     Example
     -------
@@ -396,40 +374,34 @@ def check_abbreviation_innerword_spacing(text, matches):
     """
     return [m.span() for m in matches]
 
-
 @rule(r"\\def\\")
 def check_def_command(text, matches):
-    """Do not use the \\def command. Use \\newcommand instead."""
+    r"""`\def`ではなく`\newcommand`を使用してください．"""
     return [m.span() for m in matches]
-
 
 @rule(r"\\sloppy")
 def check_sloppy_command(text, matches):
-    """Avoid the \\sloppy command."""
+    r"""`\sloppy`を使わないでください．"""
     return [m.span() for m in matches]
-
-
-@rule(r"'''|```")
-def check_triple_quote(text, matches):
-    r"""Use a thin space \, to separate quotes."""
-    return [m.span() for m in matches]
-
 
 # @rule(r'[a-z]+ \d [a-z]+')
 def check_unspelt_single_digit_numbers(text, matches):
     """Spell out single digit numbers in words."""
     return [m.span() for m in matches]
 
-
 @rule(r",\s*\.\.\.\s*,", in_env="math")
 def check_dot_dot_dot_maths(text, matches):
-    """Use \\cdots to denote ellipsis in maths."""
+    r"""math環境でのコンマ間の省略は`\ldots`を使用します．"""
     return [m.span() for m in matches]
 
+@rule(r"[+-]\s*\.\.\.\s*[+-]", in_env="math")
+def check_dot_dot_dot_maths(text, matches):
+    r"""math環境での+-間の省略は`\cdots`を使用します．"""
+    return [m.span() for m in matches]
 
 @rule(r"(?<!\\url{)(\bhttps?://)[^\s.]+\.[-A-Za-z0-9+&@#/%?=~_|!:,.;]+")
 def check_bare_urls(text, matches):
-    """Wrap URLs with the \\url command."""
+    r"""URLは`\url`コマンドで囲います．"""
     return [m.span() for m in matches]
 
 @rule(r"[\(（]\\ref{")
@@ -441,7 +413,6 @@ def check_bracket_ref(text, matches):
 def check_double_space(text, matches):
     """Prefer single space over double space after a period."""
     return [m.span() for m in matches]
-
 
 @rule_generator()
 def check_incorrect_abbreviations():
@@ -457,7 +428,6 @@ def check_incorrect_abbreviations():
 
     for incorrect, correct in changes.items():
         yield r"\b" + incorrect + r"\b", correct
-
 
 @rule_generator()
 def check_obsolete_commands():
@@ -477,7 +447,6 @@ def check_obsolete_commands():
 
     for incorrect, correct in changes.items():
         yield r"\\" + incorrect + "{", correct
-
 
 @rule_generator()
 def check_obsolete_packages():
@@ -502,7 +471,6 @@ def check_obsolete_packages():
     for incorrect, correct in changes.items():
         yield r"\\" + incorrect + "{", correct
 
-
 @rule_generator()
 def check_obsolete_environments():
     """Use the {0} instead."""
@@ -511,7 +479,6 @@ def check_obsolete_environments():
 
     for incorrect, correct in changes.items():
         yield r"\begin{" + incorrect + "}", correct
-
 
 def get_brief(r):
     return r.__doc__.split("\n\n")[0]
