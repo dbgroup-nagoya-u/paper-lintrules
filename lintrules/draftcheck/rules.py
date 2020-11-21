@@ -434,7 +434,7 @@ def check_bare_urls(text, matches):
 
 @rule(r"[\(（]\\ref{")
 def check_bracket_ref(text, matches):
-    """`\\ref`を括弧で囲わなくても，`\eqref`を使えば自動で括弧がつきます．"""
+    r"""`\ref`を括弧で囲わなくても，`\eqref`を使えば自動で括弧がつきます．"""
     return [m.span() for m in matches]
 
 # @rule(r'\.  [A-Z]')
