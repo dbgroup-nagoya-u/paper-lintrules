@@ -47,9 +47,10 @@
         },
         "prh": {
             "rulePaths": [
-                "./WEB+DB_PRESS.yml",
+                "./lab.yml",
                 "./techbooster.yml",
-                "./typo.yml"
+                "./typo.yml",
+                "./WEB+DB_PRESS.yml"
             ]
         }
     }
