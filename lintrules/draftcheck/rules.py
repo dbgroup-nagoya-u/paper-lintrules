@@ -432,6 +432,10 @@ def check_bare_urls(text, matches):
     """Wrap URLs with the \\url command."""
     return [m.span() for m in matches]
 
+@rule(r"\(\\ref{")
+def check_bracket_ref(text, matches):
+    """\eqrefを使うと自動で括弧がつきます．"""
+    return [m.span() for m in matches]
 
 # @rule(r'\.  [A-Z]')
 def check_double_space(text, matches):
