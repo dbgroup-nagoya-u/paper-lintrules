@@ -283,8 +283,6 @@ rules:
       - 貴方
       - 貴女
     expected: あなた
-  - pattern: 予め
-    expected: あらかじめ
   - pattern: あらためて
     expected: 改めて
   - pattern:
@@ -387,8 +385,6 @@ rules:
     expected: おそらく
   - pattern: お疲れ様
     expected: お疲れさま
-  - pattern: 面白
-    expected: おもしろ
   - pattern: 却って
     expected: かえって
   - pattern: 片仮名
@@ -510,8 +506,6 @@ rules:
     expected: 筆者
   - pattern: /辿([らりるれろっ])/
     expected: たど$1
-  - pattern: たとえば
-    expected: 例えば
   - pattern:
       - 譬え
       - 喩え
@@ -737,8 +731,6 @@ rules:
     expected: やはり
   - pattern: 闇雲
     expected: やみくも
-  - pattern: やり取り
-    expected: やりとり
   - pattern: 他所
     expected: よそ
   - pattern: /因([らりるれろっ])|依([らりるれろっ])/
@@ -984,7 +976,7 @@ rules:
   - pattern:
       - 元々
       - 本々
-    expected: もともと
+    expected: 本来
   - pattern: /基([^数準盤板底礎本づに])/
     expected: もと$1
   - pattern: した上
@@ -1276,8 +1268,6 @@ rules:
     expected: 難しい
   - pattern: /まか([さしすせそ])/
     expected: 任$1
-  - pattern: /([^っ])伴な|([^っ])ともな/
-    expected: $1伴
   - pattern: /悲([まみむめも])/
     expected: 悲し$1
   - pattern:
@@ -2112,8 +2102,6 @@ rules:
     pattern:  /プロデューサ([^ー])/
   - expected: プランナー$1
     pattern:  /プランナ([^ー])/
-  - expected: マネージャー$1
-    pattern:  /マネージャ([^ー])/
   - expected: メンバー
     # 人間の意味では「メンバー」、変数などは「メンバ」
     pattern:  /メンバ(?!ー)/
