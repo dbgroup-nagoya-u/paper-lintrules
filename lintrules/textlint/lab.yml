@@ -1,0 +1,7 @@
+version: 1
+rules:
+  - expected: I/O
+    pattern: IO
+  - expected: Morton符号
+    pattern: morton符号
+    prh: 人物名は大文字です。

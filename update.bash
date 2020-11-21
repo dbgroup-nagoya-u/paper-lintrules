@@ -18,10 +18,10 @@ then
   exit 1
 fi
 
-if ! command -v jq &>/dev/null;
+if ! command -v unzip &>/dev/null;
 then
-  printf "jq could not be found.\n"
-  printf "Type ${RED}%s${ESC}[m\n" 'sudo apt install jq'
+  printf "unzip could not be found.\n"
+  printf "Type ${RED}%s${ESC}[m\n" 'sudo apt install unzip'
   exit 1
 fi
 
@@ -52,6 +52,7 @@ rm ${latest_file}
     diff -N ${file} ../${file} > /dev/null
     if [ $? -ne 0 ] ;
     then
+      # TODO: Add merge option. Currenctly, it makes local script updated forcely.
       mv ${file} ../${file}
       printf "${BLUE}${file}${ESC}[m %s\n" 'has been updated.'
     fi
