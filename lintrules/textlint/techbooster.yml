@@ -38,9 +38,6 @@ rules:
   - expected: いわ
     pattern:  言わ
     prh: 呼ぶ、で代替するか漢字で書かず、ひらがなで書くと読みやすくなります。
-  - expected: さまざま
-    pattern:  様々
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: よい
     pattern:  /良い(?!例)/
     prh: 良し悪しを評価する表現は"良い"、しなくていい、など評価でない表現は"よい"を使います
@@ -49,39 +46,11 @@ rules:
         to:   よい
       - from: 良い例
         to:   良い例
-  - expected: さらに
-    pattern:  /(変)?更に/
-    regexpMustEmpty: $1
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-    specs:
-      - from: 変更に
-        to:   変更に
-  - expected: もつ
-    pattern:  持つ
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-  - expected: とおり
-    pattern:  通り
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります。"どおり"のケースもありえます
   - expected: ひととおり
     pattern:  /(一|ひと)通り/
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります。
-  - expected: すでに
-    pattern:  既に
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-  - expected: すべて
-    pattern:  /(全て|総て)/
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-  - expected: 例えば
-    pattern:  たとえば
-    prh: ひらがなで書かず、漢字で書くと読みやすくなります。
   - expected: 他の
     pattern:  ほかの
-    prh: ひらがなで書かず、漢字で書くと読みやすくなります
-  - expected: 分かる
-    pattern:  わかる
-    prh: ひらがなで書かず、漢字で書くと読みやすくなります
-  - expected: $1中
-    pattern:  /(その)なか/
     prh: ひらがなで書かず、漢字で書くと読みやすくなります
   - expected: きれい
     pattern:  綺麗
@@ -136,9 +105,6 @@ rules:
     specs:
       - from: 出来上がった
         to:   でき上がった
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-  - expected: したがって
-    pattern:  従って
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: $1ように
     pattern:  /(の)様に/
@@ -195,9 +161,6 @@ rules:
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: のよう
     pattern:  の様
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります。
-  - expected: まったく
-    pattern:  全く
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります。
   - expected: さきほど
     pattern:  先程
