@@ -109,10 +109,10 @@ def check_cite_after_period(text, matches):
     Examples
     --------
     Bad:
-        Johannes Brahms was born in Hamburg.\\cite{}
+        Johannes Brahms was born in Hamburg.\cite{}
 
     Good:
-        Johannes Brahms was born in Hamburg~\\cite{}.
+        Johannes Brahms was born in Hamburg~\cite{}.
     """
     return [m.span() for m in matches]
 
@@ -123,11 +123,11 @@ def check_no_space_before_cite(text, matches):
     Examples
     --------
     Bad:
-        Apollo 17's ``The Blue Marble'' \\cite{} photo of the Earth became an
+        Apollo 17's ``The Blue Marble'' \cite{} photo of the Earth became an
         icon of the environmental movement.
 
     Good:
-        Apollo 17's ``The Blue Marble''~\\cite{} photo of the Earth became an
+        Apollo 17's ``The Blue Marble''~\cite{} photo of the Earth became an
         icon of the environmental movement.
     """
     return [m.span() for m in matches]
@@ -139,10 +139,10 @@ def check_no_space_before_ref(text, matches):
     Examples
     --------
     Bad:
-        The performance of the engine is shown in Figure \\ref{}.
+        The performance of the engine is shown in Figure \ref{}.
 
     Good:
-        The performance of the engine is shown in Figure~\\ref{}.
+        The performance of the engine is shown in Figure~\ref{}.
     """
     return [m.span() for m in matches]
 
@@ -156,7 +156,7 @@ def check_unescaped_percentage(text, matches):
         The company's stocks rose by 15%.
 
     Good:
-        The company's stocks rose by 15\\%.
+        The company's stocks rose by 15\%.
     """
     return [m.span() for m in matches]
 
@@ -170,7 +170,7 @@ def check_incorrect_usage_of_x_as_times(text, matches):
         We used an 10x10 grid for the image filter.
 
     Good:
-        We used an $10 \\times 10$ grid for the image filter.
+        We used an $10 \times 10$ grid for the image filter.
     """
     return [m.span() for m in matches]
 
@@ -198,7 +198,7 @@ def check_dot_dot_dot(text, matches):
         New York, Tokyo, Budapest, ...
 
     Good:
-        New York, Tokyo, Budapest, \\ldots
+        New York, Tokyo, Budapest, \ldots
     """
     return [m.span() for m in matches]
 
@@ -237,17 +237,17 @@ def check_begin_center(text, matches):
     Example
     -------
     Bad:
-        \\begin{figure}
-            \\begin{center}
-                \\includegraphics
-            \\end{center}
-        \\end{figure}
+        \begin{figure}
+            \begin{center}
+                \includegraphics
+            \end{center}
+        \end{figure}
 
     Good:
-        \\begin{figure}
-            \\centering
-            \\includegraphics
-        \\end{figure}
+        \begin{figure}
+            \centering
+            \includegraphics
+        \end{figure}
     """
     return [m.span() for m in matches]
 
@@ -261,12 +261,12 @@ def check_double_dollar_math(text, matches):
         $$ 1 + 1 = 2 $$
 
     Good:
-        \\[ 1 + 1 = 2 \\]
+        \[ 1 + 1 = 2 \]
 
     Good:
-        \\begin{equation}
+        \begin{equation}
             1 + 1 = 2
-        \\end{equation}
+        \end{equation}
     """
     return [m.span() for m in matches]
 
@@ -291,11 +291,11 @@ def check_footnote_before_punctuation(text, matches):
     Example
     -------
     Bad:
-        \\emph{Waiting for Godot}\\footnote{First performed on 5 January 1953 in
+        \emph{Waiting for Godot}\footnote{First performed on 5 January 1953 in
         Paris}, written by Samuel Beckett, is an example of Absurdist Theatre.
 
     Good:
-        \\emph{Waiting for Godot},\\footnote{First performed on 5 January 1953 in
+        \emph{Waiting for Godot},\footnote{First performed on 5 January 1953 in
         Paris} written by Samuel Beckett, is an example of Absurdist Theatre.
     """
     return [m.span() for m in matches]
@@ -309,7 +309,7 @@ def check_relational_operators(text, matches):
         Inner product of $a$ and $b$ is denoted by $<a, b>$.
 
     Good:
-        Inner product of $a$ and $b$ is denoted by $\\langle a, b \\rangle$.
+        Inner product of $a$ and $b$ is denoted by $\langle a, b \rangle$.
 
     Good:
         It must satisfy this inequality: $a < b, c > d$.
@@ -323,10 +323,10 @@ def check_multiple_cite(text, matches):
     Example
     -------
     Bad:
-        This problem has many real-world applications~\\cite{A}\\cite{B}.
+        This problem has many real-world applications~\cite{A}\cite{B}.
 
     Good:
-        This problem has many real-world applications~\\cite{A, B}.
+        This problem has many real-world applications~\cite{A, B}.
     """
     return [m.span() for m in matches]
 
@@ -354,7 +354,7 @@ def check_unescaped_named_math_operators(text, matches):
         The famous trignometric identity: $sin^2(x) + cos^2(x) = 1$.
 
     Good:
-        The famous trignometric identity: $\\sin^2(x) + \\cos^2(x) = 1$.
+        The famous trignometric identity: $\sin^2(x) + \cos^2(x) = 1$.
     """
     return [m.span() for m in matches]
 
@@ -369,7 +369,7 @@ def check_abbreviation_innerword_spacing(text, matches):
         the attention span of young adults.
 
     Good:
-        This shows that new technological gadgets, e.g.\\\\ smart phones,
+        This shows that new technological gadgets, e.g.\\ smart phones,
         decrease the attention span of young adults.
     """
     return [m.span() for m in matches]
