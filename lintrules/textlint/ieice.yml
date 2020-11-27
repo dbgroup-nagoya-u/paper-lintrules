@@ -129,7 +129,9 @@ rules:
     - expected: ため
       pattern: 為
     - expected: 恐れ
-      pattern: 虞
+      pattern: 
+       - おそれ
+       - 虞
     - expected: ただし書
       pattern: 但書
     - expected: よる
