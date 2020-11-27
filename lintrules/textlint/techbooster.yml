@@ -38,14 +38,6 @@ rules:
   - expected: いわ
     pattern:  言わ
     prh: 呼ぶ、で代替するか漢字で書かず、ひらがなで書くと読みやすくなります。
-  - expected: よい
-    pattern:  /良い(?!例)/
-    prh: 良し悪しを評価する表現は"良い"、しなくていい、など評価でない表現は"よい"を使います
-    specs:
-      - from: 良い
-        to:   よい
-      - from: 良い例
-        to:   良い例
   - expected: 他の
     pattern:  ほかの
     prh: ひらがなで書かず、漢字で書くと読みやすくなります
@@ -66,34 +58,6 @@ rules:
         to:   事柄
       - from: 当事
         to:   当事
-  - expected: $1とき
-    pattern:  /(の)時(?!点|代|々|間)/
-    specs:
-      - from: その時
-        to:   そのとき
-      - from: その時点
-        to:   その時点
-      - from: その時代
-        to:   その時代
-      - from: それまでの時間
-        to:   それまでの時間
-      - from: 同時
-        to:   同時
-      - from: 実行時
-        to:   実行時
-      - from: 利用時
-        to:   利用時
-      - from: 開発時
-        to:   開発時
-      - from: 執筆時
-        to:   執筆時
-      - from: 時点
-        to:   時点
-      - from: 時代
-        to:   時代
-      - from: 時間
-        to:   時間
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: でき$1
     pattern:  /出来(る|て|た|ま|上が)/
     specs:
@@ -115,12 +79,6 @@ rules:
     pattern:
       - 成る
       - 為る
-    prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-  - expected: $1あとで
-    pattern:  /(して|した|、)後で/
-    specs:
-      - from: して後で
-        to:   してあとで
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
   - expected: ゆえに
     pattern:  故に
@@ -150,9 +108,9 @@ rules:
   - expected: ひとつ
     pattern:  一つ
     prh: 通常は、ひとつ。数詞は１つ、漢数字は数えられる固有名詞を指す場合に利用します
-#  - expected:ふたつ
-#    pattern:二つ
-#    prh: 通常は、ふたつ。数詞は１つ、漢数字は数えられる固有名詞を指す場合に利用
+  - expected: ふたつ
+    pattern:  二つ
+    prh: 通常は、ふたつ。数詞は１つ、漢数字は数えられる固有名詞を指す場合に利用
   - expected: ちょうど
     pattern:  /(丁度|調度)/
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります

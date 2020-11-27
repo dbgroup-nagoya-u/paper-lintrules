@@ -28,10 +28,17 @@
         "preset-ja-technical-writing": {
             "ja-no-mixed-period": false,
             "ja-unnatural-alphabet": false,
+            "ja-no-redundant-expression": {
+                "dictOptions": {
+                    "dict5": {
+                        "disabled": true
+                    }
+                }
+            },
             "max-kanji-continuous-len": false,
             "max-comma": false,
             "sentence-length": {
-                "max": 100,
+                "max": 1000,
                 "exclusionPatterns": [
                     "/\\$.*?\\$/",
                     "/\\{.*?\\}/",
