@@ -59,6 +59,8 @@
                 "./typo.yml",
                 "./WEB+DB_PRESS.yml"
             ]
-        }
+        },
+        "@textlint-ja/textlint-rule-no-insert-dropping-sa": true,
+        "prefer-tari-tari": true
     }
 }
