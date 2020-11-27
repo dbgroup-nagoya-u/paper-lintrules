@@ -26,7 +26,6 @@
     },
     "rules": {
         "preset-ja-technical-writing": {
-            "@textlint-ja/textlint-rule-no-dropping-i": true,
             "ja-no-mixed-period": false,
             "ja-unnatural-alphabet": false,
             "ja-no-redundant-expression": {
@@ -62,6 +61,7 @@
             ]
         },
         "@textlint-ja/textlint-rule-no-insert-dropping-sa": true,
+        "@textlint-ja/textlint-rule-no-dropping-i": true,
         "prefer-tari-tari": true
     }
 }
