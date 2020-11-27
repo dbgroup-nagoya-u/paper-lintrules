@@ -17,7 +17,8 @@ jobs:
           textlint-rule-preset-jtf-style \
           textlint-rule-prh \
           textlint-filter-rule-allowlist \
-          @textlint/textlint-plugin-text
+          @textlint/textlint-plugin-text \
+          @textlint-ja/textlint-rule-no-dropping-i
       - name: Run textlint with reviewdog
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
