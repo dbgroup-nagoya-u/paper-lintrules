@@ -174,9 +174,9 @@ def check_incorrect_usage_of_x_as_times(text, matches):
     """
     return [m.span() for m in matches]
 
-# @rule(r'[a-z]+\s-\s[a-z]+')
+@rule(r'([a-z]|[^\x01-\x7E])+\s-\s([a-z]|[^\x01-\x7E])+')
 def check_space_surrounded_dash(text, matches):
-    """Use an em-dash '---' to denote parenthetical breaks or statements.
+    """`-`ではなく`---`を使用してください
 
     Example
     -------
@@ -384,9 +384,9 @@ def check_sloppy_command(text, matches):
     r"""`\sloppy`を使わないでください．"""
     return [m.span() for m in matches]
 
-# @rule(r'[a-z]+ \d [a-z]+')
+@rule(r'[a-z]+ \d [a-z]+')
 def check_unspelt_single_digit_numbers(text, matches):
-    """Spell out single digit numbers in words."""
+    """文中の一桁の数字は英語で書いてください."""
     return [m.span() for m in matches]
 
 @rule(r",\s*\.\.\.\s*,", in_env="math")
@@ -407,11 +407,6 @@ def check_bare_urls(text, matches):
 @rule(r"[\(（]\\ref{")
 def check_bracket_ref(text, matches):
     r"""`\ref`を括弧で囲わなくても，`\eqref`を使えば自動で括弧がつきます．"""
-    return [m.span() for m in matches]
-
-# @rule(r'\.  [A-Z]')
-def check_double_space(text, matches):
-    """Prefer single space over double space after a period."""
     return [m.span() for m in matches]
 
 @rule_generator()
