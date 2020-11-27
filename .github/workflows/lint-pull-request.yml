@@ -19,7 +19,6 @@ jobs:
           textlint-filter-rule-allowlist \
           @textlint/textlint-plugin-text \
           textlint-rule-ja-hiragana-keishikimeishi \
-          textlint-rule-ja-hiragana-daimeishi \
           textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet
       - name: Run textlint with reviewdog
         env:
