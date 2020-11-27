@@ -1,0 +1,74 @@
+# 漢字とひらがなのどちらで書くべきか迷うワードを収録
+version: 1
+rules:
+    - expected: すてき
+      pattern:  素敵
+      prh: 漢字で書かず、ひらがなで書くと読みやすくなります
+    - expected: $1とおり
+      patterns: /(思った|以下の)通り/
+      specs:
+          - from: （例）思った通り。
+            to:   （例）思ったとおり。
+          - from: 以下の通りです。
+            to:   以下のとおりです。
+          - from: プリペット通り4番地
+            to: プリペット通り4番地  
+    - expected: $1あとに
+      pattern:  /(して|した|、)後に/
+      specs:
+          - from: した後に
+            to: したあとに
+    - expected: もしくは
+      patterns: 若しくは
+# 表外音訓については http://www16.atpages.jp/kanjikentei/hyogaiyomi.html
+    - expected: かなし
+      pattern: 哀し
+      prh: 表外音訓
+    - expected: にくむ
+      pattern: 悪む
+      prh: 表外音訓
+    - expected: こく
+      pattern: 扱く
+      prh: 表外音訓
+    - expected: ゆだね
+      pattern: 委ね
+      prh: 表外音訓
+    - expected: なす
+      pattern: 為す
+      prh: 表外音訓
+    - expected: よる
+      pattern: 依る
+      prh: 表外音訓
+    - expected: よっ
+      pattern: 依っ
+      prh: 表外音訓
+    - expected: より
+      pattern: 依り
+      prh: 表外音訓
+    - expected: ちなみ
+      pattern: 因み
+      prh: 表外音訓
+    - expected: ちなむ
+      pattern: 因む
+      prh: 表外音訓
+    - expected: こたえ
+      pattern: 応え
+      prh: 表外音訓
+    - expected: おぼえ
+      pattern: 憶え
+      prh: 表外音訓
+    - expected: ぬるい
+      pattern: 温い
+      prh: 表外音訓
+    - expected: ぬるめ
+      pattern: 温め
+      prh: 表外音訓
+    - expected: くくる
+      pattern: 括る
+      prh: 表外音訓
+    - expected: くくり
+      pattern: 括り
+      prh: 表外音訓
+    - expected: 箇条書き
+      patterns: 個条書き
+      prh: 表外音訓

@@ -57,7 +57,10 @@
                 "./lab.yml",
                 "./techbooster.yml",
                 "./typo.yml",
-                "./WEB+DB_PRESS.yml"
+                "./textlint-prh-kanji-hiragana.yml",
+                "./textlint-prh-noun.yml",
+                "./WEB+DB_PRESS.yml",
+                "./ieice.yml"
             ]
         },
         "@textlint-ja/textlint-rule-no-insert-dropping-sa": true,
