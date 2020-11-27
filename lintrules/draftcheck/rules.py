@@ -118,7 +118,7 @@ def check_cite_after_period(text, matches):
 
 @rule(r"[^~]\\cite{")
 def check_no_space_before_cite(text, matches):
-    r"""半角スペースを空けつつ行頭を禁止するため，引用の前に`~`を追加してください．
+    r"""行頭に引用がくるのを禁止するため，引用の前に`~`を追加してください．
 
     Examples
     --------
@@ -134,7 +134,7 @@ def check_no_space_before_cite(text, matches):
 
 @rule(r"[^~{]\\ref{")
 def check_no_space_before_ref(text, matches):
-    r"""半角スペースを空けつつ行頭を禁止するため，`\ref`の前に`~`を追加してください．
+    r"""行頭に参照がくるのを禁止するため，`\ref`の前に`~`を追加してください．あるいは研究室のtexファイル中の`\newcommand`で定義されたコマンドを使用してください．
 
     Examples
     --------
@@ -176,7 +176,7 @@ def check_incorrect_usage_of_x_as_times(text, matches):
 
 @rule(r'([a-z]|[^\x01-\x7E])+\s-\s([a-z]|[^\x01-\x7E])+')
 def check_space_surrounded_dash(text, matches):
-    """`-`ではなく`---`を使用してください
+    """`-`ではなく`---`を使用してください．
 
     Example
     -------
@@ -286,7 +286,7 @@ def check_numeric_range_dash(text, matches):
 
 @rule(r"\\footnote{.+?}[，．]")
 def check_footnote_before_punctuation(text, matches):
-    r"""`\footnote`は句読点の直前で使用してください．
+    r"""`\footnote`は句読点の直後で使用してください．
 
     Example
     -------
@@ -382,11 +382,6 @@ def check_def_command(text, matches):
 @rule(r"\\sloppy")
 def check_sloppy_command(text, matches):
     r"""`\sloppy`を使わないでください．"""
-    return [m.span() for m in matches]
-
-@rule(r'[a-z]+ \d [a-z]+')
-def check_unspelt_single_digit_numbers(text, matches):
-    """文中の一桁の数字は英語で書いてください."""
     return [m.span() for m in matches]
 
 @rule(r",\s*\.\.\.\s*,", in_env="math")
