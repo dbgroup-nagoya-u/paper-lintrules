@@ -17,7 +17,10 @@ jobs:
           textlint-rule-preset-jtf-style \
           textlint-rule-prh \
           textlint-filter-rule-allowlist \
-          @textlint/textlint-plugin-text
+          @textlint/textlint-plugin-text \
+          textlint-rule-ja-hiragana-keishikimeishi \
+          textlint-rule-ja-hiragana-daimeishi \
+          textlint-rule-no-mixed-zenkaku-and-hankaku-alphabet
       - name: Run textlint with reviewdog
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
