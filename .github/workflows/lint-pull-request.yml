@@ -18,7 +18,7 @@ jobs:
           textlint-rule-prh \
           textlint-filter-rule-allowlist \
           @textlint/textlint-plugin-text \
-          @textlint-ja/textlint-rule-no-insert-dropping-sa
+          @textlint-ja/textlint-rule-no-insert-dropping-sa \
           textlint-rule-prefer-tari-tari
       - name: Run textlint with reviewdog
         env:
