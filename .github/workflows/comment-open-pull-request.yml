@@ -2,7 +2,7 @@ name: Comment for Opened Pull Request
 
 on:
   pull_request:
-#    types: [opened]
+    types: [opened]
 
 jobs:
   comment:
