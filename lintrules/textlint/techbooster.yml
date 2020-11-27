@@ -89,8 +89,11 @@ rules:
   - expected: はやる
     pattern:  流行る
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
-  - expected: のよう
-    pattern:  の様
+  - expected: のような
+    pattern:  の様な
+    prh: 漢字で書かず、ひらがなで書くと読みやすくなります。
+  - expected: のように
+    pattern:  の様に
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります。
   - expected: さきほど
     pattern:  先程
