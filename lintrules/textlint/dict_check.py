@@ -1,7 +1,9 @@
 import re
 from collections import defaultdict
 #↓既存の辞書（検査されない）
-exsisted_path = ["WEB+DB_PRESS.yml"]#,"techbooster.yml","textlint-prh-kanji-hiragana.yml"]
+exsisted_path = ["WEB+DB_PRESS.yml","techbooster.yml","textlint-prh-kanji-hiragana.yml","lab.yml","textlint-prh-noun.yml","typo.yml"]
+#↓追加する辞書
+new_path =  ["ieice.yml"]
 
 flag = False
 expecteds = set()
@@ -23,13 +25,13 @@ for p in exsisted_path:
                 flag = False
             elif flag:
                 patterns.add(re.split("[:|-]\s+",i)[-1].split('\n')[0])
-#↓追加する辞書
-new_path = ["techbooster.yml","textlint-prh-noun.yml","textlint-prh-kanji-hiragana.yml"]
+
 line = 1
 flag = False
 
 for p in new_path:
     line = 1
+    print(p)
     with open(p) as f:
         for i in f:
             if re.match(".*expected:",i):

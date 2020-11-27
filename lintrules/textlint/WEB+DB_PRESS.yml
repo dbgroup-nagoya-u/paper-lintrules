@@ -56,9 +56,7 @@ rules:
     expected: 気付
   - pattern: 近づ
     expected: 近付
-  - pattern:
-      - 検討がつ
-      - 検討がつ
+  - pattern: 検討がつ
     expected: 見当が付
   - pattern: 思いつく
     expected: 思い付く
@@ -325,8 +323,6 @@ rules:
       - 何れ
       - いづれ
     expected: いずれ
-  - pattern: 至って
-    expected: いたって
   - pattern: 一々
     expected: いちいち
   - pattern: /何時([^間])/
@@ -383,8 +379,6 @@ rules:
     expected: おしなべて
   - pattern: 自ずと
     expected: おのずと
-  - pattern: 恐らく
-    expected: おそらく
   - pattern: お疲れ様
     expected: お疲れさま
   - pattern: 面白
@@ -638,8 +632,6 @@ rules:
     expected: はぐく$1
   - pattern: /([^手])筈/
     expected: $1はず
-  - pattern: 甚だ
-    expected: はなはだ
   - pattern: /孕([まみむめもんっ])/
     expected: はら$1
   - pattern:
@@ -721,8 +713,6 @@ rules:
     expected: もったいな
   - pattern: もっとも
     expected: 最も
-  - pattern: 尤も
-    expected: もっとも
   - pattern: /貰([わいうえおっ])/
     expected: もら$1
   - pattern: 易し
@@ -743,8 +733,6 @@ rules:
     expected: よそ
   - pattern: /因([らりるれろっ])|依([らりるれろっ])/
     expected: よ$1
-  - pattern: 僅か
-    expected: わずか
   - pattern: いい
     expected: よい
   - pattern: 心地よ
@@ -919,8 +907,6 @@ rules:
     expected: $1今まで
   - pattern: 今時
     expected: 今どき
-  - pattern: 今更
-    expected: 今さら
   - pattern: 尚更
     expected: なおさら
   - pattern: やむをえ|止むを得
@@ -1323,8 +1309,6 @@ rules:
     expected: 冷や$1
   - pattern: /連([らりるれろっ])|つらな([らりるれろっ])/
     expected: 連な$1
-  - pattern: はさまざま
-    expected: はさまざま
   - pattern: /はさ([まみむめもん])/
     expected: 挟$1
   - pattern: おそれ

@@ -1,0 +1,136 @@
+version: 1
+rules:
+    - expected: 必ず
+      pattern: かならず
+    - expected: 少し
+      pattern: すこし
+    - expected: 既に
+      pattern: すでに
+    - expected: 直ちに
+      pattern: ただちに
+    - expected: 甚だ
+      pattern: はなはだ
+    - expected: 再び
+      pattern: ふたたび
+    - expected: 全く
+      pattern: まったく
+    - expected: 最も
+      pattern: もっとも
+    - expected: 専ら
+      pattern: もっぱら
+    - expected: 余り
+      pattern: あまり
+    - expected: 至って
+      pattern: いたって
+    - expected: 大いに
+      pattern: おおいに
+    - expected: 恐らく
+      pattern: おそらく
+    - expected: 必ずしも
+      pattern: かならずしも
+    - expected: 辛うじて
+      pattern: かろうじて
+    - expected: 極めて
+      pattern: きわめて
+    - expected: 殊に
+      pattern: ことに
+    - expected: 更に
+      pattern: さらに
+    - expected: 少なくとも
+      pattern: すくなくとも
+    - expected: 全て
+      pattern: すべて
+    - expected: 絶えず
+      pattern: たえず
+    - expected: 互いに
+      pattern: たがいに
+    - expected: 例えば
+      pattern: たとえば
+    - expected: 次いで
+      pattern: ついで
+    - expected: 努めて
+      pattern: つとめて
+    - expected: 常に
+      pattern: つねに
+    - expected: 初めて
+      pattern: はじめて
+    - expected: 果たして
+      pattern: はたして
+    - expected: 割に
+      pattern: わりに
+    - expected: 概して
+      pattern: がいして
+    - expected: 実に
+      pattern: じつに
+    - expected: 切に
+      pattern: せつに
+    - expected: 大して
+      pattern: たいして
+    - expected: 特に
+      pattern: とくに
+    - expected: 突然
+      pattern: とつぜん
+    - expected: 無論
+      pattern: むろん
+    - expected: 明くる
+      pattern: あくる
+    - expected: 大きな
+      pattern: おおきな
+    - expected: 来る
+      pattern: くる
+    - expected: 去る
+      pattern: さる
+    - expected: 小さな
+      pattern: ちいさな
+    - expected: 我が
+      pattern: わが
+    - expected: 僅か
+      pattern: わずか
+    - expected: など
+      pattern: 等
+    - expected: よほど
+      pattern: 余程
+    - expected: おって
+      pattern: 追って
+    - expected: かつ
+      pattern: 且つ
+    - expected: したがって
+      pattern: 従って
+    - expected: ただし
+      pattern: 但し
+    - expected: ところが
+      pattern: 所が
+    - expected: ところで
+      pattern: 所で
+    - expected: また
+      pattern: 又
+    - expected: ゆえに
+      pattern: 故に
+    - expected: または
+      pattern: 又は
+    - expected: ようだ
+      pattern: 様だ
+    - expected: ぐらい
+      pattern: 位
+    - expected: できる
+      pattern: 出来る
+    - expected: 出来上が
+      pattern: できあが
+    - expected: 出来心
+      pattern: できごころ
+    - expected: もって
+      pattern: 以て
+    - expected: この
+      pattern: 此
+    - expected: これ
+      pattern: 之
+    - expected: その
+      pattern: 其
+    - expected: ため
+      pattern: 為
+    - expected: 恐れ
+      pattern: 虞
+    - expected: ただし書
+      pattern: 但書
+    - expected: よる
+      pattern: 因る
