@@ -8,6 +8,7 @@
 - [ ] **textlintを参考に、可能な限り執筆・修正：**
 最初はReviewerを追加せず、このDraft Pull Requestで執筆・修正を続けてください。可能な限りtextlintが指摘を行います。
 漢字や送り仮名に対する微妙な指摘については、[電子情報通信学会の資料（1ページ）](https://www.ieice.org/jpn/shiori/pdf/furoku_d.pdf)や[常用漢字一覧表 - 文化庁](https://www.bunka.go.jp/kokugo_nihongo/sisaku/joho/joho/kakuki/14/pdf/jyouyou_kanjihyou.pdf)を参考にしてください。
+修正した指摘や無視した指摘については、Resolve conversationボタンを押しておくと良いです。
 Review commentの数が100に近づくとページの表示が重くなります。適宜Draft Pull RequestをCloseし、別のDraft Pull Requestで作業を続けてください。
 - [ ] **参考文献のタイトルに含まれる固有名詞を`{}`で囲う：**
 Bibtexでは、タイトルの文字が自動的に大文字や小文字に変換されます。固有名詞をそのままの文字で残すため、それらを波括弧で囲んでください。textlintからの指摘は行われないので注意してください。
