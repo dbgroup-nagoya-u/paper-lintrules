@@ -59,7 +59,8 @@
                 "./typo.yml",
                 "./textlint-prh-kanji-hiragana.yml",
                 "./textlint-prh-noun.yml",
-                "./WEB+DB_PRESS.yml"
+                "./WEB+DB_PRESS.yml",
+                "./ieice.yml"
             ]
         }
     }

@@ -1,5 +1,6 @@
 import re
 from collections import defaultdict
+relativity_path = "./lintrules/textlint/"
 #↓既存の辞書（検査されない）
 exsisted_path = ["WEB+DB_PRESS.yml","techbooster.yml","textlint-prh-kanji-hiragana.yml","lab.yml","textlint-prh-noun.yml","typo.yml"]
 #↓追加する辞書
@@ -10,7 +11,7 @@ expecteds = set()
 patterns = set()
 
 for p in exsisted_path:
-    with open(p) as f:
+    with open(relativity_path + p) as f:
         for i in f:
             if re.match(".*expected:",i):
                 expecteds.add(i.split()[-1])
@@ -32,7 +33,7 @@ flag = False
 for p in new_path:
     line = 1
     print(p)
-    with open(p) as f:
+    with open(relativity_path + p) as f:
         for i in f:
             if re.match(".*expected:",i):
                 flag = False
