@@ -176,7 +176,7 @@ def check_incorrect_usage_of_x_as_times(text, matches):
 
 @rule(r'([a-z]|[^\x01-\x7E])+\s-\s([a-z]|[^\x01-\x7E])+')
 def check_space_surrounded_dash(text, matches):
-    """'-'ではなく'---'を使用してください
+    """`-`ではなく`---`を使用してください
 
     Example
     -------
