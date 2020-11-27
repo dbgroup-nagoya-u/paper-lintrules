@@ -384,7 +384,7 @@ def check_sloppy_command(text, matches):
     r"""`\sloppy`を使わないでください．"""
     return [m.span() for m in matches]
 
-# @rule(r'[a-z]+ \d [a-z]+')
+@rule(r'[a-z]+ \d [a-z]+')
 def check_unspelt_single_digit_numbers(text, matches):
     """文中の一桁の数字は英語で書いてください."""
     return [m.span() for m in matches]
