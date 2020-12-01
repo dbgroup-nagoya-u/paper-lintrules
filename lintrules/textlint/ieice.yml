@@ -121,7 +121,7 @@ rules:
       pattern: わずか
       prh: 参考：https://www.ieice.org/jpn/shiori/pdf/furoku_d.pdf
     - expected: など$1
-      pattern: /等(の|が)/
+      pattern: /等[のが，にで]/
       prh: 参考：https://www.ieice.org/jpn/shiori/pdf/furoku_d.pdf
     - expected: よほど
       pattern: 余程

@@ -42,7 +42,7 @@ rules:
       - つけ加
       - つけくわ
     expected: 付け加
-  - pattern: /つけた(す|し)/
+  - pattern: /つけた[すし]/
     expected: 付け足$1
   - pattern: 関連づけ
     expected: 関連付け
