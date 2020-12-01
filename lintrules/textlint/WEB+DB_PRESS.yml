@@ -42,8 +42,8 @@ rules:
       - つけ加
       - つけくわ
     expected: 付け加
-  - pattern: つけた
-    expected: 付け足
+  - pattern: /つけた(す|し)\
+    expected: 付け足$1
   - pattern: 関連づけ
     expected: 関連付け
   - pattern: 位置づけ
