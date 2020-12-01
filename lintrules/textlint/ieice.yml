@@ -120,8 +120,8 @@ rules:
     - expected: 僅か
       pattern: わずか
       prh: 参考：https://www.ieice.org/jpn/shiori/pdf/furoku_d.pdf
-    - expected: など
-      pattern: 等
+    - expected: など$1
+      pattern: /等([にのはもをがだで，])/
       prh: 参考：https://www.ieice.org/jpn/shiori/pdf/furoku_d.pdf
     - expected: よほど
       pattern: 余程
