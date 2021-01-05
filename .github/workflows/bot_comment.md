@@ -13,7 +13,7 @@ Review commentの数が100に近づくとページの表示が重くなります
 - [ ] **参考文献のタイトルに含まれる固有名詞を`{}`で囲う：**
 Bibtexでは、タイトルの文字が自動的に大文字や小文字に変換されます。固有名詞をそのままの文字で残すため、それらを波括弧で囲んでください。textlintからの指摘は行われないので注意してください。
 （例）`title={... {MySQL}}`
-- [ ] **`.github/workflows/textlint.yml`と`.github/workflows/comment-open-pull-request.yml`を削除し、commitをpush：**
+- [ ] **`.github/workflows/lint-pull-request.yml`と`.github/workflows/comment-open-pull-request.yml`を削除し、commitをpush：**
 修正が完了し、Reviewerに添削をお願いできる状況になったら、上記ファイルを削除してcommitをpushしてください。以降のcommitに対してはtextlintによる指摘が行われなくなります。
 - [ ] **このDraft Pull RequestをClose**
 - [ ] **Pull Requestを作成：**
