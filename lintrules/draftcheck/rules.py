@@ -202,7 +202,7 @@ def check_dot_dot_dot(text, matches):
     """
     return [m.span() for m in matches]
 
-@rule(r'(?<!{\\)"')
+@rule(r'(?<!{\\)["”“″〝゛‶]')
 def check_double_quote(text, matches):
     r"""ダブルクオートで文字を囲わず``` ``文字'' ```としてください．
 
