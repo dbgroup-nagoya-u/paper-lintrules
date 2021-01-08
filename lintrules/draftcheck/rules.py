@@ -216,7 +216,7 @@ def check_double_quote(text, matches):
     """
     return [m.span() for m in matches]
 
-@rule(r"\s[\'’′´‘＇].+?[\'’′´‘＇][\s\.,]")
+@rule(r"\s['’′´‘＇].+?['’′´‘＇][\s\.,]")
 def check_single_quote(text, matches):
     r"""シングルクオートで文字を囲わず`` `文字' ``としてください．
 
