@@ -165,7 +165,7 @@ rules:
       - 十番め
     expected: 10番目
   - pattern:
-      - ふたつ
+      - ひとつ
       - 1つ
     expected: 一つ
   - pattern:
