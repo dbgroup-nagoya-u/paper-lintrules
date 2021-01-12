@@ -71,59 +71,59 @@ rules:
       - 1人1人
     expected: 一人一人
   - pattern:
-      - 一つめ
+      - 1つめ
       - ひとつめ
-      - 一つ目
+      - 1つ目
       - ひとつ目
-    expected: 1つ目
+    expected: 一つ目
   - pattern:
-      - 二つめ
+      - 2つめ
       - ふたつめ
-      - 二つ目
+      - 2つ目
       - ふたつ目
-    expected: 2つ目
+    expected: 二つ目
   - pattern:
-      - 三つめ
+      - 3つめ
       - みっつめ
-      - 三つ目
+      - 3つ目
       - みっつ目
-    expected: 3つ目
+    expected: 三つ目
   - pattern:
-      - 四つめ
+      - 4つめ
       - よっつめ
-      - 四つ目
+      - 4つ目
       - よっつ目
-    expected: 4つ目
+    expected: 四つ目
   - pattern:
-      - 五つめ
+      - 5つめ
       - いつつめ
-      - 五つ目
+      - 5つ目
       - いつつ目
-    expected: 5つ目
+    expected: 五つ目
   - pattern:
-      - 六つめ
+      - 6つめ
       - むっつめ
-      - 六つ目
+      - 6つ目
       - むっつ目
-    expected: 6つ目
+    expected: 六つ目
   - pattern:
-      - 七つめ
+      - 7つめ
       - ななつめ
-      - 七つ目
+      - 7つ目
       - ななつ目
-    expected: 7つ目
+    expected: 七つ目
   - pattern:
-      - 八つめ
+      - 8つめ
       - やっつめ
-      - 八つ目
+      - 8つ目
       - やっつ目
-    expected: 8つ目
+    expected: 八つ目
   - pattern:
-      - 九つめ
+      - 9つめ
       - ここのつめ
-      - 九つ目
+      - 9つ目
       - ここのつ目
-    expected: 9つ目
+    expected: 九つ目
   - pattern:
       - 一番目
       - 一番め
@@ -166,38 +166,38 @@ rules:
     expected: 10番目
   - pattern:
       - ふたつ
-      - 二つ
-    expected: 2つ
+      - 2つ
+    expected: 二つ
   - pattern:
       - みっつ
-      - 三つ
-    expected: 3つ
+      - 3つ
+    expected: 三つ
   - pattern:
       - よっつ
-      - 四つ
-    expected: 4つ
+      - 4つ
+    expected: 四つ
   - pattern:
       - いつつ
-      - 五つ
-    expected: 5つ
+      - 5つ
+    expected: 五つ
   - pattern:
       - むっつ
-      - 六つ
-    expected: 6つ
+      - 6つ
+    expected: 六つ
   - pattern:
       - ななつ
-      - 七つ
-    expected: 7つ
+      - 7つ
+    expected: 七つ
   - pattern:
       - やっつ
-      - 八つ
-    expected: 8つ
+      - 8つ
+    expected: 八つ
   - pattern:
       - ここのつ
-      - 九つ
-    expected: 9つ
+      - 9つ
+    expected: 九つ
   - pattern: /([\d]+)つめ
-    expected: $1つ目
+    expected: $一つ目
   - pattern: /([\d]+)番め/
     expected: $1番目
   - pattern: /いちばん([^め目])|1番([^め目])/
@@ -884,11 +884,6 @@ rules:
     expected: 言い訳
   - pattern: いわれる
     expected: 言われる
-  - pattern:
-      - 今ひとつ
-      - 今一つ
-      - いま一つ
-    expected: いまひとつ
   - pattern:
       - 今更
       - 今さら
