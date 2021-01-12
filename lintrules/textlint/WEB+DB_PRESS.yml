@@ -166,6 +166,10 @@ rules:
     expected: 10番目
   - pattern:
       - ふたつ
+      - 1つ
+    expected: 一つ
+  - pattern:
+      - ふたつ
       - 2つ
     expected: 二つ
   - pattern:

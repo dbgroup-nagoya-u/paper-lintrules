@@ -107,12 +107,6 @@ rules:
   - expected: 下げ
     pattern:  さげ
     prh: ひらがなで書かず、漢字で「下げ」と読みやすくなります。
-  - expected: 一つ
-    pattern:  ひとつ
-    prh: 基本的には漢数字を用います。
-  - expected: 二つ
-    pattern:  ふたつ
-    prh: 基本的には漢数字を用います。
   - expected: ちょうど
     pattern:  /(丁度|調度)/
     prh: 漢字で書かず、ひらがなで書くと読みやすくなります
