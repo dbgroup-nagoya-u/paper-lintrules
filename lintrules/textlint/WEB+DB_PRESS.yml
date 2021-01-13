@@ -200,8 +200,6 @@ rules:
       - ここのつ
       - 9つ
     expected: 九つ
-  - pattern: /([\d]+)つめ
-    expected: $一つ目
   - pattern: /([\d]+)番め/
     expected: $1番目
   - pattern: /いちばん([^め目])|1番([^め目])/
