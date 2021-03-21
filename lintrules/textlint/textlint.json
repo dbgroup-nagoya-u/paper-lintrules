@@ -28,6 +28,7 @@
         "preset-ja-technical-writing": {
             "ja-no-mixed-period": false,
             "ja-unnatural-alphabet": false,
+            "arabic-kanji-numbers": false,
             "ja-no-redundant-expression": {
                 "dictOptions": {
                     "dict5": {
