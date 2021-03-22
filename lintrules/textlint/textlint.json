@@ -37,7 +37,9 @@
                 }
             },
             "max-kanji-continuous-len": false,
-            "max-comma": false,
+            "max-comma": {
+                "max" : 2
+            },
             "sentence-length": {
                 "max": 1000,
                 "exclusionPatterns": [
