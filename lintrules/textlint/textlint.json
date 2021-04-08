@@ -42,7 +42,6 @@
                 "kuten": "．"
             },
             "max-kanji-continuous-len": false,
-            "max-comma": false,
             "sentence-length": {
                 "max": 1000,
                 "exclusionPatterns": [
