@@ -36,6 +36,11 @@
                     }
                 }
             },
+            "max-ten": {
+                "max": 2,
+                "touten": "，",
+                "kuten": "．"
+            },
             "max-kanji-continuous-len": false,
             "max-comma": false,
             "sentence-length": {
