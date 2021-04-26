@@ -47,7 +47,7 @@ rm ${latest_file}
 
   pushd ${unzip_dir} > /dev/null
   # TODO: Clarify exclude file and directory.
-  for file in $(find . -type d \( -path './.github/ISSUE_TEMPLATE' -o -path './dir' \) -prune -false -o -type f -not -name 'README.md' -not -name '**.tex' -not -name 'update.bash');
+  for file in $(find . -type d \( -path './.github/ISSUE_TEMPLATE' -o -path './dir' \) -prune -false -o -type f -not -name 'README.md' -not -name '**.tex' -not -name 'update.bash' -not -name 'dict_check.py');
   do
     diff -N ${file} ../${file} > /dev/null
     if [ $? -ne 0 ] ;
