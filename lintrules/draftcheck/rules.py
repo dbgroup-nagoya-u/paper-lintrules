@@ -404,6 +404,11 @@ def check_bracket_ref(text, matches):
     r"""`\ref`を括弧で囲わなくても，`\eqref`を使えば自動で括弧がつきます．"""
     return [m.span() for m in matches]
 
+@rule(r"\\chapter{.+・.+}|\\section{.+・.+}|\\subsection{.+・.+}\\subsubsection{.+・.+}")
+def check_title_multiple_enumeration(text, matches):
+    r"""タイトルで`・`を使って複数列挙しないでください．"""
+    return [m.span() for m in matches]
+
 @rule_generator()
 def check_incorrect_abbreviations():
     """Punctuate abbreviations correctly. Should be "{0}"."""
