@@ -26,6 +26,7 @@
     },
     "rules": {
         "preset-ja-technical-writing": {
+            "no-mix-dearu-desumasu": false,
             "ja-no-mixed-period": false,
             "ja-unnatural-alphabet": false,
             "arabic-kanji-numbers": false,
