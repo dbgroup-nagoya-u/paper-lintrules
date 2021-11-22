@@ -16,6 +16,11 @@
           "産業技術総合開発機構"
         ]
       },
+      "max-ten": {
+        "max": 2,
+        "touten": "，",
+        "kuten": "．"
+      },
       "no-mix-dearu-desumasu": {
         "preferInHeader": "",
         "preferInBody": "である",
