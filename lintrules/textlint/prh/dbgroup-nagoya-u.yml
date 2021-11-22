@@ -5,3 +5,5 @@ rules:
   - expected: Morton符号
     pattern: morton符号
     prh: 人物名は大文字です。
+  - expected: および
+    pattern: 及び
