@@ -1,0 +1,5 @@
+# ignore Node.js modules
+**/node_modules
+
+# always run clean-install
+package-lock.json
