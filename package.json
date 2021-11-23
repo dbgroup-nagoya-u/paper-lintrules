@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@textlint-ja/textlint-rule-no-dropping-i": "latest",
+    "@textlint-ja/textlint-rule-no-insert-dropping-sa": "latest",
+    "textlint": "latest",
+    "textlint-filter-rule-allowlist": "latest",
+    "textlint-plugin-latex2e": "latest",
+    "textlint-rule-preset-ja-technical-writing": "latest",
+    "textlint-rule-prh": "latest"
+  }
+}
