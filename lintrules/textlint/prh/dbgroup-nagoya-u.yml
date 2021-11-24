@@ -2,11 +2,15 @@ version: 1
 rules:
   - expected: I/O
     pattern: IO
+
   - expected: Morton符号
     pattern: morton符号
-    prh: 人物名は大文字です。
+    prh: 人物名の頭文字には大文字を使用する．
+
   - expected: および
     pattern: 及び
+    prh: 読みやすさのため，併記の接続詞にはひらがなを使用する．
+
   - expected: 問合せ
     pattern: /問い合わせ(?!る|れ|られ|させ|ない|なか|よう|まい|た|そう)/
     prh: 名詞としての「問合せ」には送り仮名を含めない．
