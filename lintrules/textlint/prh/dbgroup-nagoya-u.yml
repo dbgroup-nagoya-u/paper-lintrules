@@ -36,6 +36,12 @@ rules:
   - expected: 索引
     pattern: インデックス
     prh: 外来語は日本語として一般利用されている訳語があればそちらを使う．
+  - expected: 管理
+    pattern: マネジメント
+    prh: 外来語は日本語として一般利用されている訳語があればそちらを使う．
+  - expected: 関係
+    pattern: リレーショナル
+    prh: 外来語は日本語として一般利用されている訳語があればそちらを使う．
 
   - expected: サーバ
     pattern: サーバー
