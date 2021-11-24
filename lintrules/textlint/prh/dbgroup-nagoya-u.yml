@@ -36,3 +36,16 @@ rules:
   - expected: 索引
     pattern: インデックス
     prh: 外来語は日本語として一般利用されている訳語があればそちらを使う．
+
+  - expected: サーバ
+    pattern: サーバー
+    prh: 長音を省略可能な外国語は長音なしで統一する．
+  - expected: ユーザ
+    pattern: ユーザー
+    prh: 長音を省略可能な外国語は長音なしで統一する．
+  - expected: コンピュータ
+    pattern: コンピューター
+    prh: 長音を省略可能な外国語は長音なしで統一する．
+  - expected: ブラウザ
+    pattern: ブラウザー
+    prh: 長音を省略可能な外国語は長音なしで統一する．
