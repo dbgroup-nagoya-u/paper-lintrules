@@ -6,19 +6,6 @@
   "rules": {
     "preset-ja-technical-writing": {
       "sentence-length": false,
-      "max-kanji-continuous-len": {
-        "max": 6,
-        "allow": [
-          "名古屋大学大学院",
-          "名古屋大学大学院情報学研究科",
-          "愛知県名古屋市千種区不老町",
-          "国立研究開発法人新",
-          "産業技術総合開発機構",
-          "次世代研究者挑戦的研究",
-          "分散共分散行列",
-          "近似最近傍探索"
-        ]
-      },
       "max-ten": {
         "max": 2,
         "touten": "，",
