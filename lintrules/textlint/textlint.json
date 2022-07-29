@@ -5,6 +5,7 @@
   "filters": {},
   "rules": {
     "preset-ja-technical-writing": {
+      "max-kanji-continuous-len": false,
       "sentence-length": false,
       "max-ten": {
         "max": 2,
