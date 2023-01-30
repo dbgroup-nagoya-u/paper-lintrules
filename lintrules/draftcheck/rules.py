@@ -284,9 +284,9 @@ def check_numeric_range_dash(text, matches):
     """
     return [m.span() for m in matches]
 
-@rule(r"\\footnote{.+?}[，．]")
+@rule(r"\\footnote{.+?}[,.]")
 def check_footnote_before_punctuation(text, matches):
-    r"""`\footnote`は句読点の直後で使用してください．
+    r"""英文では`\footnote`を句読点の直後に配置してください．
 
     Example
     -------
@@ -297,6 +297,22 @@ def check_footnote_before_punctuation(text, matches):
     Good:
         \\emph{Waiting for Godot},\\footnote{First performed on 5 January 1953 in
         Paris} written by Samuel Beckett, is an example of Absurdist Theatre.
+    """
+    return [m.span() for m in matches]
+
+@rule(r"[，．]\\footnote{.+?}")
+def check_footnote_before_punctuation(text, matches):
+    r"""和文では`\footnote`を句読点の直前に配置してください．
+
+    Example
+    -------
+    Bad:
+        待機のためにスピンロックを使用する．footnote{アルゴリズムでは簡略化のため単にスピンロックと
+        しているが，実際にはブロッキングを組み合わせ無駄なCPUコアの使用を抑制している．}
+
+    Good:
+        待機のためにスピンロックを使用するfootnote{アルゴリズムでは簡略化のため単にスピンロックと
+        しているが，実際にはブロッキングを組み合わせ無駄なCPUコアの使用を抑制している．}．
     """
     return [m.span() for m in matches]
 
