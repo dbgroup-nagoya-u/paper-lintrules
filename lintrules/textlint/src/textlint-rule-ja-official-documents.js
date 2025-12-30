@@ -1,5 +1,6 @@
 /*----------------------------------------------------------------------------*
 Copyright(c) 2019 yabu
+Modified by Kento Sugiura, 2025
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files(the "Software"), to deal
@@ -1597,7 +1598,7 @@ module.exports = [
     "expected": "とき",
     "tokens": [
       {
-        "surface_form": "とき",
+        "surface_form": "時", // fixed
         "pos": "名詞",
         "pos_detail_1": "非自立",
         "pos_detail_2": "副詞可能",
@@ -1616,7 +1617,7 @@ module.exports = [
     "expected": "ところ",
     "tokens": [
       {
-        "surface_form": "ところ",
+        "surface_form": "所", // fixed
         "pos": "名詞",
         "pos_detail_1": "非自立",
         "pos_detail_2": "副詞可能",

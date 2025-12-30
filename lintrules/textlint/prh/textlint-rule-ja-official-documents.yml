@@ -2332,18 +2332,16 @@ rules:
    patterns: 解る
  - expected: わきまえ
    patterns: 弁え
- - expected: わざと
-   patterns: 態と
+#  - expected: わざと # ignore to prevent false positive
+#    patterns: 態と
  - expected: わたって
    patterns: 亘って
  - expected: わびる
    patterns: 詫る
-# begin: modified
-#  - expected: 、
+#  - expected: 、 # ignore
 #    patterns: ，
-#  - expected: 。
+#  - expected: 。 # ignore
 #    patterns: ．
-# end: modified
  - expected: 生かさ
    patterns: 活かさ
  - expected: 生かし
