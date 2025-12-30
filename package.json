@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@textlint-ja/textlint-rule-morpheme-match": "latest",
     "@textlint-ja/textlint-rule-no-dropping-i": "latest",
     "@textlint-ja/textlint-rule-no-insert-dropping-sa": "latest",
     "textlint": "latest",

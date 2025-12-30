@@ -27,10 +27,14 @@
     },
     "@textlint-ja/textlint-rule-no-dropping-i": true,
     "@textlint-ja/textlint-rule-no-insert-dropping-sa": true,
+    "@textlint-ja/morpheme-match": {
+      "dictionaryPathList": [
+        "./src/textlint-rule-ja-official-documents.js"
+      ]
+    },
     "prh": {
       "rulePaths": [
-        "./prh/dbgroup-nagoya-u.yml",
-        "./prh/ieice.yml"
+        "./prh/textlint-rule-ja-official-documents.yml"
       ]
     }
   }
