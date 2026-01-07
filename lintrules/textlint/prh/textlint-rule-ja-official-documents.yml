@@ -206,8 +206,8 @@ rules:
    patterns: 釣り銭
  - expected: 釣針
    patterns: 釣り針
- - expected: 手続
-   patterns: 手続き
+#  - expected: 手続 # ignore
+#    patterns: 手続き
  - expected: 取卸し
    patterns: 取り卸し
  - expected: 飲物

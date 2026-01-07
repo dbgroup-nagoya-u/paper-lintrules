@@ -1727,7 +1727,7 @@ module.exports = [
   },
   // Rule #110.1
   {
-    "message": "成る->なる ",
+    "message": "成る->なる ただし、「構成される」「成長する」などの意味の場合は漢字でよい。", // comment added
     "expected": "なる",
     "tokens": [
       {
