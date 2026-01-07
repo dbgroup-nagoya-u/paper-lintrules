@@ -3,7 +3,7 @@
     "@textlint-ja/textlint-rule-morpheme-match": "latest",
     "@textlint-ja/textlint-rule-no-dropping-i": "latest",
     "@textlint-ja/textlint-rule-no-insert-dropping-sa": "latest",
-    "textlint": "latest",
+    "textlint": "^14.7.2",
     "textlint-filter-rule-allowlist": "latest",
     "textlint-plugin-latex2e": "latest",
     "textlint-rule-preset-ja-technical-writing": "latest",
