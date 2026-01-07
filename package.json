@@ -5,6 +5,7 @@
     "@textlint-ja/textlint-rule-no-insert-dropping-sa": "latest",
     "textlint": "^14.7.2",
     "textlint-filter-rule-allowlist": "latest",
+    "textlint-filter-rule-comments": "latest",
     "textlint-plugin-latex2e": "latest",
     "textlint-rule-preset-ja-technical-writing": "latest",
     "textlint-rule-prh": "latest"
