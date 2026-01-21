@@ -270,7 +270,7 @@ def check_double_dollar_math(text, matches):
     """
     return [m.span() for m in matches]
 
-@rule(r"\d\s?-\s?\d")
+@rule(r"^(?!.*midrule).*\d\s?-\s?\d.*$")
 def check_numeric_range_dash(text, matches):
     r"""数値の範囲は`-`ではなく`--`を使用してください．
 
