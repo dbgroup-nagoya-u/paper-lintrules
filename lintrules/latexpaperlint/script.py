@@ -136,7 +136,7 @@ def main() -> int:
         for path in iter_tex_paths(Path(raw_path)):
             with path.open(encoding="utf-8") as infile:
                 validator = Validator(rules_to_apply)
-                for lineno, line in enumerate(infile):
+                for lineno, line in enumerate(infile,start=1):
                     for rule, span in validator.validate(line):
                         print_warning(path, lineno, line.strip(), span, rule)
                         num_errors += 1
