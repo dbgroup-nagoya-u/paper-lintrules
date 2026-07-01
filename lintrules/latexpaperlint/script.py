@@ -82,7 +82,7 @@ def print_warning(
     rule: RegisteredRule,
 ) -> None:
     location = f"{fname}:{lineno}:{span[0]}:"
-    write_output(f"{get_code(rule)} {location} {get_brief(rule)}\n")
+    write_output(f"{location} {get_brief(rule)}\n")
 
     padded_str, start_index = pad_string(line, span, 10)
     snippet = padded_str.replace(" ", "_") if rule.show_spaces else padded_str
