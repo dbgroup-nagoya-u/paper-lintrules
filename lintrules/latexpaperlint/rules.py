@@ -1,18 +1,39 @@
 """This module contains rule definitions."""
 
-#####################################################################
-# This file was forked from https://github.com/ebnn/draftcheck.
-# That project would be MIT LICENSE since some URL show its LICENSE.
-# See https://libraries.io/pypi/draftcheck
-# See also https://pypi.org/project/draftcheck/
-#####################################################################
-
 import re
+from collections.abc import Callable
+from collections.abc import Iterator
+from typing import Protocol
+from typing import cast
 
 # Global rules list to store all the registered rules
-RULES_LIST = []
+RuleSpan = tuple[int, int]
+RuleMatches = Iterator[re.Match[str]]
+RuleResult = list[RuleSpan]
+RuleFunction = Callable[[str, RuleMatches], RuleResult]
+RuleGenerator = Callable[[], Iterator[tuple[str, str]]]
 
-def rule(pattern, show_spaces=False, in_env="paragraph"):
+
+class RegisteredRule(Protocol):
+    id: int
+    show_spaces: bool
+    in_env: str
+    proposal: str | None
+    __doc__: str | None
+
+    def __call__(self, text: str, env: str) -> RuleResult: ...
+
+
+RULES_LIST: list[RegisteredRule] = []
+
+
+def rule(
+    pattern: str,
+    *,
+    show_spaces: bool = False,
+    in_env: str = "paragraph",
+    proposal: str | None = None,
+) -> Callable[[RuleFunction], RegisteredRule]:
     """Decorator used to create rules.
 
     The decorated function must have the following signature:
@@ -43,44 +64,67 @@ def rule(pattern, show_spaces=False, in_env="paragraph"):
         set to 'any' if this rule applies in any environment. Defaults to
         'paragraph'.
     """
-    regexpr = re.compile(pattern)
+    regexpr: re.Pattern[str] = re.compile(pattern)
 
-    def inner_rule(func):
-        def wrapper(text, env):
-            if in_env == "any" or env == in_env:
+    def inner_rule(func: RuleFunction) -> RegisteredRule:
+        def wrapper(text: str, env: str) -> list[tuple[int, int]]:
+            if in_env in ("any", env):
                 return func(text, regexpr.finditer(text))
             return []
 
+        registered_rule = cast(RegisteredRule, wrapper)
+
         # Store the parameters in the function as attributes
-        wrapper.id = len(RULES_LIST) + 1
-        wrapper.show_spaces = show_spaces
-        wrapper.in_env = in_env
+        registered_rule.id = len(RULES_LIST) + 1
+        registered_rule.show_spaces = show_spaces
+        registered_rule.in_env = in_env
+        registered_rule.proposal = proposal
 
         # Inherit the docstring from the function
-        wrapper.__doc__ = func.__doc__
+        registered_rule.__doc__ = func.__doc__
 
         # Add it to our global rules list
-        RULES_LIST.append(wrapper)
+        RULES_LIST.append(registered_rule)
 
-        return wrapper
+        return registered_rule
 
     return inner_rule
 
-def rule_generator(show_spaces=False, in_env="paragraph"):
+
+def rule_generator(
+    *, show_spaces: bool = False, in_env: str = "paragraph"
+) -> Callable[[RuleGenerator], None]:
     """Decorator that generates rules from a generator."""
 
-    def inner_rule(func):
+    def inner_rule(func: RuleGenerator) -> None:
+        docstring = func.__doc__
+        if docstring is None:
+            msg = "Generated rule functions must have docstrings."
+            raise ValueError(msg)
+
         for r in func():
             # Register this rule into our global rules list
             @rule(pattern=r[0], show_spaces=show_spaces, in_env=in_env)
-            def generated_rule(_, matches):
+            def generated_rule(_: str, matches: RuleMatches) -> RuleResult:
                 return [m.span() for m in matches]
 
             # Format the docstring with parameters specific to this instance
             # of the rule
-            RULES_LIST[-1].__doc__ = func.__doc__.format(*r[1:])
+            RULES_LIST[-1].__doc__ = docstring.format(*r[1:])
 
     return inner_rule
+
+def get_brief(r: RegisteredRule) -> str:
+    docstring = r.__doc__
+    if docstring is None:
+        msg = "Registered rules must have docstrings."
+        raise ValueError(msg)
+    return docstring.split("\n\n")[0]
+
+
+def get_code(r: RegisteredRule) -> str:
+    """Return the stable display code for a rule."""
+    return f"DC{r.id:03d}"
 
 @rule(r"\s+\\footnote(\[\d*\])?{", show_spaces=True)
 def check_space_before_footnote(text, matches):
@@ -490,6 +534,3 @@ def check_obsolete_environments():
 
     for incorrect, correct in changes.items():
         yield r"\begin{" + incorrect + "}", correct
-
-def get_brief(r):
-    return r.__doc__.split("\n\n")[0]
